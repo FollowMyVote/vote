@@ -8,6 +8,7 @@ DEBUG=True
 SECRET_KEY='development key'
 SITE_NAME = 'Follow My Vote - ID Verification'
 COMPANY_NAME = 'Follow My Vote'
-LOG_FILE_LEVEL = logging.ERROR
+LOG_LEVEL_FILE = logging.ERROR
+LOG_LEVEL_CONSOLE = logging.ERROR
 
 
