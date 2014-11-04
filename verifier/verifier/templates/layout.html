@@ -34,7 +34,7 @@
         {% block content %}{% endblock %}
         <hr />
         <footer>
-            <p>&copy; {{ year }} -  {{config['COMPANY_NAME']}}</p>
+            <p>&copy; {{datetime.now().year}} -  {{config['COMPANY_NAME']}}</p>
         </footer>
     </div>
 
