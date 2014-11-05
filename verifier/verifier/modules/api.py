@@ -35,7 +35,7 @@ def wallet_account_create(name):
            "id": 0,})
 
 def verifier_peek_request(id):
-    """creates a new account, mostly used for testing purposes""";
+    """gets the specified request does not set any status""";
     return make_request({"method": "verifier_peek_request" ,
            "params": [id],
            "jsonrpc": "2.0",

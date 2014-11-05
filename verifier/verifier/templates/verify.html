@@ -1,7 +1,32 @@
 {% extends "layout.html" %}
+{% from "_helpers.html" import render_field %}
 
 {% block content %}
 
+<div>
+    {{verify_request.owner_photo}}
+</div>
 
+<div>
+    {{verify_request.id_back_photo}}
+</div>
+
+<div>
+    {{verify_request.id_front_photo}}
+</div>
+
+<div>
+    {{verify_request.voter_reg_photo}}
+</div>
+
+<form method=post action="/about">
+    
+        {{ render_field(form.id) }}
+        {{ render_field(form.firstname) }}
+        {{ render_field(form.lastname) }}
+        {{ render_field(form.ssn) }}
+            
+    <p><input type=submit value=Submit></p>
+</form>
 
 {% endblock %}

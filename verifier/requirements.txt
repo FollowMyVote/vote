@@ -4,3 +4,4 @@ Jinja2==2.7.3
 MarkupSafe==0.23
 requests==2.4.3
 Werkzeug==0.9.6
+WTForms==2.0.1

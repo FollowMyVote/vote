@@ -33,3 +33,15 @@ def log():
     """returns an instance of the logger for this app"""
     return logging.getLogger("app_log")
     
+
+def get_value(dict,  key, default = None):
+    """gets a value from a dictonary if it exists, returns default if not"""
+
+    if (not dict):
+        return default
+        
+    if (key in dict):
+        return dict[key]
+    else:
+        return default
+    

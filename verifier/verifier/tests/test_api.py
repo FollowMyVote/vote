@@ -1,6 +1,8 @@
 import unittest
 import time
+from pprint import pprint
 from verifier.modules import api
+
 
 
 def create_request():
@@ -23,7 +25,7 @@ class TestAPI(unittest.TestCase):
         api.wallet_unlock(99999999, 'helloworld')
     
     def tearDown(self):
-        """call aftere every test case."""
+        """call after every test case."""
         api.wallet_open('default')
         api.wallet_unlock(99999999, 'helloworld')
 
@@ -52,21 +54,7 @@ class TestAPI(unittest.TestCase):
         response = api.verifier_peek_request(id);
         self.assertIsNotNone(response['result'])
 
-      
-
-
-        
-
-
-    
-        
-        
-
-    
-
-
-
- 
+  
 
 if __name__ == "__main__":
     unittest.main()
