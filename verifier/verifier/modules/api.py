@@ -16,9 +16,9 @@ def make_request(payload):
         settings.API_URL,
         data=json.dumps(payload), 
         headers= {"content-type": "application/json"},
-        auth=(settings.API_USER, settings.API_PASS)).json()
-
-    return response
+        auth=(settings.API_USER, settings.API_PASS))
+    log().debug(response.content)
+    return response.json()
 
 def take_next_request():
     """Gets the next pending request and sets it to be in processing"""
@@ -64,6 +64,21 @@ def wallet_unlock(timeout, password):
     """;
     return make_request({"method": "wallet_unlock" ,
            "params": [timeout, password],
+           "jsonrpc": "2.0",
+           "id": 0,})
+
+def verifier_list_requests(status="awaiting_processing"):
+    """lists requests by status
+    
+    Statuses:
+    awaiting_processing
+    in_processing
+    accepted:
+    rejected
+        
+    """;
+    return make_request({"method": "verifier_list_requests" ,
+           "params": [status],
            "jsonrpc": "2.0",
            "id": 0,})
 

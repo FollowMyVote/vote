@@ -1,10 +1,12 @@
-﻿body {
+﻿body
+{
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
-.body-content {
+.body-content
+{
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -12,31 +14,64 @@
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-textarea {
+textarea
+{
     max-width: 280px;
 }
 
 /* styles for validation helpers */
-.field-validation-error {
+.field-validation-error
+{
     color: #b94a48;
 }
 
-.field-validation-valid {
+.field-validation-valid
+{
     display: none;
 }
 
-input.input-validation-error {
+input.input-validation-error
+{
     border: 1px solid #b94a48;
 }
 
-input[type="checkbox"].input-validation-error {
+input[type="checkbox"].input-validation-error
+{
     border: 0 none;
 }
 
-.validation-summary-errors {
+.validation-summary-errors
+{
     color: #b94a48;
 }
 
-.validation-summary-valid {
+.validation-summary-valid
+{
     display: none;
+}
+
+#verify .row
+{
+    padding-bottom: 20px;
+}
+
+#verify .row:last-of-type
+{
+    padding-bottom: 0px;
+}
+
+.photo
+{
+    margin-bottom: 20px;
+}
+
+.photo img
+{
+    max-width: 100%;
+    max-height: 150px;
+}
+
+#id-front img, #owner img
+{
+    max-height: 250px;
 }

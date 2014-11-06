@@ -7,7 +7,7 @@ from verifier.modules import helpers
 
 class TestHelpers(unittest.TestCase):
 
-    def  test_get_value(self):
+    def  test_helpers_get_value(self):
         x = {"test":1}
         
         self.assertEqual(helpers.get_value(x, "test", "default"), 1)

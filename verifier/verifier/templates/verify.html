@@ -2,31 +2,80 @@
 {% from "_helpers.html" import render_field %}
 
 {% block content %}
+<h2>Verify Indentity</h2>
+<div id="verify">
 
-<div>
-    {{verify_request.owner_photo}}
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="photo " id="owner">
+                <img src="/static/content/images/sample/owner.jpg" alt="{{verify_request.owner_photo}}" />
+
+            </div>
+
+            <div class="photo" id="voter-reg">
+                <img src="/static/content/images/sample/voter-card.jpg" alt="{{verify_request.voter_reg_photo}}" />
+
+            </div>
+
+            <div class="photo" id="id-back">
+                <img src="/static/content/images/sample/id-back.jpg" alt="{{verify_request.id_back_photo}}" />
+            </div>
+
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="photo" id="id-front">
+                <img src="/static/content/images/sample/id-front.jpg" alt="{{verify_request.id_front_photo}}" />
+
+            </div>
+
+            <div id="verify-form" style="margin-top:20px">
+                <form method=post action="/verify">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Please enter the fields below using the supplied images.
+                        </div>
+                        <div class="panel-body">
+
+                            {{ form.id()}}
+                            {{ render_field(form.first_name, class="form-control first-name") }}
+                            {{ render_field(form.last_name, class="form-control last-name") }}
+                            {{ render_field(form.ssn, class="form-control ssn") }}
+
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" class="btn btn-success btn-lg" value="verify" name="result">
+                                Accept
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-lg" value="reject" name="result">Reject</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
 </div>
 
-<div>
-    {{verify_request.id_back_photo}}
-</div>
 
-<div>
-    {{verify_request.id_front_photo}}
-</div>
 
-<div>
-    {{verify_request.voter_reg_photo}}
-</div>
 
-<form method=post action="/about">
-    
-        {{ render_field(form.id) }}
-        {{ render_field(form.firstname) }}
-        {{ render_field(form.lastname) }}
-        {{ render_field(form.ssn) }}
-            
-    <p><input type=submit value=Submit></p>
-</form>
 
-{% endblock %}
+
+
+
+
+
+
+    </div>
+    {% endblock %}

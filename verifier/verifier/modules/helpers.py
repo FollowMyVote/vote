@@ -36,12 +36,22 @@ def log():
 
 def get_value(dict,  key, default = None):
     """gets a value from a dictonary if it exists, returns default if not"""
-
-    if (not dict):
+    if not dict:
         return default
         
-    if (key in dict):
+    if key in dict:
         return dict[key]
     else:
         return default
-    
+
+def remove_if_exists(dict, key):
+    if key in dict:
+        del dict[key]
+
+   
+def get_first(list, default=None):
+    """gets the first value in a list otherwise returns the default"""
+    if list:
+        for item in list:
+            return item
+    return default

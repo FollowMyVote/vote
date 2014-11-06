@@ -29,26 +29,26 @@ class TestAPI(unittest.TestCase):
         api.wallet_open('default')
         api.wallet_unlock(99999999, 'helloworld')
 
-    def test_close_wallet(self):
+    def test_api_close_wallet(self):
         self.assertEqual(api.wallet_close()['result'], None)
     
-    def test_get_random_account_name(self):
+    def test_api_get_random_account_name(self):
         self.assertIsNotNone(api.get_unique_account_name())
 
-    def test_wallet_account_create(self):
+    def test_api_wallet_account_create(self):
         response = api.wallet_account_create(api.get_unique_account_name())
         self.assertIsNotNone(response['result'])
         
     
-    def test_debug_request_verification(self):
+    def test_api_debug_request_verification(self):
         response = create_request();
         self.assertIsNotNone(response['result'])
 
-    def test_take_next_request(self):
+    def test_api_take_next_request(self):
         self.assertIsNotNone(api.take_next_request()['result'])
 
 
-    def test_verifier_peek_request(self):
+    def test_api_verifier_peek_request(self):
         create_request()
         id = api.verifier_list_requests()['result'][0]['id']
         response = api.verifier_peek_request(id);
