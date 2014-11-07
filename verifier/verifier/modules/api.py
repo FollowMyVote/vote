@@ -82,20 +82,6 @@ def verifier_list_requests(status="awaiting_processing"):
            "jsonrpc": "2.0",
            "id": 0,})
 
-def verifier_list_requests(status="awaiting_processing"):
-    """lists requests by status
-    
-    Statuses:
-    awaiting_processing
-    in_processing
-    accepted:
-    rejected
-        
-    """;
-    return make_request({"method": "verifier_list_requests" ,
-           "params": [status],
-           "jsonrpc": "2.0",
-           "id": 0,})
 
 def debug_request_verification(account_name, owner_photo, id_front_photo, 
                                id_back_photo, voter_reg_photo):
@@ -111,6 +97,8 @@ def debug_request_verification(account_name, owner_photo, id_front_photo,
 
 def get_unique_account_name():
     return "test" + str.replace(str(time.time()), ".", "")[-7:]
+
+
 
 def debug_create_test_request(num_requests):
     """creates a number of test requests
@@ -137,6 +125,14 @@ def debug_create_test_request(num_requests):
             "ID Front {}".format(current_name),
             "ID Back {}".format(current_name),
             "Voter Reg {0}".format(current_name)))
+
+
+def verifier_resolve_request(request_id, verification_response):
+    """opens the specified wallet""";
+    return make_request({"method": "verifier_resolve_request" ,
+           "params": [request_id, verification_response],
+           "jsonrpc": "2.0",
+           "id": 0,})
 
 
 

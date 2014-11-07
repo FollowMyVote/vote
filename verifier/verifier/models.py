@@ -1,6 +1,35 @@
 import json
 from verifier.modules import helpers
 
+class VerificationResponse:
+    def __init__(self, accepted, rejection_reason, identity, expiration_date):
+        """initialize a verification response"""
+        self.accepted = accepted
+        if rejection_reason:
+            self.rejection_reason = rejection_reason
+
+        self.identity = identity
+        self.expiration_date = expiration_date
+
+    def __repr__(self):
+        return self.to_json()
+
+    def to_dict(self):
+        """conver object to dict"""
+        dict =  {'accepted': self.accepted}
+        if not self.accepted:
+            dict['rejection_reason'] = self.rejection_reason
+        dict['verified_identity'] = self.identity.to_dict()
+        dict['expiration_date'] = self.expiration_date
+        return dict
+
+    def to_json(self):
+        """convert object to json string"""
+        return json.dumps(self.to_dict())
+
+
+
+
 class IdentityProperty:
     """property value for identity properties"""
     
@@ -23,6 +52,18 @@ class IdentityProperty:
 
 class Identity:
     """models an identity from the api"""
+    FIELD_FIRST_NAME = 'First Name'
+    FIELD_LAST_NAME = 'Last Name'
+    FIELD_MIDDLE_NAME = 'Middle Name'
+    FIELD_DATE_OF_BIRTH = 'Date of Birth'
+    FIELD_ADDRESS_1 = 'Address Line 1'
+    FIELD_ADDRESS_2 = 'Address Line 2'
+    FIELD_CITY = 'City'
+    FIELD_ZIP = '9-Digit ZIP'
+    FIELD_STATE = 'State'
+    FIELD_ID_NUMBER = 'ID Number'
+    FIELD_ID_EXPIRATION_DATE = "ID Expiration Date"
+    FIELD_REJECTION_REASON = "Rejection Reason"
 
     def __init__(self, dict = {}):
         self.id = helpers.get_value(dict, 'id', 0)
@@ -33,18 +74,18 @@ class Identity:
         self.owner = helpers.get_value(dict, 'owner', '')
         self.properties = Identity.get_properties_from_array(
             helpers.get_value(dict, 'properties', []))
-
-        self.id_number = self.get_property('ID Number')
-        self.first_name = self.get_property('First Name')
-        self.middle_name = self.get_property('Middle Name')
-        self.last_name = self.get_property('Last Name')
-        self.date_of_birth = self.get_property('Date of Birth')
         
-        self.address_1 = self.get_property('Address Line 1')
-        self.address_2 = self.get_property('Address Line 2')
-        self.city = self.get_property('City')
-        self.state = self.get_property('State')
-        self.zip = self.get_property('9-Digit ZIP')
+        self.id_number = self.get_property(Identity.FIELD_ID_NUMBER)
+        self.first_name = self.get_property(Identity.FIELD_FIRST_NAME)
+        self.middle_name = self.get_property(Identity.FIELD_MIDDLE_NAME)
+        self.last_name = self.get_property(Identity.FIELD_LAST_NAME)
+        self.date_of_birth = self.get_property(Identity.FIELD_DATE_OF_BIRTH)
+        
+        self.address_1 = self.get_property(Identity.FIELD_ADDRESS_1)
+        self.address_2 = self.get_property(Identity.FIELD_ADDRESS_2)
+        self.city = self.get_property(Identity.FIELD_CITY)
+        self.state = self.get_property(Identity.FIELD_STATE)
+        self.zip = self.get_property(Identity.FIELD_ZIP)
         
         
         
@@ -68,16 +109,16 @@ class Identity:
 
    
     def to_dict(self):
-        dict1 = {}
-        dict = self.__dict__.copy()
-        helpers.remove_if_exists(dict, 'properties')
-        helpers.remove_if_exists(dict, 'last_name')
-        helpers.remove_if_exists(dict, 'first_name')
-        helpers.remove_if_exists(dict, 'ssn')
         
-        dict['properties'] = map(lambda x: x.__dict__, self.properties)
-
-        return dict
+        return {'owner': self.owner,
+                'properties': map(lambda x: x.__dict__, 
+                                  filter(lambda y: bool(y.value), self.properties)),
+                'owner_photo': self.owner_photo,
+                'id_front_photo': self.id_front_photo,
+                'voter_reg_photo': self.voter_reg_photo,
+                'id': self.id                
+                }
+    
 
     def to_json(self):
         """convert Identity to json string"""        

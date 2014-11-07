@@ -1,6 +1,8 @@
 from verifier import settings
 import logging
 import logging.handlers
+from flask import Markup
+from datetime import datetime
 
 def setup_logging():
     """sets up logging for the app using config values from settings.py"""
@@ -55,3 +57,19 @@ def get_first(list, default=None):
         for item in list:
             return item
     return default
+
+def iif(expression, true_value, false_value):
+    """inline if function"""
+    if expression:
+        return true_value
+    else:
+        return false_value
+
+def alert(message, type="info"):
+    """gets an alert box, type values are info, success, warning, danger"""
+    return Markup('<div class="alert alert-{0}">{1}</div>'
+                  .format(type, message))
+
+def date_str_to_iso(str):
+    """converts a date string mm/dd/yyyy into iso string format"""
+    return datetime.strptime(str, "%m/%d/%Y").isoformat()

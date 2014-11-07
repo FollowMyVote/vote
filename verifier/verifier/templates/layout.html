@@ -6,6 +6,7 @@
     <title>{{ title }} | {{config['SITE_NAME']}}</title>
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+    <link rel="stylesheet" type="text/css" href="/static/content/selectize.bootstrap3.css" />
     <!--[if lt IE 9]>
       <script src="/static/scripts/html5shiv.min.js"></script>
       <script src="/static/scripts/respond.min.js"></script>
@@ -40,11 +41,13 @@
         <hr />
         <footer>
             <p>&copy; {{datetime.now().year}} -  {{config['COMPANY_NAME']}}</p>
-        </footer>
+            
+         </footer>
     </div>
 
     <script src="/static/scripts/jquery-1.11.1.min.js"></script>
     <script src="/static/scripts/bootstrap.min.js"></script>
+    <script src="/static/scripts/selectize.min.js"></script>
     {% block scripts %}{% endblock %}
 
 </body>

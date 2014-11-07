@@ -1,15 +1,17 @@
 ﻿{% macro render_field(field) %}
-<div class="form-group">
-    <label>{{ field.label }}</label>
-    
-        {{ field(**kwargs)|safe }}
-        {% if field.errors %}
-        <ul class=errors>
-            {% for error in field.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    
+
+<div class="form-group{{iif(field.errors, ' has-error', '')}} ">
+    <label class="control-label">{{ field.label }}</label>
+
+    {{ field(**kwargs)|safe }}
+    {% if field.errors %}
+    <ul class="errors list-unstyled">
+        {% for error in field.errors %}
+        <li class="field-validation-error">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
 </div>
 {% endmacro %}
+

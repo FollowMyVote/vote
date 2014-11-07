@@ -2,6 +2,8 @@ import unittest
 import time
 from pprint import pprint
 from verifier.modules import api
+from verifier.models import Identity, IdentityProperty, VerificationResponse
+from datetime import date, datetime
 
 
 
@@ -42,6 +44,7 @@ class TestAPI(unittest.TestCase):
     
     def test_api_debug_request_verification(self):
         response = create_request();
+        self.assertFalse("error" in response);
         self.assertIsNotNone(response['result'])
 
     def test_api_take_next_request(self):
@@ -52,7 +55,28 @@ class TestAPI(unittest.TestCase):
         create_request()
         id = api.verifier_list_requests()['result'][0]['id']
         response = api.verifier_peek_request(id);
+        self.assertFalse("error" in response);
         self.assertIsNotNone(response['result'])
+
+    def test_api_verifier_resolve_request(self):
+        create_request()
+        verify_request = Identity(api.take_next_request()['result'])
+
+        today = datetime.combine(date.today(), datetime.min.time())
+        x = VerificationResponse(True, None, verify_request, today.isoformat())
+        
+        response = api.verifier_resolve_request(verify_request.id, x.to_dict())
+        self.assertFalse("error" in response);
+
+        create_request()
+        verify_request = Identity(api.take_next_request()['result'])
+        x = VerificationResponse(False, "this is the rejection reason", 
+                                 verify_request, None)
+        
+        response = api.verifier_resolve_request(verify_request.id, x.to_dict())
+        self.assertFalse("error" in response);
+        
+          
 
   
 
