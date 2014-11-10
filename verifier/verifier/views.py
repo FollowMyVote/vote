@@ -97,7 +97,7 @@ def verify():
     
 
     return render_template('verify.html',
-        title = 'Verify',
+        title = 'Verify Identity',
         verify_request = verify_request,
         form = form, 
         message = message)
