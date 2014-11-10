@@ -16,6 +16,7 @@ from verifier.models import Identity, VerificationResponse
 def home():
     """Get Home Page"""
     log().debug("Render Page: Home")
+    return redirect('/verify')
     return render_template('index.html',
         title='Home Page',)
 

@@ -2,22 +2,30 @@
 {% from "_helpers.html" import render_field with context %}
 
 {% block content %}
-<h3 style="display:inline-block">Verify Indentity</h3> - {{verify_request.owner}}
-<div id="verify">
+<script type="text/javascript">
+    var refreshPage = false
+</script>
 
+<h3 style="display:inline-block">Verify Indentity</h3>
+
+<div id="verify">
+    {% if verify_request.id %}
     <div class="row">
 
         <div class="col-md-3">
-            <div class="photo " id="owner">
-                <img src="/static/content/images/sample/owner.jpg" alt="{{verify_request.owner_photo}}" />
+            <div class="image" id="owner">
+                <div class="img-wrapper">
+                    <img src="/static/content/images/sample/owner.jpg" alt="{{verify_request.owner_photo}}" />
 
+                </div>
             </div>
 
-            <div class="photo" id="voter-reg">
-                <img src="/static/content/images/sample/voter-card.jpg" alt="{{verify_request.voter_reg_photo}}" />
+            <div class="image" id="voter-reg">
+                <div class="img-wrapper">
+                    <img src="/static/content/images/sample/voter-card.jpg" alt="{{verify_request.voter_reg_photo}}" />
 
+                </div>
             </div>
-
 
 
 
@@ -26,83 +34,97 @@
         <div class="col-md-9">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="photo col-md-6" id="id-front">
-                        <img src="/static/content/images/sample/id-front.jpg" alt="{{verify_request.id_front_photo}}" />
-
+                    <div class="image col-md-6" id="id-front">
+                        <div class="img-wrapper">
+                            <img src="/static/content/images/sample/id-front.jpg" alt="{{verify_request.id_front_photo}}" />
+                        </div>
                     </div>
 
-                    <div class="photo col-md-6" id="id-back">
-                        <img src="/static/content/images/sample/id-back.jpg" alt="{{verify_request.id_back_photo}}" />
+                    <div class="image col-md-6" id="id-back">
+                        <div class="img-wrapper">
+                            <img src="/static/content/images/sample/id-back.jpg" alt="{{verify_request.id_back_photo}}" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="verify-form">
-                <form method=post action="/verify" role="form">
-                    {{ form.id()}}
-                    <div class="panel panel-default">
+                <div id="verify-form">
+                    <form method=post action="/verify" role="form">
+                        {{ form.id()}}
+                        <div class="panel panel-default">
 
-                        <div class="panel-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-4">{{ render_field(form.first_name, class="form-control input-sm first-name", maxlengh="50") }}</div>
-                                    <div class="col-md-4">{{ render_field(form.middle_name, class="form-control input-sm middle-name", maxlengh="50") }}</div>
-                                    <div class="col-md-4">{{ render_field(form.last_name, class="form-control input-sm last-name", maxlengh="50") }}</div>
+                            <div class="panel-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-4">{{ render_field(form.first_name, class="form-control input-sm first-name", maxlengh="50") }}</div>
+                                        <div class="col-md-4">{{ render_field(form.middle_name, class="form-control input-sm middle-name", maxlengh="50") }}</div>
+                                        <div class="col-md-4">{{ render_field(form.last_name, class="form-control input-sm last-name", maxlengh="50") }}</div>
 
-                                </div>
+                                    </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">{{ render_field(form.id_number, class="form-control input-sm id-number", maxlengh="50") }}</div>
-                                    <div class="col-md-4">{{ render_field(form.id_expiration_date, class="form-control input-sm date id-expiration-date", maxlengh="10") }}</div>
-                                    <div class="col-md-4">{{ render_field(form.date_of_birth, class="form-control input-sm date date-of-birth", maxlengh="10") }}</div>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-4">{{ render_field(form.id_number, class="form-control input-sm id-number", maxlengh="50") }}</div>
+                                        <div class="col-md-4">{{ render_field(form.id_expiration_date, class="form-control input-sm date id-expiration-date", maxlengh="10") }}</div>
+                                        <div class="col-md-4">{{ render_field(form.date_of_birth, class="form-control input-sm date date-of-birth", maxlengh="10") }}</div>
+                                    </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">{{ render_field(form.address_1, class="form-control input-sm address-1 street", maxlengh="150") }}</div>
-                                    <div class="col-md-6">{{ render_field(form.address_2, class="form-control input-sm address-2 street",  maxlengh="150") }}</div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-4">{{ render_field(form.city, class="form-control input-sm city", maxlengh="50") }}</div>
-                                    <div class="col-md-4">{{ render_field(form.state, class="form-control input-sm state") }}</div>
-                                    <div class="col-md-4">{{ render_field(form.zip, class="form-control input-sm zip", maxlengh="10") }}</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        {{ render_field(form.rejection_reason, class="form-control input-sm rejection-reason street") }}
+                                    <div class="row">
+                                        <div class="col-md-6">{{ render_field(form.address_1, class="form-control input-sm address-1 street", maxlengh="150") }}</div>
+                                        <div class="col-md-6">{{ render_field(form.address_2, class="form-control input-sm address-2 street",  maxlengh="150") }}</div>
                                     </div>
 
 
+                                    <div class="row">
+                                        <div class="col-md-4">{{ render_field(form.city, class="form-control input-sm city", maxlengh="50") }}</div>
+                                        <div class="col-md-4">{{ render_field(form.state, class="form-control input-sm state") }}</div>
+                                        <div class="col-md-4">{{ render_field(form.zip, class="form-control input-sm zip", maxlengh="10") }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ render_field(form.rejection_reason, class="form-control input-sm rejection-reason street") }}
+                                        </div>
+
+
+                                    </div>
                                 </div>
+
+                            </div>
+
+                            <div class="panel-footer">
+
+
+                                <button type="submit" class="btn btn-success btn-lg" value="accept" name="result">
+                                    Accept
+                                </button>&nbsp;
+                                <button type="submit" class="btn btn-danger btn-lg" value="reject" name="result">Reject</button>
+                                {{message}}
                             </div>
 
                         </div>
 
-                        <div class="panel-footer">
 
+                    </form>
 
-                            <button type="submit" class="btn btn-success btn-lg" value="accept" name="result">
-                                Accept
-                            </button>&nbsp;
-                            <button type="submit" class="btn btn-danger btn-lg" value="reject" name="result">Reject</button>
-                            {{message}}
-                        </div>
-
-                    </div>
-
-
-                </form>
-
+                </div>
             </div>
         </div>
+
     </div>
+    {% else %}
+    <div id="no-records" class="alert alert-info">
+        There are no identities to be verified at this time.
+        <script type="text/javascript">
+            refreshPage = true
+        </script>
+    </div>
+    {% endif %}
 
 </div>
 
-{% endblock %}
+    {% endblock %}
 
-{% block scripts %}
+    {% block scripts %}
+
+<script src="/static/scripts/jquery.zoom.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#state').selectize({
@@ -116,7 +138,21 @@
             allowEmptyOption: true
         })
 
+        if (refreshPage) {
+            setTimeout(function () {
+                
+                window.location.reload();
+            }, 5000);
+            
+        }
+
+        
+
+        $('#owner>.img-wrapper').zoom();
+        $('#id-back>.img-wrapper').zoom();
+        $('#id-front>.img-wrapper').zoom();
+        $('#voter-reg>.img-wrapper').zoom();
+
     })
 </script>
-
-{% endblock %}
+    {% endblock %}

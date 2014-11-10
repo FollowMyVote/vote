@@ -24,13 +24,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">{{config['SITE_NAME']}}</a>
+                <a href="/" class="navbar-brand" title="{{config['SITE_NAME']}}"></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('verify') }}">Verify</a></li>
-
                 </ul>
             </div>
         </div>
