@@ -12,10 +12,6 @@ setup_logging()
 import modules.context_processor
 import verifier.views
 from verifier.modules import helpers
-from jinja2 import Environment
-
-env = Environment()
-env.globals['iif_test'] = helpers.iif
 
 
 

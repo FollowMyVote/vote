@@ -1,0 +1,106 @@
+﻿body
+{
+    padding-top: 38px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content
+{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-inverse
+{
+    background-color: #000;
+    border-color: #080808;
+}
+
+.navbar-brand
+{
+    background-image: url('../content/images/logo-small.png');
+    width: 210px;
+    background-repeat: no-repeat;
+}
+
+input.date, input.zip
+{
+    max-width: 115px;
+}
+
+
+
+
+/* styles for validation helpers */
+.field-validation-error
+{
+    color: #b94a48;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+input.input-validation-error
+{
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error
+{
+    border: 0 none;
+}
+
+.validation-summary-errors
+{
+    color: #b94a48;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+
+
+#verify .row:last-of-type
+{
+    padding-bottom: 0px;
+}
+
+#verify-form .container-fluid
+{
+    padding: 0;
+}
+
+#verify-form label
+{
+    margin: 0;
+}
+
+#verify-form .alert
+{
+    display: inline-block;
+    margin-left: 10px;
+    width: 588px;
+}
+
+
+.image-wrapper
+{
+    display: inline-block;
+}
+
+.image
+{
+    margin-bottom: 20px;
+}
+
+.image img
+{
+    cursor: crosshair;
+    max-width: 100%;
+    max-height: 225px;
+}
