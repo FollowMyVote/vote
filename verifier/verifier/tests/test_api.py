@@ -63,7 +63,8 @@ class TestAPI(unittest.TestCase):
         verify_request = Identity(api.take_next_request()['result'])
 
         today = datetime.combine(date.today(), datetime.min.time())
-        x = VerificationResponse(True, None, verify_request, today.isoformat())
+        x = VerificationResponse(True, None, verify_request, today.isoformat(),
+                                 True, True, True, True)
         
         response = api.verifier_resolve_request(verify_request.id, x.to_dict())
         self.assertFalse("error" in response);
@@ -71,7 +72,7 @@ class TestAPI(unittest.TestCase):
         create_request()
         verify_request = Identity(api.take_next_request()['result'])
         x = VerificationResponse(False, "this is the rejection reason", 
-                                 verify_request, None)
+                                 verify_request, None, True, True, False, True)
         
         response = api.verifier_resolve_request(verify_request.id, x.to_dict())
         self.assertFalse("error" in response);

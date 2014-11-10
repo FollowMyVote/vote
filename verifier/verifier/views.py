@@ -52,38 +52,40 @@ def verify():
         form.id.data = verify_request.id
         #form.first_name = verify_request.
     elif request.method == 'POST':
-        verify_request = Identity(
-            api.verifier_peek_request(long(form.id.data))['result'])
+        verify_request = Identity(api.verifier_peek_request(long(form.id.data))['result'])
         
         
         if form.result.data == 'accept':
             if form.validate():
-                verify_request = update_verify_request_from_from(
-                    form, verify_request)
+                verify_request = update_verify_request_from_from(form, verify_request)
 
-                response = VerificationResponse(
-                    True, 
+                response = VerificationResponse(True, 
                     None, 
                     verify_request, 
-                    date_str_to_iso(form.id_expiration_date.data)).to_dict()
+                    date_str_to_iso(form.id_expiration_date.data), 
+                    true, 
+                    true,
+                    true, 
+                    true).to_dict()
                 
                 
-                api.verifier_resolve_request(
-                    verify_request.id, response)
+                api.verifier_resolve_request(verify_request.id, response)
 
                 return redirect('/verify')
                                                                    
         else:
             if form.rejection_reason.data != '' :
 
-                response =  VerificationResponse(
-                    False, 
+                response = VerificationResponse(False, 
                     form.rejection_reason.data, 
                     verify_request, 
-                    None).to_dict()
+                    None,
+                    True, 
+                    True,
+                    True, 
+                    True).to_dict()
 
-                api.verifier_resolve_request(
-                    verify_request.id,response)
+                api.verifier_resolve_request(verify_request.id,response)
 
                 return redirect('/verify')
             else:

@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, validators, HiddenField, Field, DateField, SelectField
+from wtforms import Form, validators, HiddenField, Field, StringField, SelectField, BooleanField
 from verifier.models import Identity
 from verifier import settings
 
@@ -69,8 +69,14 @@ class VerifyForm(Form):
     rejection_reason = SelectField(
         Identity.FIELD_REJECTION_REASON, 
         choices=settings.REJECTION_REASONS)
+
+
+    owner_photo_invalid = BooleanField(Identity.FIELD_LABEL_INVALID_IMAGE)
+    voter_reg_photo_invalid= BooleanField(Identity.FIELD_LABEL_INVALID_IMAGE)
+    id_front_photo_invalid = BooleanField(Identity.FIELD_LABEL_INVALID_IMAGE)
+    id_back_photo_invalid = BooleanField(Identity.FIELD_LABEL_INVALID_IMAGE)
     
     id = HiddenField('id')
-    result = Field('result')
+    result = HiddenField('result')
     
     

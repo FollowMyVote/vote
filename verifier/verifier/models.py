@@ -2,7 +2,10 @@ import json
 from verifier.modules import helpers
 
 class VerificationResponse:
-    def __init__(self, accepted, rejection_reason, identity, expiration_date):
+    def __init__(self, accepted, rejection_reason, identity, expiration_date, 
+                 owner_photo_valid, voter_reg_photo_valid, 
+                 id_front_photo_valid, id_back_photo_valid):
+
         """initialize a verification response"""
         self.accepted = accepted
         if rejection_reason:
@@ -10,6 +13,10 @@ class VerificationResponse:
 
         self.identity = identity
         self.expiration_date = expiration_date
+        self.owner_photo_valid = owner_photo_valid
+        self.id_back_photo_valid = id_back_photo_valid
+        self.id_front_photo_valid = id_front_photo_valid
+        self.voter_reg_photo_valid = voter_reg_photo_valid
 
     def __repr__(self):
         return self.to_json()
@@ -21,6 +28,11 @@ class VerificationResponse:
             dict['rejection_reason'] = self.rejection_reason
         dict['verified_identity'] = self.identity.to_dict()
         dict['expiration_date'] = self.expiration_date
+        dict['id_back_photo_valid'] = self.id_back_photo_valid
+        dict['id_front_photo_valid'] = self.id_front_photo_valid
+        dict['voter_reg_photo_valid'] = self.voter_reg_photo_valid
+        dict['owner_photo_valid'] = self.owner_photo_valid
+
         return dict
 
     def to_json(self):
@@ -64,6 +76,7 @@ class Identity:
     FIELD_ID_NUMBER = 'ID Number'
     FIELD_ID_EXPIRATION_DATE = "ID Expiration Date"
     FIELD_REJECTION_REASON = "Rejection Reason"
+    FIELD_LABEL_INVALID_IMAGE = "Image Invalid"
 
     def __init__(self, dict = {}):
         self.id = helpers.get_value(dict, 'id', 0)

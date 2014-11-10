@@ -84,7 +84,7 @@ input[type="checkbox"].input-validation-error
 {
     display: inline-block;
     margin-left: 10px;
-    width: 588px;
+    width: 486px;
 }
 
 
@@ -97,6 +97,17 @@ input[type="checkbox"].input-validation-error
 {
     margin-bottom: 20px;
 }
+
+.image-header .checkbox
+{
+    float:right;
+    margin:0px;
+}
+.image-header .checkbox label
+{
+    padding:0;
+}
+
 
 .image img
 {
