@@ -1,5 +1,6 @@
 from verifier import settings
 import logging
+import os
 import logging.handlers
 from flask import Markup
 from datetime import datetime
@@ -12,7 +13,7 @@ def setup_logging():
     logger.setLevel(logging.DEBUG)    
 
 
-    fh = logging.handlers.TimedRotatingFileHandler("verfier.log", "D", 1)
+    fh = logging.handlers.TimedRotatingFileHandler(os.path.join(settings.APP_LOGS,"verfier.log"), "D", 1, 60)
     fh.setLevel(settings.LOG_LEVEL_FILE)
   
 
