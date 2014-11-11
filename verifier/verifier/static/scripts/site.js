@@ -11,17 +11,24 @@ $.validator.setDefaults({
     errorElement: 'span',
     errorClass: 'help-block',
     errorPlacement: function (error, element) {
+
         if (element.parent('.input-group').length) {
             error.insertAfter(element.parent());
         } else {
-            element.closest('.form-group').append(error);
-            //if (element.hasClass('selectized')) {
-            //    error.insertAfter(element.parent().children('.selectize-control')[0])
-            //}
-            //else {
-            //    error.insertAfter(element);
-            //}
-            
+            //if there is a panel body in the form group then add the error
+            //text there instead
+            var formGroup = element.closest('.form-group')
+            var panelBody = formGroup.children('.panel-body')
+
+            if (panelBody.length > 0) {
+                panelBody.append(error);
+            }
+            else {
+                formGroup.append(error);
+            }
+
+
+
         }
     }
 });

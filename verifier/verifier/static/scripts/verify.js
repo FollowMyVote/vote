@@ -2,14 +2,14 @@
 
 $(function () {
     $('#state').selectize({
-        selectOnTab: true,
-        allowEmptyOption: true
+        selectOnTab: true
+       
     })
     $('#rejection_reason').selectize({
         create: true,
         createOnBlur: true,
-        selectOnTab: true,
-        allowEmptyOption: true
+        selectOnTab: false
+        
     })
 
     if (refreshPage) {
@@ -22,29 +22,48 @@ $(function () {
 
 
 
-    $('#owner>.image-wrapper').zoom();
-    $('#id-back>.image-wrapper').zoom();
-    $('#id-front>.image-wrapper').zoom();
-    $('#voter-reg>.image-wrapper').zoom();
-    var validator = $('form').validate({
+    $('.image-wrapper').zoom();
+    
+    var form = $('form');
+
+    var isAccepting = false;
+
+    $.validator.addMethod("checkImageInvalid", function (value, element) {
+        return !isAccepting || !$(element).prop('checked');
+        }
+    , "Photo should not be marked invalid if the id is being accepted.");
+
+    var validator = form.validate({
+        onsubmit:false,
         ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input'
     });
-    
+
     $('#accept').click(function () {
-        if ($('#owner_photo_invalid').prop('checked')) {
-           
-            validator.showErrors({
-                "owner_photo_invalid": "Photo cannot be marked invalid if id is accepted."
-            });
+
+        $('#result').val('accept');
+        isAccepting = true;
+        $('.has-error').removeClass('has-error');
+        if (form.valid()) {
+            form.submit();
         }
+
+
 
     })
 
     $('#reject').click(function () {
-        if ($('#rejection_reason').val() == "") {
+        $('#result').val('reject');
+        isAccepting = false;
+        validator.resetForm();
+        $('.has-error').removeClass('has-error');
+        if ($('#rejection_reason').val() == "" && 
+            !$('.checkImageInvalid').prop('checked')) {
             validator.showErrors({
-                "rejection_reason": "This field is required"
+                "rejection_reason": "Please enter a rejection reason or select an invalid image."
             });
+        }
+        else {
+            form.submit();
         }
     })
 

@@ -8,8 +8,8 @@ class VerificationResponse:
 
         """initialize a verification response"""
         self.accepted = accepted
-        if rejection_reason:
-            self.rejection_reason = rejection_reason
+        
+        self.rejection_reason = rejection_reason
 
         self.identity = identity
         self.expiration_date = expiration_date
@@ -24,7 +24,7 @@ class VerificationResponse:
     def to_dict(self):
         """conver object to dict"""
         dict =  {'accepted': self.accepted}
-        if not self.accepted:
+        if not self.accepted and bool(self.rejection_reason):
             dict['rejection_reason'] = self.rejection_reason
         dict['verified_identity'] = self.identity.to_dict()
         dict['expiration_date'] = self.expiration_date

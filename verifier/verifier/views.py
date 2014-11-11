@@ -4,6 +4,7 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from flask import render_template, request, redirect, url_for
+from pprint import pprint
 
 from verifier import app
 from verifier.modules.helpers import log, alert, date_str_to_iso
@@ -57,25 +58,39 @@ def verify():
         
         if form.result.data == 'accept':
             if form.validate():
-                verify_request = update_verify_request_from_from(form, verify_request)
+                if (form.id_back_photo_invalid or 
+                    form.id_front_photo_invalid or 
+                    form.owner_photo_invalid or 
+                    form.voter_reg_photo_invalid):
+                    message = alert("One or more of the photos have been "
+                                    "marked invalid. Invalid photos are not "
+                                    "allowed when accepting an id.", "danger")
+                else:
+                    verify_request = update_verify_request_from_from(form, verify_request)
 
-                response = VerificationResponse(True, 
-                    None, 
-                    verify_request, 
-                    date_str_to_iso(form.id_expiration_date.data), 
-                    true, 
-                    true,
-                    true, 
-                    true).to_dict()
+                    response = VerificationResponse(True, 
+                        None, 
+                        verify_request, 
+                        date_str_to_iso(form.id_expiration_date.data), 
+                        True, 
+                        True,
+                        True, 
+                        True).to_dict()
                 
                 
-                api.verifier_resolve_request(verify_request.id, response)
+                    api.verifier_resolve_request(verify_request.id, response)
 
-                return redirect('/verify')
+                    return redirect('/verify')            
                                                                    
         else:
-            if form.rejection_reason.data != '' :
-
+          #we are rejecting the data make sure we have a reason or an invalid
+          #photo
+            if (form.rejection_reason.data  or 
+                form.id_back_photo_invalid or 
+                form.id_front_photo_invalid or 
+                form.owner_photo_invalid or 
+                form.voter_reg_photo_invalid):
+                
                 response = VerificationResponse(False, 
                     form.rejection_reason.data, 
                     verify_request, 
@@ -89,7 +104,8 @@ def verify():
 
                 return redirect('/verify')
             else:
-                message = alert("Please enter a rejection reason", "danger")
+                message = alert("Please enter a rejection reason or select "
+                                "an invalid photo", "danger")
                 
                 
 

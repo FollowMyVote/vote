@@ -1,6 +1,6 @@
 ﻿body
 {
-    padding-top: 38px;
+    padding-top: 48px;
     padding-bottom: 20px;
 }
 
@@ -10,6 +10,66 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.row
+{
+    margin-left: -6px;
+    margin-right: -6px;
+}
+
+.col
+{
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.form-group
+{
+    margin-bottom: 10px;
+}
+
+.panel-body, .panel-heading, .panel-footer
+{
+    padding: 6px;
+}
+
+.panel-default.has-error, .has-error .panel-heading,
+.has-error .panel-body, .has-error .panel-footer
+{
+    border-color: #a94442;
+}
+
+.has-error .panel-heading
+{
+    background-color: #f2dede;
+}
+
+
+.selectize-input
+{
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 12px;
+    height: 30px;
+    min-height: 30px;
+    line-height: 1.5;
+    
+}
+
+.selectize-input input
+{
+    font-size: 12px;
+    line-height: 1.5 !important;
+    height:19px;
+}
+
+.selectize-input.dropdown-active
+{
+    border-radius: 3px 3px 0 0;
+}
+
+
+
 
 .navbar-inverse
 {
@@ -70,7 +130,7 @@ input[type="checkbox"].input-validation-error
     padding-bottom: 0px;
 }
 
-#verify-form .container-fluid
+#verify .container-fluid
 {
     padding: 0;
 }
@@ -91,6 +151,7 @@ input[type="checkbox"].input-validation-error
 .image-wrapper
 {
     display: inline-block;
+    max-width: 100%;
 }
 
 .image
@@ -100,12 +161,13 @@ input[type="checkbox"].input-validation-error
 
 .image-header .checkbox
 {
-    float:right;
-    margin:0px;
+    float: right;
+    margin: 0px;
 }
+
 .image-header .checkbox label
 {
-    padding:0;
+    padding: 0;
 }
 
 

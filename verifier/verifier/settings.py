@@ -12,7 +12,7 @@ LOG_LEVEL_FILE = logging.ERROR
 LOG_LEVEL_CONSOLE = logging.DEBUG
 
 STATES = [
-          ('', 'None'),
+          ('', 'Select State...'),
           ('AL', 'Alabama'), 
           ('AK', 'Alaska'), 
           ('AS', 'American Samoa'), 
@@ -81,7 +81,7 @@ STATES = [
 
 
 REJECTION_REASONS = [
-                     ('', 'None'), 
+                     ('', 'Select or enter rejection reason...'), 
                      ('ID not legible', 'ID not legible'), 
                      ('Registration not legible', 'Registration not legible'), 
                      ('Photos do not match', 'Photos do not match'), 
