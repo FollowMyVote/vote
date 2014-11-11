@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="ballot-box">
+    <div class="row">
+        <div class="col col-md-8">
+            <form role="form">
+                <div class="row">
+                    <div class="col col-md-3 filter election form-group">
+                        <label for="election">Election:</label>
+                        <select class="form-control" id="election" name="election">
+                            <option value="">Select Election...</option>
+                            <option value="">2014 - Mid Term Election - CA</option>
+                        </select>
+                    </div>
+                    <div class="col col-md-3 filter dictrict form-group">
+                        <label for="district">District:</label>
+                        <select class="form-control" id="district" name="district">
+                            <option value="">Select Disctrict...</option>
+                            <option value="">District 1 - CA</option>
+                        </select>
+                    </div>
+                    <div class="col col-md-3 filter county form-group">
+                        <label for="county">County:</label>
+                        <select class="form-control" id="county" name="county">
+                            <option value="">Select County...</option>
+                            <option value="">County 1</option>
+                        </select>
+                    </div>
+
+                    <div class="col col-md-3 filter precinct form-group">
+                        <label for="precinct">Precinct:</label>
+                        <select class="form-control" id="precinct" name="precinct">
+                            <option value="">Select Precinct...</option>
+                            <option value="">Precinct 1</option>
+                        </select>
+                    </div>
+
+            </form>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <div class="filter search form-group">
+                <label class="" for="precinct">Search:</label>
+                <input type="text" class="form-control" id="search" name="search" placeholder=""/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+
+</div>
+{% endblock %}

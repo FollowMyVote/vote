@@ -130,10 +130,6 @@ input[type="checkbox"].input-validation-error
     padding-bottom: 0px;
 }
 
-#verify .container-fluid
-{
-    padding: 0;
-}
 
 #verify-form label
 {
