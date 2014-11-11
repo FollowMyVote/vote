@@ -2,6 +2,7 @@ import json
 from verifier.modules import helpers
 
 class VerificationResponse:
+    """Models a Verification Response to be sent back to the api"""
     def __init__(self, accepted, rejection_reason, identity, expiration_date, 
                  owner_photo_valid, voter_reg_photo_valid, 
                  id_front_photo_valid, id_back_photo_valid):
@@ -22,7 +23,7 @@ class VerificationResponse:
         return self.to_json()
 
     def to_dict(self):
-        """conver object to dict"""
+        """convert object to dict"""
         dict =  {'accepted': self.accepted}
         if not self.accepted and bool(self.rejection_reason):
             dict['rejection_reason'] = self.rejection_reason

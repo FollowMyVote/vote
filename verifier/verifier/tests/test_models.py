@@ -1,6 +1,6 @@
 import unittest
 from pprint import pprint
-from verifier.models import Identity, IdentityProperty
+from verifier.models import Identity, IdentityProperty, VerificationResponse
 
 
 
@@ -22,6 +22,29 @@ class TestIdentityProperty(unittest.TestCase):
 
     def test_identity_property_to_json(self):
         self.property.to_json()
+
+
+class TestVerificationResponse(unittest.TestCase):
+    def setUp(self):
+        """Call before every test case."""
+       
+        self.response = VerificationResponse(
+            True, 'rejection reason', Identity(), '2014-1-1', True, True,
+            True, False)
+
+    
+    def test_verification_response_property_accepted(self):
+        self.assertTrue(self.response.accepted)
+
+
+    def test_verification_response_to_json(self):
+        self.response.to_json()
+
+    def test_verification_response_to_dict(self):
+        self.assertEquals(self.response.to_dict()['expiration_date'],
+                          '2014-1-1')
+
+
 
 
 
