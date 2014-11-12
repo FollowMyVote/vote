@@ -49,7 +49,11 @@ def verify():
     message = ""
 
     if request.method == 'GET':
-        verify_request = Identity(api.take_next_request()['result'])
+        
+        #verify_request = Identity(api.take_next_request()['result'])
+        verify_request = Identity(api.verifier_peek_request(long(1415750341804606))['result'])
+
+
         form.id.data = verify_request.id
         #form.first_name = verify_request.
     elif request.method == 'POST':

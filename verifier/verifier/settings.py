@@ -1,7 +1,7 @@
 import logging
 import os
 # Configuration
-API_URL = 'http://192.168.1.7:3001/rpc'
+API_URL = 'http://nathanhourt.com:3001/rpc'
 API_USER = 'bob'
 API_PASS = 'bob'
 DEBUG=True
@@ -12,6 +12,9 @@ LOG_LEVEL_FILE = logging.ERROR
 LOG_LEVEL_CONSOLE = logging.DEBUG
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))   # refers to application_top
 APP_LOGS = os.path.join(APP_ROOT, 'logs')
+APP_STATIC = os.path.join(APP_ROOT, 'static')
+
+APP_SAMPLE_IMAGES= os.path.join(APP_STATIC, 'content', 'images', 'sample')
 
 STATES = [
           ('', 'Select State...'),

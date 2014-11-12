@@ -58,6 +58,9 @@ class TestAPI(unittest.TestCase):
         self.assertFalse("error" in response);
         self.assertIsNotNone(response['result'])
 
+    def test_api_verifier_list_requests(self):
+        self.assertIsNotNone(api.verifier_list_requests()['result'])
+
     def test_api_verifier_resolve_request(self):
         create_request()
         verify_request = Identity(api.take_next_request()['result'])

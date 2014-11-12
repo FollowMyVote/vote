@@ -2,7 +2,7 @@ import logging
 import os
 
 # Configuration
-API_URL = 'http://192.168.1.7:3001/rpc'
+API_URL = 'http://nathanhourt.com:3001/'
 API_USER = 'bob'
 API_PASS = 'bob'
 DEBUG=True

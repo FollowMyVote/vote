@@ -1,17 +1,21 @@
-
 import requests
 import json
 import time
+import os
+import random
+import base64
 from verifier import settings
 from verifier.modules.helpers import log
 from pprint import pprint, pformat
 
 
+
 def make_request(payload):
     """Makes a request using the configuration specified in settings.py, and 
     the payload that has been passed in"""
-    log().debug("make_request\n{0}".format(payload))
 
+    log().debug("make_request\n{0}\n{1}".format(settings.API_URL ,payload))
+    
     response = requests.post(
         settings.API_URL,
         data=json.dumps(payload), 
@@ -96,9 +100,24 @@ def debug_request_verification(account_name, owner_photo, id_front_photo,
            "id": 0,})
 
 def get_unique_account_name():
+    """gets a unique account name for creating test accounts"""
     return "test" + str.replace(str(time.time()), ".", "")[-7:]
 
+def get_num_sample_directories():
+    """gets the number of sample directories"""
+    sample_directories = [x[0] for x in os.walk(settings.APP_SAMPLE_IMAGES)]
+    return len(sample_directories) - 1
 
+def get_sample_image(image_name, directory_num):
+    """gets a base64 encoded sample image from the sample directory """
+    sample_image_path = os.path.join(settings.APP_SAMPLE_IMAGES, 
+                                     str(directory_num), image_name)
+    with open(sample_image_path, 'rb') as f:
+        return base64.b64encode(f.read())
+        
+    
+
+    
 
 def debug_create_test_request(num_requests):
     """creates a number of test requests
@@ -112,19 +131,22 @@ def debug_create_test_request(num_requests):
     """
     wallet_open('default')
     wallet_unlock(99999999, 'helloworld')
-    
+    random.seed()
 
     for i in range(num_requests):
+        
+        sample_dir_num = random.randint(1, get_num_sample_directories())
         
         current_name = get_unique_account_name()
         print (current_name)
         pprint(wallet_account_create(current_name))
         pprint(debug_request_verification(
             current_name,
-            "Owner Photo {}".format(current_name),
-            "ID Front {}".format(current_name),
-            "ID Back {}".format(current_name),
-            "Voter Reg {0}".format(current_name)))
+            get_sample_image('owner.jpg', sample_dir_num),
+            get_sample_image('id-front.jpg', sample_dir_num),
+            get_sample_image('id-back.jpg', sample_dir_num),
+            get_sample_image('voter-card.jpg', sample_dir_num)))
+            
 
 
 def verifier_resolve_request(request_id, verification_response):
