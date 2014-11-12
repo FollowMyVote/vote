@@ -1,9 +1,8 @@
 import unittest
-import time
-from pprint import pprint
 from verifier.modules import api
-from verifier.models import Identity, IdentityProperty, VerificationResponse
+from verifier.models import Identity, VerificationResponse
 from datetime import date, datetime
+from verifier import settings
 
 
 
@@ -23,13 +22,13 @@ class TestAPI(unittest.TestCase):
 
     def setUp(self):
         """Call before every test case."""
-        api.wallet_open('default')
-        api.wallet_unlock(99999999, 'helloworld')
+        api.wallet_open(settings.WALLET_NAME)
+        api.wallet_unlock(99999999, settings.WALLET_PASSWORD)
     
     def tearDown(self):
         """call after every test case."""
-        api.wallet_open('default')
-        api.wallet_unlock(99999999, 'helloworld')
+        api.wallet_open(settings.WALLET_NAME)
+        api.wallet_unlock(99999999, settings.WALLET_PASSWORD)
 
     def test_api_close_wallet(self):
         self.assertEqual(api.wallet_close()['result'], None)
@@ -81,8 +80,14 @@ class TestAPI(unittest.TestCase):
         self.assertFalse("error" in response);
         
           
-
+    def test_api_debug_create_test_request(self):
+        api.debug_create_test_request(2)
   
+    def test_test_temp(self):
+        x = api.verifier_peek_request(1415750341804606)
+        verify_request = Identity(api.verifier_peek_request(1415750341804606)['result'])
+        print(x)
+
 
 if __name__ == "__main__":
     unittest.main()

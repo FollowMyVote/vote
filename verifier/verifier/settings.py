@@ -12,7 +12,11 @@ LOG_LEVEL_FILE = logging.ERROR
 LOG_LEVEL_CONSOLE = logging.DEBUG
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))   # refers to application_top
 APP_LOGS = os.path.join(APP_ROOT, 'logs')
+APP_CACHE = os.path.join(APP_ROOT, 'cache')
 APP_STATIC = os.path.join(APP_ROOT, 'static')
+
+WALLET_PASSWORD = 'helloworld'
+WALLET_NAME = 'default'
 
 APP_SAMPLE_IMAGES= os.path.join(APP_STATIC, 'content', 'images', 'sample')
 

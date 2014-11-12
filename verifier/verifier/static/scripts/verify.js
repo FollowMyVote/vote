@@ -57,7 +57,7 @@ $(function () {
         validator.resetForm();
         $('.has-error').removeClass('has-error');
         if ($('#rejection_reason').val() == "" && 
-            !$('.checkImageInvalid').prop('checked')) {
+            !$('.checkImageInvalid').is(':checked')) {
             validator.showErrors({
                 "rejection_reason": "Please enter a rejection reason or select an invalid image."
             });

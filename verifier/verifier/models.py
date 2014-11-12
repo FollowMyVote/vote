@@ -115,23 +115,35 @@ class Identity:
             return_properties.append(IdentityProperty(property))
 
         return return_properties
-    
-   
+
+    @staticmethod
+    def get_key(id):
+        """returns a key that can be used to identity this identity"""
+        return "verify_request_{0}".format(id)
 
     def get_property(self, name):
         return helpers.get_first(filter(lambda x: x.name == name, self.properties))
 
    
-    def to_dict(self):
+    def to_dict(self, include_photos=False):
         
-        return {'owner': self.owner,
-                'properties': map(lambda x: x.__dict__, 
-                                  filter(lambda y: bool(y.value), self.properties)),
-                'owner_photo': self.owner_photo,
-                'id_front_photo': self.id_front_photo,
-                'voter_reg_photo': self.voter_reg_photo,
-                'id': self.id                
-                }
+        if include_photos:
+            return {'owner': self.owner,
+                    'properties': map(lambda x: x.__dict__, 
+                                      filter(lambda y: bool(y.value), self.properties)),
+                    'owner_photo': self.owner_photo,
+                    'id_front_photo': self.id_front_photo,
+                    'id_back_photo': self.id_back_photo,
+                    'voter_reg_photo': self.voter_reg_photo,
+                    'id': self.id                
+                    }
+        else:
+            return {'owner': self.owner,
+                    'properties': map(lambda x: x.__dict__, 
+                                      filter(lambda y: bool(y.value), self.properties)),
+                    
+                    'id': self.id                
+                    }
     
 
     def to_json(self):

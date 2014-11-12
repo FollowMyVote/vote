@@ -1,9 +1,11 @@
-from verifier import settings
 import logging
-import os
 import logging.handlers
+import os
+from verifier import settings
 from flask import Markup
 from datetime import datetime
+
+
 
 def setup_logging():
     """sets up logging for the app using config values from settings.py"""
@@ -74,3 +76,6 @@ def alert(message, type="info"):
 def date_str_to_iso(str):
     """converts a date string mm/dd/yyyy into iso string format"""
     return datetime.strptime(str, "%m/%d/%Y").isoformat()
+
+
+
