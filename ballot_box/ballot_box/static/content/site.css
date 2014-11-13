@@ -1,8 +1,60 @@
-﻿body
+﻿
+/*Colors 
+
+    
+    dark primary : #252530
+    dark secondary :#34343e
+    text-highlight: #6DC3FF
+    text-hover: 90ef7f
+    border-light:#ddd
+
+*/
+html, body, .body-content, .row-main
 {
-    padding-top: 65px;
+}
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+body
+{
+    padding-top: 50px;
     padding-bottom: 20px;
 }
+
+
+@media (min-width: 768px)
+{
+
+    .display-table
+    {
+        display: table;
+    }
+
+    .display-table > .col
+    {
+        float: none;
+        display: table-cell;
+    }
+}
+
+footer
+{
+    background-color: #222;
+    border-top: 7px solid #3a4554;
+    color: #fff;
+    height: 80px;
+    margin: 0 -15px;
+    padding: 15px;
+}
+
+.table > thead > tr > th
+{
+    border: 0;
+}
+
+
 
 /* Set padding to keep content from hitting the edges */
 .body-content
@@ -13,14 +65,146 @@
 
 .navbar-inverse
 {
-    background-color: #000;
-    border-color: #080808;
+    background-color: #252530;
+    border: 0;
 }
 
-.navbar-brand
+.navbar > .container-fluid .navbar-brand
 {
     background-image: url('../content/images/logo-small.png');
     width: 210px;
     background-repeat: no-repeat;
+    margin-left: 0px;
 }
 
+
+
+.contests
+{
+    background-color: #252530;
+    color: #fff;
+    height: 100%;
+}
+
+
+.filters
+{
+    border-bottom: solid 1px #ddd;
+}
+
+.filters .submit
+{
+    padding-top: 24px;
+}
+
+.contests .contest
+{
+    border-top: 1px solid #34343e;
+    padding: 15px 15px;
+    margin: 0 -15px;
+    cursor: pointer;
+}
+
+.contests .contest:last-of-type
+{
+    border-bottom: 1px solid #34343e;
+}
+
+.contests .contest .name
+{
+    font-size: 125%;
+}
+
+
+
+.contests .contest .description
+{
+    font-size: 85%;
+}
+
+
+.contests .contest.selected
+{
+    background-color: #34343e;
+}
+
+.contests .contest.selected .name
+{
+    color: #6DC3FF;
+}
+
+.contests .contest:hover .name
+{
+    color: #90ef7f;
+}
+
+#ballot-box #charts
+{
+    border-top: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+}
+
+#ballot-box #charts .chart-area
+{
+    height: 300px;
+    border-right: solid 1px #ddd;
+    border-left: 0;
+    position: relative;
+}
+
+#ballot-box #charts .chart-area:last-of-type
+{
+    border-right: 0;
+}
+
+#chart
+{
+    height: 100%;
+    width: 100%;
+}
+
+
+#chart-summary table
+{
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+#chart-summary .approval
+{
+    border-left: solid 1px #ddd;
+    border-right: solid 1px #ddd;
+}
+
+#chart-summary
+{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+
+
+#chart-summary .selected
+{
+    background-color: #C3E2FF;
+    border-color: #fff;
+}
+
+#chart-summary tfoot td
+{
+    text-align: center;
+}
+
+
+#data-heading
+{
+    background-color:#ddd;
+    padding:15px 0px 0px;
+    border-top:solid 1px #aaa;
+    border-bottom:solid 1px #aaa;
+    margin-bottom:15px;
+}
+#data-heading h3
+{
+    margin-top:15px
+}

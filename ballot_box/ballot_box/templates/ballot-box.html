@@ -2,26 +2,63 @@
 
 {% block content %}
 
-<div id="ballot-box">
-    <div class="row">
-        <div class="col col-md-8">
-            <form role="form">
-                <div class="row">
-                    <div class="col col-md-3 filter election form-group">
+<div id="ballot-box" class="page-content">
+
+    <div class="row row-main display-table">
+        <div class="col col-md-3 contests display-table-cell">
+            <div class="contest selected">
+                <div class="name">Sample Contest 1</div>
+                <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed tellus ac nunc pretium.</div>
+            </div>
+
+            <div class="contest">
+                <div class="name">Sample Contest 2</div>
+                <div class="description">Vivamus fermentum auctor lacinia. Maecenas commodo lacus turpis, gravida posuere odio luctus ac. Ut augue tortor, convallis id pretium sit amet, rutrum ut magna. Praesent quis nibh suscipit, faucibus nisl eu, sollicitudin risus. </div>
+            </div>
+
+            <div class="contest">
+                <div class="name">Sample Contest 3</div>
+                <div class="description">Duis efficitur mauris gravida, tempor risus sit amet.</div>
+            </div>
+
+            <div class="contest">
+                <div class="name">Sample Contest 4</div>
+                <div class="description">Ut eleifend lorem erat, sit amet placerat arcu auctor et. In dapibus quis tellus vel commodo. Nullam rutrum enim non blandit volutpat</div>
+            </div>
+
+            <div class="contest">
+                <div class="name">Sample Contest 5</div>
+                <div class="description">
+                    Fusce ullamcorper, ex nec ultricies suscipit, ligula nisl iaculis massa, sed dapibus magna ex at eros.
+                     Suspendisse nec finibus risus. Vestibulum in ullamcorper enim, dapibus finibus eros. Sed sed posuere elit, sit amet tristique ex. Morbi quis posuere nulla. Nulla dolor sapien, aliquam pretium vehicula id, tristique ac purus.
+                </div>
+            </div>
+
+            <div class="contest">
+                <div class="name">Sample Contest 6</div>
+                <div class="description">Praesent elementum massa metus, at gravida risus pharetra nec. </div>
+            </div>
+
+
+        </div>
+        <div class="col col-md-9 data display-table-cell">
+            <div class="row filters">
+                <form role="form">
+                    <div class="col col-md-2 filter election form-group">
                         <label for="election">Election:</label>
                         <select class="form-control" id="election" name="election">
                             <option value="">Select Election...</option>
                             <option value="">2014 - Mid Term Election - CA</option>
                         </select>
                     </div>
-                    <div class="col col-md-3 filter dictrict form-group">
+                    <div class="col col-md-2 filter dictrict form-group">
                         <label for="district">District:</label>
                         <select class="form-control" id="district" name="district">
                             <option value="">Select Disctrict...</option>
                             <option value="">District 1 - CA</option>
                         </select>
                     </div>
-                    <div class="col col-md-3 filter county form-group">
+                    <div class="col col-md-2 filter county form-group">
                         <label for="county">County:</label>
                         <select class="form-control" id="county" name="county">
                             <option value="">Select County...</option>
@@ -29,7 +66,7 @@
                         </select>
                     </div>
 
-                    <div class="col col-md-3 filter precinct form-group">
+                    <div class="col col-md-2 filter precinct form-group">
                         <label for="precinct">Precinct:</label>
                         <select class="form-control" id="precinct" name="precinct">
                             <option value="">Select Precinct...</option>
@@ -37,19 +74,192 @@
                         </select>
                     </div>
 
-            </form>
-            </div>
-        </div>
-        <div class="col col-md-4">
-            <div class="filter search form-group">
-                <label class="" for="precinct">Search:</label>
-                <input type="text" class="form-control" id="search" name="search" placeholder=""/>
-            </div>
-        </div>
-    </div>
-    <div class="row">
+                    <div class="col col-md-2 filter search form-group">
+                        <label for="precinct">Search:</label>
+                        <input type="text" class="form-control" id="search" name="search" placeholder="Zip, Voter ID, Contest, Candidate ..." />
+                    </div>
 
+                    <div class="col col-md-2 filter submit form-group">
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row contest-heading">
+                <div class="col col-md-12">
+                    <h2>Sample Contest 1</h2>
+                </div>
+            </div>
+            <div class="row" id="charts">
+                <div class="col col-sm-6 chart-area" id="chart-plot-area">
+
+                    <div id="chart"></div>
+
+                </div>
+                <div class="col col-sm-6 chart-area" id="chart-summary">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="candidate">&nbsp;</th>
+                                <th class="approval">Approval Vote</th>
+                                <th class="official selected">Official Vote</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="candidate">Candidate A</td>
+                                <td class="approval">53%</td>
+                                <td class="official selected">46%</td>
+                            </tr>
+
+                            <tr>
+                                <td class="candidate">Candidate B</td>
+                                <td class="approval">37%</td>
+                                <td class="official selected">51%</td>
+                            </tr>
+
+                            <tr>
+                                <td class="candidate">Candidate C</td>
+                                <td class="approval">7%</td>
+                                <td class="official selected">2%</td>
+                            </tr>
+
+                            <tr>
+                                <td class="candidate">Other</td>
+                                <td class="approval">3%</td>
+                                <td class="official selected">1%</td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="candidate">&nbsp;</td>
+                                <td class="approval">
+                                    <button id="btn-approval" class="btn btn-default">Select</button></td>
+                                <td class="official selected">
+                                    <button id="btn-official" class="btn btn-default">Select</button></td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="row filters" id="data-heading">
+                <div class="col col-md-8">
+                    <h3>Votes</h3>
+                </div>
+                <div class="col col-md-2 filter search form-group">
+                    <label for="precinct">Search:</label>
+                    <input type="text" class="form-control" id="Text1" name="search" placeholder="Zip, Voter ID, Contest, Candidate ..." />
+                </div>
+
+                <div class="col col-md-2 filter submit form-group">
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+            <div class="row" id="data">
+                <div class="col col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover" id="contest-data">
+                            <thead>
+                                <tr>
+                                    <th class="candidate">Candidate</th>
+                                    <th class="voter-id">Voter ID</th>
+                                    <th class="date">Date Cast</th>
+                                    <th class="details"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="candidate">Candidate A</td>
+                                    <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate A</td>
+                                    <td class="voter-id">41ccacf1378fb7e5fb32def603495549d2ae6319c25f0121b6c5c2774bb99fbf</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate C</td>
+                                    <td class="voter-id">116b7b1e8b5973a57965f60b498539261ddc906016ced28802280492637dffb6</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate A</td>
+                                    <td class="voter-id">ac66ae19be9d0a06f5402ea340c27f749868df78c26e0803e2e2b07c69d7cc3d</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate B</td>
+                                    <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate B</td>
+                                    <td class="voter-id">41ccacf1378fb7e5fb32def603495549d2ae6319c25f0121b6c5c2774bb99fbf</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate C</td>
+                                    <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Write In</td>
+                                    <td class="voter-id">3a35bbb625aef4d15fc1a4dfdc1d124f59179a7e4cc1afc552a9900f96ce44cc</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate A</td>
+                                    <td class="voter-id">41ccacf1378fb7e5fb32def603495549d2ae6319c25f0121b6c5c2774bb99fbf</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="candidate">Candidate B</td>
+                                    <td class="voter-id">116b7b1e8b5973a57965f60b498539261ddc906016ced28802280492637dffb6</td>
+                                    <td class="date">11/5/2014</td>
+                                    <td class="details">
+                                        <button class="btn btn-default">View Details</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/scripts/highcharts/highcharts.js"></script>
+<script src="/static/scripts/highcharts/modules/exporting.js"></script>
+<script src="/static/scripts/ballot-box.js"></script>
+
 {% endblock %}
