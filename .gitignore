@@ -1,3 +1,12 @@
-/verifier/env
 *.pyc
 *.bak
+*.pyproj
+*.pyproj.user
+*.log
+env
+bin
+obj
+*.config
+*.suo
+*.sln
+ptvs_virtualenv_proxy.py

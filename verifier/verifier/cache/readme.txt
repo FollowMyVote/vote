@@ -1,1 +1,0 @@
-This file is just so the cache directory will be created for you.  This directory should have write permissions.
