@@ -9,7 +9,9 @@ execfile(activate_this, dict(__file__=activate_this))
 
 import sys
 ##Enter the path to the site here, this should be the folder containing runserver.py
-sys.path.append('D:/inetpub/wwwroot/vote/ballot_box/')
+path_to_site = 'D:/inetpub/wwwroot/vote/ballot_box/'
+
+sys.path.append(path_to_site)
 
 from ballot_box import app as application
 

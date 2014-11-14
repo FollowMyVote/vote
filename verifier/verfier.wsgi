@@ -8,8 +8,11 @@ execfile(activate_this, dict(__file__=activate_this))
 ####################################################################################
 
 import sys
+
 ##Enter the path to the site here, this should be the folder containing runserver.py
-sys.path.append('D:/inetpub/wwwroot/vote/verifier/')
+path_to_site = 'D:/inetpub/wwwroot/vote/verifier/'
+
+sys.path.append(path_to_site)
 
 from verifier import app as application
 
