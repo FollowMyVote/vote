@@ -10,8 +10,7 @@ class VerifyForm(Form):
 
     middle_name = StringField(
         Identity.FIELD_MIDDLE_NAME,
-        [validators.DataRequired(), 
-        validators.Length(max=50)])
+        [validators.Length(max=50)])
 
     last_name = StringField(
         Identity.FIELD_LAST_NAME, 

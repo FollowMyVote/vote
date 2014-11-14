@@ -13,9 +13,6 @@ html, body, .body-content, .row-main
 {
 }
 
-@-moz-document url-prefix() {
-  fieldset { display: table-cell; }
-}
 
 body
 {
@@ -36,6 +33,7 @@ body
     {
         float: none;
         display: table-cell;
+        vertical-align: top;
     }
 }
 
@@ -89,6 +87,7 @@ footer
 
 .filters
 {
+    padding-top:15px;
     border-bottom: solid 1px #ddd;
 }
 
@@ -198,13 +197,14 @@ footer
 
 #data-heading
 {
-    background-color:#ddd;
-    padding:15px 0px 0px;
-    border-top:solid 1px #aaa;
-    border-bottom:solid 1px #aaa;
-    margin-bottom:15px;
+    background-color: #ddd;
+    padding: 15px 0px 0px;
+    border-top: solid 1px #aaa;
+    border-bottom: solid 1px #aaa;
+    margin-bottom: 15px;
 }
+
 #data-heading h3
 {
-    margin-top:15px
+    margin-top: 15px;
 }

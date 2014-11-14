@@ -21,6 +21,14 @@ def home():
     return render_template('index.html',
         title='Home Page',)
 
+@app.route('/generate')
+def generate():
+    """Generate Some Test Requests"""
+    log().debug("Generate Some Test Requests")
+    api.debug_create_test_request(5)
+    return redirect('/verify')
+    
+
 
 def update_verify_request_from_form(form, verify_request):
     verify_request.address_1.value = form.address_1.data

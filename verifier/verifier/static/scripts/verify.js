@@ -38,25 +38,20 @@ $(function () {
         ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input'
     });
 
-    $('#accept').click(function () {
-
+    function accept() {
         $('#result').val('accept');
         isAccepting = true;
         $('.has-error').removeClass('has-error');
         if (form.valid()) {
             form.submit();
         }
-
-
-
-    })
-
-    $('#reject').click(function () {
+    }
+    function reject() {
         $('#result').val('reject');
         isAccepting = false;
         validator.resetForm();
         $('.has-error').removeClass('has-error');
-        if ($('#rejection_reason').val() == "" && 
+        if ($('#rejection_reason').val() == "" &&
             !$('.checkImageInvalid').is(':checked')) {
             validator.showErrors({
                 "rejection_reason": "Please enter a rejection reason or select an invalid image."
@@ -65,7 +60,12 @@ $(function () {
         else {
             form.submit();
         }
-    })
+    }
+
+    $('#accept').click(accept);
+
+    $('#reject').click(reject)
+
 
 
 

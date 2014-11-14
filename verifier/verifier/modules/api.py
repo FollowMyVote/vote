@@ -147,6 +147,7 @@ def debug_create_test_request(num_requests):
 
         last_sample_dir_num = sample_dir_num
         debug_create_test_request_from_sample(sample_dir_num)
+        time.sleep(2)
             
 
 def debug_create_test_request_from_sample(sample_dir_num):

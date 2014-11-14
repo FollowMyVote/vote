@@ -10,3 +10,4 @@ obj
 *.suo
 *.sln
 ptvs_virtualenv_proxy.py
+cache
