@@ -48,10 +48,10 @@ class IdentityProperty:
     
     def __init__(self, dict = {}):
         """initialize an identity property"""
-        self.salt = helpers.get_value(dict, 'salt', '')
-        self.name = helpers.get_value(dict, 'name', '')
-        self.value = helpers.get_value(dict, 'value', None)
-        self.verifier_signatures = helpers.get_value(dict, 'verifier_signatures', [])
+        self.salt = dict.get('salt', '')
+        self.name = dict.get('name', '')
+        self.value = dict.get('value')
+        self.verifier_signatures = dict.get('verifier_signatures', [])
         
 
     def __repr__(self):
@@ -80,14 +80,14 @@ class Identity:
     FIELD_LABEL_INVALID_IMAGE = "Image Invalid"
 
     def __init__(self, dict = {}):
-        self.id = helpers.get_value(dict, 'id', 0)
-        self.id_front_photo = helpers.get_value(dict, 'id_front_photo', '')
-        self.id_back_photo = helpers.get_value(dict, 'id_back_photo', '')
-        self.owner_photo = helpers.get_value(dict, 'owner_photo', '')
-        self.voter_reg_photo = helpers.get_value(dict, 'voter_reg_photo', '')
-        self.owner = helpers.get_value(dict, 'owner', '')
+        self.id = dict.get('id', 0)
+        self.id_front_photo = dict.get('id_front_photo', '')
+        self.id_back_photo = dict.get('id_back_photo', '')
+        self.owner_photo = dict.get('owner_photo', '')
+        self.voter_reg_photo = dict.get('voter_reg_photo', '')
+        self.owner = dict.get('owner', '')
         self.properties = Identity.get_properties_from_array(
-            helpers.get_value(dict, 'properties', []))
+            dict.get('properties', []))
         
         self.id_number = self.get_property(Identity.FIELD_ID_NUMBER)
         self.first_name = self.get_property(Identity.FIELD_FIRST_NAME)

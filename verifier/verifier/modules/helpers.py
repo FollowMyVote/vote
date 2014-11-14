@@ -39,15 +39,6 @@ def log():
     return logging.getLogger("app_log")
     
 
-def get_value(dict,  key, default = None):
-    """gets a value from a dictonary if it exists, returns default if not"""
-    if not dict:
-        return default
-        
-    if key in dict:
-        return dict[key]
-    else:
-        return default
 
 def remove_if_exists(dict, key):
     if key in dict:
@@ -76,6 +67,25 @@ def alert(message, type="info"):
 def date_str_to_iso(str):
     """converts a date string mm/dd/yyyy into iso string format"""
     return datetime.strptime(str, "%m/%d/%Y").isoformat()
+
+
+def get_cache(cache, key, get_default, timeout = 300):
+    """This is a function to help get items from cache 
+    
+    It will check the cache for the item, if it is not found
+    it will execute get_defualt and get the item, and add it to the cache
+    
+    cache must derive from werkzeug.contrib.cache
+    timeout is the number of seconds to keep the object in cache
+    """
+    value = cache.get(key)
+    if value == None:
+        value = get_default()
+        cache.set(key, value, timeout)
+
+    return value
+    
+
 
 
 

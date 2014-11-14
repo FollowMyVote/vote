@@ -2,20 +2,12 @@ import unittest
 
 from pprint import pprint
 from ballot_box.modules import helpers
-
+from werkzeug.contrib.cache import SimpleCache
 
 
 class TestHelpers(unittest.TestCase):
 
-    def  test_helpers_get_value(self):
-        x = {"test":1}
-        
-        self.assertEqual(helpers.get_value(x, "test", "default"), 1)
-
-        self.assertEqual(helpers.get_value(x, "test1", "default"), "default")
-
-        self.assertEqual(helpers.get_value(None, "test1", "default"), 
-                         "default")
+    
 
     def test_get_first(self):
         self.assertEqual( helpers.get_first([1, 2]), 1)
@@ -34,6 +26,23 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(helpers.iif(False, 'true', 'false'), 'false')
         self.assertEqual(helpers.iif(None, 'true', 'false'), 'false')
 
+    def test_helpers_get_cache(self):
+        cache = SimpleCache();
+        key = 'test'
+        original_value = "Item Value"
+        value = "Item Value"
+
+        def get_item():
+            return value;
+
+        self.assertEqual(helpers.get_cache(cache, key, get_item), value)
+        
+        value = "Item Value Changed"
+
+        #item should still be in cache so the item value is not changed
+        self.assertNotEqual(get_item(), original_value)
+
+        self.assertEqual(helpers.get_cache(cache, key, get_item), original_value)
     
  
 

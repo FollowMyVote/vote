@@ -7,7 +7,7 @@ from flask import render_template, request, redirect, url_for, session
 from pprint import pprint
 
 from verifier import app, cache
-from verifier.modules.helpers import log, alert, date_str_to_iso
+from verifier.modules.helpers import log, alert, date_str_to_iso, get_cache
 from verifier.modules import api
 from verifier.forms import VerifyForm
 from verifier.models import Identity, VerificationResponse
@@ -80,18 +80,19 @@ def verify():
         
     elif request.method == 'POST':
 
-        verify_request =  cache.get(Identity.get_key(form.id.data))
+        def get_request():
+            return Identity(api.verifier_peek_request(long(form.id.data))['result'])
+
+        verify_request =  get_cache(cache, Identity.get_key(form.id.data), get_request(), 15 * 60)
 
                 
-        pprint(verify_request.first_name)
-
+        
         if not verify_request:
             verify_request = Identity(api.verifier_peek_request(long(form.id.data))['result'])
         
         
         verify_request = update_verify_request_from_form(form, verify_request)
-        print('first name')
-        print (verify_request.first_name)
+        
         if form.result.data == 'accept':
             if form.validate():
                 if (form.id_back_photo_invalid.data or 

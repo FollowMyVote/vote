@@ -1,0 +1,1 @@
+This file is just so the logs directory will be created for you.  This directory should have write permissions.
