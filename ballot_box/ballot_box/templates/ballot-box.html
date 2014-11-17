@@ -23,7 +23,7 @@
             </div>
             <div class="col col-md-9 data display-table-cell">
                 <div class="row filters">
-                    <form role="form" id="contest_form" method="post">
+                    <form role="form" id="contest_form" method="post" action="/ballot-box">
                         <input type="hidden" id="contest_id" name="contest_id" value="{{form.contest_id}}" />
                         {% for filter in form.filters %}
                           {% if filter.type == 'dropdown' %}
@@ -47,9 +47,14 @@
 
                 <div class="row contest-heading">
                     <div class="col col-md-12">
-                        <h2>Sample Contest 1</h2>
+                        {% if form.contest %}
+                        <h2>{{form.contest.name}}</h2>
+                        {% else %}
+                        <h2>No Contest Selected</h2>
+                        {% endif %}
                     </div>
                 </div>
+                {% if form.contest %}
                 <div class="row" id="charts">
                     <div class="col col-sm-6 chart-area" id="chart-plot-area">
 
@@ -134,6 +139,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  
                                     <tr>
                                         <td class="candidate">Candidate A</td>
                                         <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
@@ -209,6 +215,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
             </div>
         </div>

@@ -17,7 +17,9 @@ class BallotBoxForm():
 
         self.search = request.values.get('search', '')
 
-        self.contests = []        
+        self.contests = []
+        self.contest = None        
+        self.votes = []
             
 
 

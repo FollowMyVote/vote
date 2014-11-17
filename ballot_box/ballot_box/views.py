@@ -61,6 +61,19 @@ def ballot_box():
     log().debug("Render Page: ballot-box")
     form = BallotBoxForm(request, settings.BALLOT_BOX_FILTERS)
     form.contests = get_filtered_contests(form)
+    if form.contest_id:
+        try:
+            form.contest = Contest(form.contest_id, api.ballot_get_contest_by_id(form.contest_id)['result'])
+        except:
+            log().error("Contest ID: {0} not found".format(form.contest_id))
+            form.contest_id = ''
+    elif form.contests:
+        form.contest_id = form.contests[0].id
+        form.contest = form.contests[0]
+    
+
+    if form.contest:
+        form.votes = api.ballot_get_decisions_by_contest(form.contest_id)
     
     return render_template('ballot-box.html',
         title = 'Ballot Box',
