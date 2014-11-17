@@ -15,3 +15,22 @@
 </div>
 {% endmacro %}
 
+
+{% macro filter_dropdown(filter, css_class) %}
+<div class="filter form-group {{filter.css_class()}} {{css_class}}" >
+    <label for="{{filter.name}}">{{filter.label}}</label>
+    <select class="form-control" id="{{filter.name}}" name="{{filter.name}}">
+        {% for option in filter.options %}
+        <option {{'selected' if filter.value == option[1] else ''}} value="{{option[1]}}">{{option[0]}}</option>
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{% macro filter_text(filter, css_class) %}
+<div class="filter form-group {{filter.css_class()}} {{css_class}}" >
+    <label for="{{filter.name}}">{{filter.label}}</label>
+    <input class="form-control" id="{{filter.name}}" name="{{filter.name}}" value="{{filter.value}}" />
+        
+</div>
+{% endmacro %}

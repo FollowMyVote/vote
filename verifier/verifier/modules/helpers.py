@@ -1,13 +1,14 @@
 import logging
 import logging.handlers
 import os
-from verifier import settings
 from flask import Markup
 from datetime import datetime
 
 
-
-def setup_logging():
+def setup_logging(log_path= '',  
+                  log_file_name='error.log', 
+                  file_log_level= logging.ERROR, 
+                  console_log_level = logging.ERROR ):
     """sets up logging for the app using config values from settings.py"""
 
     
@@ -15,12 +16,12 @@ def setup_logging():
     logger.setLevel(logging.DEBUG)    
 
 
-    fh = logging.handlers.TimedRotatingFileHandler(os.path.join(settings.APP_LOGS,"verfier.log"), "D", 1, 60)
-    fh.setLevel(settings.LOG_LEVEL_FILE)
+    fh = logging.handlers.TimedRotatingFileHandler(os.path.join(log_path, log_file_name ), "D", 1, 60)
+    fh.setLevel(file_log_level)
   
 
     ch = logging.StreamHandler()
-    ch.setLevel(settings.LOG_LEVEL_CONSOLE)
+    ch.setLevel(console_log_level)
 
     # create formatter and add it to the handlers
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - "
@@ -32,7 +33,6 @@ def setup_logging():
     logger.addHandler(ch)
     logger.addHandler(fh)
     logger.debug("setup_logging complete")
-   
 
 def log():
     """returns an instance of the logger for this app"""

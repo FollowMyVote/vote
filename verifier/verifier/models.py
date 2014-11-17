@@ -122,28 +122,23 @@ class Identity:
         return "verify_request_{0}".format(id)
 
     def get_property(self, name):
-        return helpers.get_first(filter(lambda x: x.name == name, self.properties))
+        return helpers.get_first([x for x in self.properties if x.name == name  ])
 
    
     def to_dict(self, include_photos=False):
         
         if include_photos:
             return {'owner': self.owner,
-                    'properties': map(lambda x: x.__dict__, 
-                                      filter(lambda y: bool(y.value), self.properties)),
+                    'properties': [x.__dict__.copy() for x in self.properties if bool(x.value)],
                     'owner_photo': self.owner_photo,
                     'id_front_photo': self.id_front_photo,
                     'id_back_photo': self.id_back_photo,
                     'voter_reg_photo': self.voter_reg_photo,
-                    'id': self.id                
-                    }
+                    'id': self.id}
         else:
             return {'owner': self.owner,
-                    'properties': map(lambda x: x.__dict__, 
-                                      filter(lambda y: bool(y.value), self.properties)),
-                    
-                    'id': self.id                
-                    }
+                    'properties': [x.__dict__.copy() for x in self.properties if bool(x.value)],
+                    'id': self.id}
     
 
     def to_json(self):

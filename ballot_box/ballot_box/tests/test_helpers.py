@@ -45,6 +45,10 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(helpers.get_cache(cache, key, get_item), original_value)
     
  
+    def test_helpers_to_css_class(self):
+        self.assertEqual(helpers.to_css_class("test Class"), 'test-class')
+        self.assertEqual(helpers.to_css_class("test@#$Class"), 'test-class')
+        self.assertEqual(helpers.to_css_class("test  Class"), 'test-class')
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,6 +4,10 @@ $(function () {
     $('.contest').click(function () {
         $('.contest').removeClass('selected');
         $(this).addClass('selected');
+        $('#contest_id').val($(this).attr('id'));
+        $('#contest_form').submit();
+        
+
 
     });
 

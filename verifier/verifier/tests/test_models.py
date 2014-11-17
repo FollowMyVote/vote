@@ -7,12 +7,12 @@ from verifier.models import Identity, IdentityProperty, VerificationResponse
 class TestIdentityProperty(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
-        dict = {u'salt': u'234',
+        d = {u'salt': u'234',
 			    u'name': u'LastName',
 			    u'value': None,
 			    u'verifier_signatures': []}
         self.empty_property = IdentityProperty()
-        self.property = IdentityProperty(dict)
+        self.property = IdentityProperty(d)
 
     def test_identity_property_empty(self):
         self.assertEquals(self.empty_property.name, "")
@@ -56,7 +56,7 @@ class TestIndentity(unittest.TestCase):
 
     def setUp(self):
         """Call before every test case."""
-        dict = {
+        d = {
 		        "owner": "XTS79bJheDVN8bpACsN5y2p3mUbv6Tv5wCtn",
 		        "properties": [
                     {
@@ -126,7 +126,7 @@ class TestIndentity(unittest.TestCase):
 		        "id": 1415313067144342}
 
         self.empty_identity = Identity()
-        self.identity = Identity(dict)
+        self.identity = Identity(d)
 
     def test_identity_get_properties_from_array(self):
         x = [
@@ -211,10 +211,10 @@ class TestIndentity(unittest.TestCase):
         self.assertEquals(self.identity.id_back_photo, 'id back')
 
     def test_identity_to_dict(self):
-        dict = self.identity.to_dict()
-        self.assertIsNotNone(dict)
-        self.assertEquals(dict['id_front_photo'], 'id front')
-        self.assertEquals(len(dict['properties']), 1)
+        d = self.identity.to_dict(True)
+        self.assertIsNotNone(d)
+        self.assertEquals(d['id_front_photo'], 'id front')
+        self.assertEquals(len(d['properties']), 1)
 
     def test_identity_to_json(self):
         self.identity.to_json()

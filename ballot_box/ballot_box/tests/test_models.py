@@ -28,7 +28,7 @@ class TestContestant(unittest.TestCase):
 class TestContest(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
-        dict = {
+        d = {
             u'contestants':  
                 [{u'name': u'NEEL KASHKARI', u'description': u'Party Preference: Republican\nBusinessman'}, 
                  {u'name': u'EDMUND G. "JERRY" BROWN', u'description': u'Party Preference: Democratic\nGovernor of California'}], 
@@ -39,8 +39,8 @@ class TestContest(unittest.TestCase):
                  [u'opinion type', u'vote one'], 
                  [u'region', u'STATE']]}
 
-        self.empty  = Contest()
-        self.object = Contest(dict)
+        self.empty  = Contest('ID_empty')
+        self.object = Contest('ID', d)
 
     def test_contest_empty(self):
         self.assertEquals(self.empty.name, '')
@@ -57,6 +57,14 @@ class TestContest(unittest.TestCase):
     def test_contest_to_json(self):
         print(self.object.to_json())
         self.object.to_json()
+
+    def test_contest_search(self):
+        self.assertTrue(self.object.search('NEEL'))
+        self.assertTrue(self.object.search('republican'))
+        self.assertTrue(self.object.search('STATE'))
+        self.assertTrue(self.object.search('vot'))
+        self.assertTrue(self.object.search('Governor'))
+        self.assertFalse(self.object.search('Governor1'))
 
 
 if __name__ == "__main__":

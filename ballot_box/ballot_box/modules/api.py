@@ -63,6 +63,13 @@ def ballot_get_contests_by_tag(key, value):
            "jsonrpc": "2.0",
            "id": 0,})
 
+def ballot_get_all_contests():
+    """Threre isn't really a get all but we will pretend for now """
+    return make_request({"method": "ballot_get_contests_by_tag" ,
+           "params": ['region', 'STATE'],
+           "jsonrpc": "2.0",
+           "id": 0,})
+
 
 def ballot_get_contest_by_id(contest_id):
     """Gets the next pending request and sets it to be in processing"""

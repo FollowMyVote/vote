@@ -11,3 +11,4 @@ obj
 *.sln
 ptvs_virtualenv_proxy.py
 
+.idea

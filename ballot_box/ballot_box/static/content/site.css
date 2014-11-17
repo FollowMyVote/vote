@@ -29,6 +29,10 @@ body
         display: table;
     }
 
+    .row-main > .display-table
+    {
+        width:100%;
+    }
     .display-table > .col
     {
         float: none;

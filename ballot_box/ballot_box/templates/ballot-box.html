@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "_helpers.html" import filter_text, filter_dropdown with context %}
 
 {% block content %}
 
@@ -7,77 +8,34 @@
     <div class="row row-main ">
         <div class="display-table">
             <div class="col col-md-3 contests display-table-cell">
-                <div class="contest selected">
-                    <div class="name">Sample Contest 1</div>
-                    <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed tellus ac nunc pretium.</div>
-                </div>
+                {% for contest in form.contests %}
+                
+                  <div class="contest" id="{{contest.id}}" >
+                      <div class="name">{{contest.name}}</div>
+                      {%if contest.description %}
+                        <div class="description">{{contest.description}}</div>
+                      {% endif %}
+                  </div>
 
-                <div class="contest">
-                    <div class="name">Sample Contest 2</div>
-                    <div class="description">Vivamus fermentum auctor lacinia. Maecenas commodo lacus turpis, gravida posuere odio luctus ac. Ut augue tortor, convallis id pretium sit amet, rutrum ut magna. Praesent quis nibh suscipit, faucibus nisl eu, sollicitudin risus. </div>
-                </div>
-
-                <div class="contest">
-                    <div class="name">Sample Contest 3</div>
-                    <div class="description">Duis efficitur mauris gravida, tempor risus sit amet.</div>
-                </div>
-
-                <div class="contest">
-                    <div class="name">Sample Contest 4</div>
-                    <div class="description">Ut eleifend lorem erat, sit amet placerat arcu auctor et. In dapibus quis tellus vel commodo. Nullam rutrum enim non blandit volutpat</div>
-                </div>
-
-                <div class="contest">
-                    <div class="name">Sample Contest 5</div>
-                    <div class="description">
-                        Fusce ullamcorper, ex nec ultricies suscipit, ligula nisl iaculis massa, sed dapibus magna ex at eros.
-                     Suspendisse nec finibus risus. Vestibulum in ullamcorper enim, dapibus finibus eros. Sed sed posuere elit, sit amet tristique ex. Morbi quis posuere nulla. Nulla dolor sapien, aliquam pretium vehicula id, tristique ac purus.
-                    </div>
-                </div>
-
-                <div class="contest">
-                    <div class="name">Sample Contest 6</div>
-                    <div class="description">Praesent elementum massa metus, at gravida risus pharetra nec. </div>
-                </div>
-
+                {% endfor %}
+               
 
             </div>
             <div class="col col-md-9 data display-table-cell">
                 <div class="row filters">
-                    <form role="form">
-                        <div class="col col-md-2 filter election form-group">
-                            <label for="election">Election:</label>
-                            <select class="form-control" id="election" name="election">
-                                <option value="">Select Election...</option>
-                                <option value="">2014 - Mid Term Election - CA</option>
-                            </select>
-                        </div>
-                        <div class="col col-md-2 filter dictrict form-group">
-                            <label for="district">District:</label>
-                            <select class="form-control" id="district" name="district">
-                                <option value="">Select Disctrict...</option>
-                                <option value="">District 1 - CA</option>
-                            </select>
-                        </div>
-                        <div class="col col-md-2 filter county form-group">
-                            <label for="county">County:</label>
-                            <select class="form-control" id="county" name="county">
-                                <option value="">Select County...</option>
-                                <option value="">County 1</option>
-                            </select>
-                        </div>
-
-                        <div class="col col-md-2 filter precinct form-group">
-                            <label for="precinct">Precinct:</label>
-                            <select class="form-control" id="precinct" name="precinct">
-                                <option value="">Select Precinct...</option>
-                                <option value="">Precinct 1</option>
-                            </select>
-                        </div>
-
+                    <form role="form" id="contest_form" method="post">
+                        <input type="hidden" id="contest_id" name="contest_id" value="{{form.contest_id}}" />
+                        {% for filter in form.filters %}
+                          {% if filter.type == 'dropdown' %}
+                                {{filter_dropdown(filter, 'col col-md-2')}}
+                          {% else %}
+                                {{filter_text(filter, 'col col-md-2')}}
+                          {% endif %}
+                        {% endfor %}
+                       
                         <div class="col col-md-2 filter search form-group">
                             <label for="precinct">Search:</label>
-                            <input type="text" class="form-control" id="search" name="search" placeholder="Zip, Voter ID, Contest, Candidate ..." />
+                            <input type="text" class="form-control" id="search" name="search" value="{{form.search}}" placeholder="Zip, Voter ID, Contest, Candidate ..." />
                         </div>
 
                         <div class="col col-md-2 filter submit form-group">

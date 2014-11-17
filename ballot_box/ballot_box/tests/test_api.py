@@ -25,6 +25,12 @@ class TestAPI(unittest.TestCase):
         self.assertFalse("error" in response);
         self.assertIsNotNone(response['result'])
 
+    def test_api_ballot_ballot_get_all_contests(self):
+        response = api.ballot_get_all_contests()
+        print(response)
+        self.assertFalse("error" in response);
+        self.assertIsNotNone(response['result'])
+
     def test_api_ballot_get_contest_by_id(self):
         response = api.ballot_get_contest_by_id(self.get_contest_id())
         print(response)
