@@ -113,7 +113,7 @@
 
                 <div class="row filters" id="data-heading">
                     <div class="col col-md-8">
-                        <h3>Votes</h3>
+                        <h3>Results</h3>
                     </div>
                     <div class="col col-md-2 filter search form-group">
                         <label for="precinct">Search:</label>
@@ -133,83 +133,22 @@
                                 <thead>
                                     <tr>
                                         <th class="candidate">Candidate</th>
-                                        <th class="voter-id">Voter ID</th>
-                                        <th class="date">Date Cast</th>
+                                        <th class="ballot-id">Ballot ID</th>
+                                        <th class="decision-id">Decision ID</th>
                                         <th class="details"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  
+                                    {% for o in form.all_opinions %}
                                     <tr>
-                                        <td class="candidate">Candidate A</td>
-                                        <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
-                                        <td class="date">11/5/2014</td>
+                                        <td class="candidate">{{o.get_contestant()}}</td>
+                                        <td class="ballot-id">{{o.decision.ballot_id}}</td>
+                                        <td class="decision-id">{{o.decision.id}}</td>
                                         <td class="details">
                                             <button class="btn btn-default">View Details</button></td>
                                     </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate A</td>
-                                        <td class="voter-id">41ccacf1378fb7e5fb32def603495549d2ae6319c25f0121b6c5c2774bb99fbf</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate C</td>
-                                        <td class="voter-id">116b7b1e8b5973a57965f60b498539261ddc906016ced28802280492637dffb6</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate A</td>
-                                        <td class="voter-id">ac66ae19be9d0a06f5402ea340c27f749868df78c26e0803e2e2b07c69d7cc3d</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate B</td>
-                                        <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate B</td>
-                                        <td class="voter-id">41ccacf1378fb7e5fb32def603495549d2ae6319c25f0121b6c5c2774bb99fbf</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate C</td>
-                                        <td class="voter-id">365f828f452713a0946b3b9bd16f20ef819c8c6a2d19198a4c2f5b7881cfd8d0</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Write In</td>
-                                        <td class="voter-id">3a35bbb625aef4d15fc1a4dfdc1d124f59179a7e4cc1afc552a9900f96ce44cc</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate A</td>
-                                        <td class="voter-id">41ccacf1378fb7e5fb32def603495549d2ae6319c25f0121b6c5c2774bb99fbf</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="candidate">Candidate B</td>
-                                        <td class="voter-id">116b7b1e8b5973a57965f60b498539261ddc906016ced28802280492637dffb6</td>
-                                        <td class="date">11/5/2014</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
-                                    </tr>
+                                    {% endfor %}
+
                                 </tbody>
                             </table>
                         </div>

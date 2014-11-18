@@ -212,3 +212,8 @@ footer
 {
     margin-top: 15px;
 }
+
+table#contest-data td, table#contest-data th
+{
+    vertical-align:middle;
+}
