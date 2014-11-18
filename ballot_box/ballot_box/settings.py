@@ -29,7 +29,7 @@ BALLOT_BOX_FILTERS = [
            [('', ''), ('8th', '8th'), ('9th', '9th')]),
     Filter('county', 'County',
            [('', ''), ('Inyo', 'Inyo'), ('Imperial', 'Imperial'), ('Kern', 'Kern')]),
-    Filter('precinct', 'precinct ',
+    Filter('precinct', 'Precinct ',
            [('', ''), ('101', '101'), ('102', '102'), ('103', '103')])]
 
 

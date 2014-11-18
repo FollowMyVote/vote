@@ -5,7 +5,7 @@ from ballot_box.modules import helpers
 
 class Opinion:
     """This class represents one opinion, the opinion number is usually 1"""
-    def __init__(self, contestant=None, opinion = 0, write_in=None, is_official=False, decision=None):
+    def __init__(self, contestant=None, opinion= 0, write_in=None, is_official=False, decision=None):
 
         self.contestant = contestant
         self.write_in = write_in
@@ -13,26 +13,90 @@ class Opinion:
         self.is_official = is_official
         self.decision = decision
 
+    def __repr__(self):
+        return self.to_json()
+
+    def to_dict(self):
+        """convert object to dictionary"""
+        d = self.__dict__.copy()
+        d['contestant'] = self.contestant.to_dict() if self.contestant else None
+        d['decision'] = self.decision.id if self.decision else None
+        return d
+
+    def to_json(self):
+        """convert object to json string"""
+        return json.dumps(self.to_dict())
+
     def get_contestant(self):
         if self.contestant:
             return self.contestant.name
         else:
             return self.write_in
 
+    @staticmethod
+    def get_opinion_summary(opinions, contestants):
+        """summarizes the opinions from the array of opinions"""
+        summary = []
+        total = float(len(opinions))
+        for c in contestants:
+            summary.append([c.name, sum([o.opinion for o in opinions if o.contestant and o.contestant.index == c.index])])
+
+        summary.append(['Other', sum([o.opinion for o in opinions if not o.contestant])])
+
+        for s in summary:
+            s[1] = round((s[1] / total) * 100, 1)
+
+        summary.sort(key=lambda x: x[0])
+        summary.sort(key=lambda x: x[1], reverse=True)
+
+
+        return summary
+
+    @staticmethod
+    def filter_opinion_summary(summaries, name):
+        """this function filters a list of summaries by name
+
+            if an object with name is not found then we will
+            return a summary with the name with a 0.0 value
+        """
+        summary = [name, 0]
+        if summaries:
+            temp_summaries = [s for s in summaries if s[0] == name]
+            if temp_summaries:
+                summary = temp_summaries[0]
+        return summary
+
+
+
 class Decision:
     """This class represents a decision by the voter for a contest it can contain multiple votes"""
     def __init__(self, decision_id=None, contest_id=None, ballot_id=None, write_ins=None, opinions=None,
-                 is_official=False):
+                    is_official=False):
         if not opinions:
             opinions = []
+
         if not write_ins:
             write_ins = []
+
         self.id = decision_id
         self.contest_id = contest_id
         self.ballot_id = ballot_id
         self.write_ins = write_ins
         self.opinions = opinions
         self.is_official = is_official
+
+    def __repr__(self):
+        return self.to_json()
+
+    def to_dict(self):
+        """convert object to dictionary"""
+        d = self.__dict__.copy()
+        d['opinions'] = [o.to_dict() for o in self.opinions]
+
+
+    def to_json(self):
+        """convert object to json string"""
+        return json.dumps(self.to_dict())
 
 
 class Filter:
@@ -72,12 +136,13 @@ class Filter:
 class Contestant:
     """defines a contestant"""
 
-    def __init__(self, d=None):
+    def __init__(self, d=None, index=0):
         """Initialize contestant"""
         if not d:
             d = {}
         self.name = d.get('name', '')
         self.description = d.get('description', '')
+        self.index = index
 
     def __repr__(self):
         return self.to_json()
@@ -105,11 +170,10 @@ class Contest:
         self.name = self.tag('name', '')
         self.description = d.get('description', '')
         self.decisions = []
-
-
+        
 
         if 'contestants' in d:
-            self.contestants = [Contestant(c) for c in d['contestants']]
+            self.contestants = [Contestant(c[1], c[0]) for c in enumerate(d['contestants'])]
 
     def __repr__(self):
         return self.to_json()

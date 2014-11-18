@@ -35,7 +35,7 @@
                        
                         <div class="col col-md-2 filter search form-group">
                             <label for="precinct">Search:</label>
-                            <input type="text" class="form-control" id="search" name="search" value="{{form.search}}" placeholder="Zip, Voter ID, Contest, Candidate ..." />
+                            <input type="text" class="form-control" id="search" name="search" value="{{form.search}}" placeholder="Zip, Voter ID, Contest ..." />
                         </div>
 
                         <div class="col col-md-2 filter submit form-group">
@@ -62,6 +62,7 @@
 
                     </div>
                     <div class="col col-sm-6 chart-area" id="chart-summary">
+
                         <table class="table">
                             <thead>
                                 <tr>
@@ -71,29 +72,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                             {% for o in form.all_opinion_summary %}
                                 <tr>
-                                    <td class="candidate">Candidate A</td>
-                                    <td class="approval">53%</td>
-                                    <td class="official selected">46%</td>
+                                    <td class="candidate">{{o[0]}}</td>
+                                    <td class="approval">{{o[1]}}%</td>
+                                    <td class="official selected">{{filter_opinion_summary(form.official_opinion_summary, o[0])[1]}}%</td>
                                 </tr>
-
-                                <tr>
-                                    <td class="candidate">Candidate B</td>
-                                    <td class="approval">37%</td>
-                                    <td class="official selected">51%</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="candidate">Candidate C</td>
-                                    <td class="approval">7%</td>
-                                    <td class="official selected">2%</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="candidate">Other</td>
-                                    <td class="approval">3%</td>
-                                    <td class="official selected">1%</td>
-                                </tr>
+                             {% endfor %}
 
                             </tbody>
                             <tfoot>
@@ -117,7 +102,7 @@
                     </div>
                     <div class="col col-md-2 filter search form-group">
                         <label for="precinct">Search:</label>
-                        <input type="text" class="form-control" id="Text1" name="search" placeholder="Zip, Voter ID, Contest, Candidate ..." />
+                        <input type="text" class="form-control" id="search_results" name="search_results" placeholder="Zip, Voter ID, Candidate ..." />
                     </div>
 
                     <div class="col col-md-2 filter submit form-group">
@@ -129,10 +114,11 @@
                 <div class="row" id="data">
                     <div class="col col-md-12">
                         <div class="table-responsive">
-                            <table class="table table-condensed table-hover" id="contest-data">
+                            <table class="table table-condensed table-hover" id="results">
                                 <thead>
                                     <tr>
                                         <th class="candidate">Candidate</th>
+                                        <th class="official-vote">Official Vote</th>
                                         <th class="ballot-id">Ballot ID</th>
                                         <th class="decision-id">Decision ID</th>
                                         <th class="details"></th>
@@ -142,6 +128,11 @@
                                     {% for o in form.all_opinions %}
                                     <tr>
                                         <td class="candidate">{{o.get_contestant()}}</td>
+                                        <td class="official-vote">
+                                            {%- if o.is_official -%}
+                                            <span class="glyphicon glyphicon-ok official"></span>
+                                            {%- endif -%}
+                                        </td>
                                         <td class="ballot-id">{{o.decision.ballot_id}}</td>
                                         <td class="decision-id">{{o.decision.id}}</td>
                                         <td class="details">
@@ -164,6 +155,14 @@
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript">
+
+    var summaryAllOpinions = {{form.all_opinion_summary|tojson}}
+    var summaryOfficialOpinions = {{form.official_opinion_summary|tojson}};
+
+</script>
+<script src="/static/scripts/jquery.dataTables.min.js"></script>
+<script src="/static/scripts/dataTables.bootstrap.js"></script>
 <script src="/static/scripts/highcharts/highcharts.js"></script>
 <script src="/static/scripts/highcharts/modules/exporting.js"></script>
 <script src="/static/scripts/ballot-box.js"></script>

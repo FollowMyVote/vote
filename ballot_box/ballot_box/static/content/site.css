@@ -198,13 +198,21 @@ footer
     text-align: center;
 }
 
+.contest-heading
+{
+    background-color: #ddd;
+}
+.contest-heading h2
+{
+    margin-top:15px;
+    margin-bottom:15px;
+}
 
 #data-heading
 {
     background-color: #ddd;
     padding: 15px 0px 0px;
-    border-top: solid 1px #aaa;
-    border-bottom: solid 1px #aaa;
+
     margin-bottom: 15px;
 }
 
@@ -213,7 +221,24 @@ footer
     margin-top: 15px;
 }
 
-table#contest-data td, table#contest-data th
+table#results td, table#results th
 {
     vertical-align:middle;
+}
+
+table#results .official-vote
+{
+  text-align:center;
+}
+
+table#results td.official-vote
+{
+    color: #02ae00;
+    font-size: 125%;
+
+}
+
+#results_wrapper
+{
+    
 }

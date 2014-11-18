@@ -12,3 +12,4 @@ obj
 ptvs_virtualenv_proxy.py
 
 .idea
+/TestResults

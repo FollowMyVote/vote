@@ -1,7 +1,30 @@
 import unittest
 
-from ballot_box.models import Contest, Contestant
+from ballot_box.models import Contest, Contestant, Decision, Opinion
 
+
+
+class TestDecision(unittest.TestCase):
+    def setUp(self):
+        """Call before every test case."""
+        self.object = Decision(1, 2, 3 ,None, None, True)
+        pass
+
+    def test_decision_to_json(self):
+        print(self.object.to_json())
+        self.object.to_json()
+
+class TestOpinion(unittest.TestCase):
+    def setUp(self):
+        """Call before every test case."""
+        d = {u'name': u'NEEL KASHKARI',
+                u'description': u'Party Preference: Republican\nBusinessman'}
+        c = Contestant(d)
+        self.object = Opinion(c, 1, is_official=True)
+
+    def test_opinion_to_json(self):
+        print(self.object.to_json())
+        self.object.to_json()
 
 class TestContestant(unittest.TestCase):
     def setUp(self):
@@ -54,6 +77,12 @@ class TestContest(unittest.TestCase):
         value = self.object.tag('region')
         print(value)
         self.assertEquals(value, 'STATE')
+
+    def test_contest_contestant(self):
+        print(self.object.contestants)
+        self.assertIsNotNone(self.object.contestants)
+        self.assertEquals(self.object.contestants[0].name, 'NEEL KASHKARI')
+        self.assertEquals(self.object.contestants[1].index, 1)
 
     def test_contest_to_json(self):
         print(self.object.to_json())

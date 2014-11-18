@@ -2,8 +2,7 @@
 $(function () {
 
     $('.contest').click(function () {
-        $('.contest').removeClass('selected');
-        $(this).addClass('selected');
+        
         $('#contest_id').val($(this).attr('id'));
         $('#contest_form').submit();
         
@@ -22,7 +21,8 @@ $(function () {
                 plotShadow: false
             },
             title: {
-                text: ''
+                text: 'Approval Vote',
+                align:'left'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -40,12 +40,7 @@ $(function () {
             series: [{
                 type: 'pie',
                 name: 'candidates',
-                data: [
-                    ['Candidate A', 53],
-                    ['Candidate B', 37],
-                    ['Candidate C', 7],
-                    ['Other', 3]
-                ]
+                data: summaryAllOpinions
             }]
         });
     }
@@ -58,7 +53,8 @@ $(function () {
                 plotShadow: false
             },
             title: {
-                text: ''
+                text: 'Official Vote',
+                align:'left'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -76,12 +72,7 @@ $(function () {
             series: [{
                 type: 'pie',
                 name: 'candidates',
-                data: [
-                    ['Candidate A', 46],
-                    ['Candidate B', 51],
-                    ['Candidate C', 2],
-                    ['Other', 1]
-                ]
+                data: summaryOfficialOpinions
             }]
         });
     }
@@ -106,6 +97,19 @@ $(function () {
 
         }
     });
+
+    
+    $('#results').dataTable({
+        "order": [3, 'asc'],
+        "pageLength": 25,
+        "dom": 'rtip'
+
+    });
+
+    $('#search_results').on('keyup', function () {
+        $('#results').DataTable().search($(this).val()).draw();
+    });
+    
 
 
 
