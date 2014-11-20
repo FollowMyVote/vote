@@ -77,6 +77,7 @@ class Identity:
     FIELD_ID_EXPIRATION_DATE = "ID Expiration Date"
     FIELD_REJECTION_REASON = "Rejection Reason"
     FIELD_LABEL_INVALID_IMAGE = "Image Invalid"
+    FIELD_BALLOT_ID = "Ballot ID"
 
     def __init__(self, d=None):
         if not d:
@@ -95,6 +96,7 @@ class Identity:
         self.middle_name = self.get_property(Identity.FIELD_MIDDLE_NAME)
         self.last_name = self.get_property(Identity.FIELD_LAST_NAME)
         self.date_of_birth = self.get_property(Identity.FIELD_DATE_OF_BIRTH)
+        self.ballot_id = self.get_property(Identity.FIELD_BALLOT_ID)
 
         self.address_1 = self.get_property(Identity.FIELD_ADDRESS_1)
         self.address_2 = self.get_property(Identity.FIELD_ADDRESS_2)

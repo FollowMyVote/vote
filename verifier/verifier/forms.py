@@ -56,6 +56,11 @@ class VerifyForm(Form):
         [validators.DataRequired()],
         choices=settings.STATES)
 
+    ballot_id = SelectField(
+        Identity.ballot_id,
+        [validators.DataRequired()],
+        choices=settings.STATES)
+
     zip = StringField(
         Identity.FIELD_ZIP,
         [validators.DataRequired(),

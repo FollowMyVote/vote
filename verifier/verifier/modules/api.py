@@ -172,3 +172,11 @@ def verifier_resolve_request(request_id, verification_response):
                          "params": [request_id, verification_response],
                          "jsonrpc": "2.0",
                          "id": 0, })
+
+
+def ballot_list_ballots(skip_until_id=0, limit=10):
+    """lists ballots"""
+    return make_request({"method": "ballot_list_ballots",
+                         "params": [skip_until_id, limit],
+                         "jsonrpc": "2.0",
+                         "id": 0, })

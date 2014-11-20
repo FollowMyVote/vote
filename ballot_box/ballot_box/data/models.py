@@ -49,7 +49,6 @@ class Opinion:
         summary.sort(key=lambda x: x[0])
         summary.sort(key=lambda x: x[1], reverse=True)
 
-
         return summary
 
     @staticmethod
@@ -70,8 +69,8 @@ class Opinion:
 
 class Decision:
     """This class represents a decision by the voter for a contest it can contain multiple votes"""
-    def __init__(self, decision_id=None, contest_id=None, ballot_id=None, write_ins=None, opinions=None,
-                    is_official=False):
+    def __init__(self, decision_id=None, contest=None, ballot_id=None, write_ins=None, opinions=None,
+                 authoritative=False, timestamp=None):
         if not opinions:
             opinions = []
 
@@ -79,11 +78,12 @@ class Decision:
             write_ins = []
 
         self.id = decision_id
-        self.contest_id = contest_id
+        self.contest = contest
         self.ballot_id = ballot_id
         self.write_ins = write_ins
         self.opinions = opinions
-        self.is_official = is_official
+        self.authoritative = authoritative
+        self.timestamp = timestamp
 
     def __repr__(self):
         return self.to_json()
@@ -92,7 +92,8 @@ class Decision:
         """convert object to dictionary"""
         d = self.__dict__.copy()
         d['opinions'] = [o.to_dict() for o in self.opinions]
-
+        d['contest'] = self.contest.to_dict() if self.contest else None
+        return d
 
     def to_json(self):
         """convert object to json string"""
@@ -168,9 +169,10 @@ class Contest:
         self.id = contest_id
         self.tags = d.get('tags', [])
         self.name = self.tag('name', '')
+        self.decision_type = self.tag('decision type', '')
         self.description = d.get('description', '')
         self.decisions = []
-        
+        self.contestants = []
 
         if 'contestants' in d:
             self.contestants = [Contestant(c[1], c[0]) for c in enumerate(d['contestants'])]

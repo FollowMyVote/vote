@@ -118,8 +118,7 @@
                                 <thead>
                                     <tr>
                                         <th class="candidate">Candidate</th>
-                                        <th class="official-vote">Official Vote</th>
-                                        <th class="ballot-id">Ballot ID</th>
+                                        <th class="voter-id">Voter ID</th>
                                         <th class="decision-id">Decision ID</th>
                                         <th class="details"></th>
                                     </tr>
@@ -128,12 +127,8 @@
                                     {% for o in form.all_opinions %}
                                     <tr>
                                         <td class="candidate">{{o.get_contestant()}}</td>
-                                        <td class="official-vote">
-                                            {%- if o.is_official -%}
-                                            <span class="glyphicon glyphicon-ok official"></span>
-                                            {%- endif -%}
-                                        </td>
-                                        <td class="ballot-id">{{o.decision.ballot_id}}</td>
+
+                                        <td class="voter-id">{{o.decision.ballot_id}}</td>
                                         <td class="decision-id">{{o.decision.id}}</td>
                                         <td class="details">
                                             <button class="btn btn-default">View Details</button></td>

@@ -1,6 +1,6 @@
 import unittest
 
-from ballot_box.models import Contest, Contestant, Decision, Opinion
+from ballot_box.data.models import Contest, Contestant, Decision, Opinion
 
 
 

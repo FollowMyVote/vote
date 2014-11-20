@@ -2,7 +2,7 @@ from ballot_box import app
 from datetime import datetime
 from ballot_box.modules import helpers
 from flask import Markup
-from ballot_box.models import Opinion
+from ballot_box.data.models import Opinion
 
 
 @app.context_processor

@@ -89,3 +89,11 @@ def ballot_get_decisions_by_contest(contest_id):
                          "params": [contest_id],
                          "jsonrpc": "2.0",
                          "id": 0, })
+
+def ballot_list_contests(skip_until_id=0, limit=10):
+    """Gets the next pending request and sets it to be in processing"""
+    return make_request({"method": "ballot_list_contests",
+                         "params": [skip_until_id, limit],
+                         "jsonrpc": "2.0",
+                         "id": 0, })
+
