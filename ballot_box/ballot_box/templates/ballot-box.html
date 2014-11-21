@@ -121,7 +121,8 @@
                                         <th class="candidate">Candidate</th>
                                         <th class="voter-id">Voter ID</th>
                                         <th class="decision-id">Decision ID</th>
-                                        <th class="details"></th>
+                                        <th class="timestamp">Date Submitted</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,9 +131,9 @@
                                         <td class="candidate">{{o.get_contestant()}}</td>
 
                                         <td class="voter-id">{{o.decision.ballot_id}}</td>
-                                        <td class="decision-id">{{o.decision.id}}</td>
-                                        <td class="details">
-                                            <button class="btn btn-default">View Details</button></td>
+                                        <td class="decision-id">{{o.decision.decision_id}}</td>
+                                        <td class="timestamp">{{o.decision.timestamp}}</td>
+
                                     </tr>
                                     {% endfor %}
 

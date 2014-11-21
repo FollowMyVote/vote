@@ -15,6 +15,9 @@ $(function () {
 
         // Build the chart
         $('#chart').highcharts({
+            credits:{
+                enabled:false
+            },
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -37,6 +40,12 @@ $(function () {
                     showInLegend: true
                 }
             },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
             series: [{
                 type: 'pie',
                 name: 'candidates',
@@ -47,6 +56,9 @@ $(function () {
 
     function plotOfficialChart() {
         $('#chart').highcharts({
+            credits:{
+                enabled:false
+            },
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -68,6 +80,12 @@ $(function () {
                     },
                     showInLegend: true
                 }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
             },
             series: [{
                 type: 'pie',
