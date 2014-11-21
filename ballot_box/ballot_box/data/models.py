@@ -35,21 +35,47 @@ class Opinion:
             return self.write_in
 
     @staticmethod
-    def get_opinion_summary(opinions, contestants):
+    def get_opinion_summary(opinions, contestants, decision_type, allow_write_in):
         """summarizes the opinions from the array of opinions"""
         summary = []
-        total = float(len(opinions))
-        for c in contestants:
-            summary.append([c.name,
-                            sum([o.opinion for o in opinions if o.contestant and o.contestant.index == c.index])])
+        total = 0
 
-        summary.append(['Other', sum([o.opinion for o in opinions if not o.contestant])])
+        if decision_type == Contest.DECISION_TYPE_VOTE_YES_NO:
+            # we need to make sure that all opinions count so if there is a decision wihtout an opinion
+            # we need to create a dummy no opinion since no opinion counts as a no
+            total = len(opinions)
+            yes_total = sum([o.opinion for o in opinions if o.opinion])
+            no_total = total - yes_total
+            summary.append({
+                'name': "YES",
+                'y': round((yes_total / float(total)) * 100, 1),
+                'total': yes_total})
+            summary.append({
+                'name': "NO",
+                'y': round((no_total / float(total)) * 100, 1),
+                'total' :no_total})
+        else:
+            for c in contestants:
+                contestant_total = sum([o.opinion for o in opinions if o.contestant and o.contestant.index == c.index])
+                total += contestant_total
+                summary.append({
+                    'name': c.name,
+                    'y': contestant_total,
+                    'total': contestant_total})
+
+            if allow_write_in:
+                other_total = sum([o.opinion for o in opinions if not o.contestant])
+                total += other_total
+                summary.append({
+                    'name': "Other",
+                    'y': other_total,
+                    'total': other_total})
 
         for s in summary:
-            s[1] = round((s[1] / total) * 100, 1)
+            s['y'] = round((s['total'] / float(total)) * 100, 1)
 
-        summary.sort(key=lambda x: x[0])
-        summary.sort(key=lambda x: x[1], reverse=True)
+        summary.sort(key=lambda x: x['name'])
+        summary.sort(key=lambda x: x['total'], reverse=True)
 
         return summary
 
@@ -60,9 +86,11 @@ class Opinion:
             if an object with name is not found then we will
             return a summary with the name with a 0.0 value
         """
-        summary = [name, 0]
+        summary = {'name': name,
+                   'y': 0,
+                   'total': 0}
         if summaries:
-            temp_summaries = [s for s in summaries if s[0] == name]
+            temp_summaries = [s for s in summaries if s['name'] == name]
             if temp_summaries:
                 summary = temp_summaries[0]
         return summary

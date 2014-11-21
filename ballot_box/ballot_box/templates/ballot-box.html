@@ -74,9 +74,9 @@
                             <tbody>
                              {% for o in form.all_opinion_summary %}
                                 <tr>
-                                    <td class="candidate">{{o[0]}}</td>
-                                    {#<td class="approval">{{o[1]}}%</td>#}
-                                    <td class="official selected">{{filter_opinion_summary(form.official_opinion_summary, o[0])[1]}}%</td>
+                                    <td class="candidate">{{o['name']}}</td>
+                                    {#<td class="approval">{{o['y']}}%</td>#}
+                                    <td class="official selected">{{filter_opinion_summary(form.official_opinion_summary, o['name'])['y']}}%</td>
                                 </tr>
                              {% endfor %}
 

@@ -24,6 +24,8 @@ class BallotBoxForm():
         self.contests = []
         self.all_opinions = []
         self.official_opinions = []
+        self.all_opinion_summary = []
+        self.official_opinion_summary = []
         self.contest = None
 
     def get_filtered_contests(self, contests):
@@ -40,6 +42,7 @@ class BallotBoxForm():
 
         if contests and self.search:
             contests = [c for c in contests if c.search(self.search)]
+            contests.sort(key=lambda x: x.name)
 
         return contests
 
@@ -57,19 +60,23 @@ class BallotBoxForm():
             self.contest = self.contests[0]
 
         if self.contest:
-
             def get_decisions():
                 return db.get_contest_decisions(self.contest)
 
-            self.contest.decisions =  helpers.get_cache(cache, 'all_decisions_{0}'.format(self.contest.id),
+
+            #eventually we got to only return only a page of opinions at a time,
+            #but we don't have a real database yet so we have to do our summaries manually in code
+
+            self.contest.decisions = helpers.get_cache(cache, 'all_decisions_{0}'.format(self.contest.id),
                                                         get_decisions, 3600)
             self.all_opinions = self.contest.get_all_opinions()
             self.official_opinions = self.contest.get_official_opinions()
-            self.all_opinion_summary = Opinion.get_opinion_summary(self.all_opinions, self.contest.contestants)
-            self.official_opinion_summary = Opinion.get_opinion_summary(self.official_opinions, self.contest.contestants)
-        else:
-            self.all_opinion_summary = []
-            self.official_opinion_summary = []
+            self.all_opinion_summary = Opinion.get_opinion_summary(
+                self.all_opinions, self.contest.contestants,self.contest.decision_type, self.contest.allow_write_ins)
+            self.official_opinion_summary = Opinion.get_opinion_summary(
+                self.official_opinions, self.contest.contestants,
+                self.contest.decision_type, self.contest.allow_write_ins)
+
 
 
             

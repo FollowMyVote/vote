@@ -24,7 +24,7 @@ WALLET_NAME = 'default'
 # we can list al tag values, but I don't think that is enough for this demo
 BALLOT_BOX_FILTERS = [
     Filter('region', 'Election',
-           [('', ''), ('2014 - Mid-term Election - CA', 'STATE')]),
+           [('2014 - Mid-term Election - CA', 'STATE')]),
     Filter('district', 'District',
            [('', ''), ('8th', '8th'), ('9th', '9th')]),
     Filter('county', 'County',
