@@ -60,15 +60,20 @@ def ballot_get_contests_by_tag(key, value):
 
 
 def ballot_get_all_contests():
-    """Threre isn't really a get all but we will pretend for now """
-    return make_request({"method": "ballot_get_contests_by_tag",
-                         "params": ['region', 'STATE'],
-                         "jsonrpc": "2.0",
-                         "id": 0, })
+    """gets all contests, this is temporary but it should work for now  """
+    all_contests = []
+    result = ballot_list_contests(limit=100000000).get('result')
+    if result:
+        contests =  batch('ballot_get_contest_by_id', [[r] for r in result]).get('result')
+        if contests:
+            all_contests = contests
+
+    return all_contests
+
 
 
 def ballot_get_contest_by_id(contest_id):
-    """Gets the next pending request and sets it to be in processing"""
+    """gets contest details by contest id"""
     return make_request({"method": "ballot_get_contest_by_id",
                          "params": [contest_id],
                          "jsonrpc": "2.0",
@@ -76,7 +81,7 @@ def ballot_get_contest_by_id(contest_id):
 
 
 def ballot_get_tag_values_by_key(key):
-    """Gets the next pending request and sets it to be in processing"""
+    """gets tag values by tag """
     return make_request({"method": "ballot_get_tag_values_by_key",
                          "params": [key],
                          "jsonrpc": "2.0",
@@ -84,16 +89,43 @@ def ballot_get_tag_values_by_key(key):
 
 
 def ballot_get_decisions_by_contest(contest_id):
-    """Gets the next pending request and sets it to be in processing"""
+    """gets decision ids by contest"""
     return make_request({"method": "ballot_get_decisions_by_contest",
                          "params": [contest_id],
                          "jsonrpc": "2.0",
                          "id": 0, })
 
 def ballot_list_contests(skip_until_id=0, limit=10):
-    """Gets the next pending request and sets it to be in processing"""
+    """gets contest ids """
     return make_request({"method": "ballot_list_contests",
                          "params": [skip_until_id, limit],
                          "jsonrpc": "2.0",
                          "id": 0, })
+
+def ballot_list_decisions(skip_until_id=0, limit=10):
+    """gets decision id;s"""
+    return make_request({"method": "ballot_list_decisions",
+                         "params": [skip_until_id, limit],
+                         "jsonrpc": "2.0",
+                         "id": 0, })
+
+def ballot_list_ballots(skip_until_id=0, limit=10):
+    """gets decision id;s"""
+    return make_request({"method": "ballot_list_ballots",
+                         "params": [skip_until_id, limit],
+                         "jsonrpc": "2.0",
+                         "id": 0, })
+
+
+def batch(method_name, parameters_list=None):
+    """gets decision id;s"""
+
+    if not parameters_list:
+        parameters_list = []
+
+    return make_request({"method": "batch",
+                         "params": [method_name, parameters_list],
+                         "jsonrpc": "2.0",
+                         "id": 0, })
+
 

@@ -24,7 +24,7 @@ def ballot_box():
     """Get Ballot Box Page"""
     log().debug("Render Page: ballot-box")
     form = BallotBoxForm(request, settings.BALLOT_BOX_FILTERS)
-    contests = get_cache(cache, 'all_contests', db.get_all_contests)
+    contests = get_cache(cache, 'all_contests', db.get_all_contests, 3600)
     form.contests = form.get_filtered_contests(contests)
     form.set_form_contest()
 

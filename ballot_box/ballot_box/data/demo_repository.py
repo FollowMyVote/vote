@@ -1,11 +1,12 @@
 from base_repository import BaseRepository
-from ballot_box.modules import  api
-from models import Contest, Decision, Opinion
+from ballot_box.modules import api
+from models import Contest, Decision
+from datetime import datetime
 import random
 import uuid
 
 
-class DemoRepository(BaseRepository ):
+class DemoRepository(BaseRepository):
     """This is the repository implementation for the demo it will be a mix of api and database calls """
 
     @staticmethod
@@ -17,7 +18,6 @@ class DemoRepository(BaseRepository ):
         else:
             return None
 
-
     @classmethod
     def get_all_contests(cls):
         """returns a list of contest model objects"""
@@ -27,28 +27,43 @@ class DemoRepository(BaseRepository ):
         else:
             return []
 
+    @classmethod
+    def get_contest_decisions(cls, contest):
+        return cls.get_test_contest_decisions(contest)
+
     @staticmethod
-    def get_contest_decisions(contest):
+    def get_test_contest_decisions(contest):
         random.seed()
         decisions = []
-        ballot_ids = [uuid.uuid4() for x in range(4)]
-        for i in range(1000):
-            decision = Decision(str(uuid.uuid4()), contest.id, ballot_ids[random.randint(1, 10000) % 4])
+        ballot_ids = [uuid.uuid4() for x in range(7)]
+        for i in range(100):
 
-            if (random.randint(1, 10000) % 10) == 0:
-                # # it non-official
-                decision.authoritative = False
-            else:
-                decision.authoritative = True
+            voter_opinions = {}
+            write_in_names = []
 
-            if (random.randint(1, 10000) % 6) == 0:
-                # make it a write in
-                write_in = "Write In {0}".format(random.randint(1, 4))
-                decision.opinions.append(Opinion(opinion=1, write_in=write_in,
-                                                 is_official=decision.authoritative, decision=decision))
+            if contest.decision_type == contest.DECISION_TYPE_VOTE_YES_NO:
+                voter_opinions[0] = random.randint(0, 1)
             else:
-                candidate = contest.contestants[random.randint(0, len(contest.contestants) - 1)]
-                decision.opinions.append(Opinion(candidate, 1, is_official=decision.authoritative, decision=decision))
+                if contest.allow_write_ins and (random.randint(1, 10000) % 25) == 0:
+                    # # enter a write in
+                    write_in_names.append("Write In {0}".format(random.randint(1, 4)))
+                    voter_opinions[len(contest.contestants)] = 1
+                else:
+                    # #pick a candidate ar random
+                    voter_opinions[random.randint(0, len(contest.contestants) - 1)] = 1
+
+            decision = Decision(
+                contest,
+                {'decision_id': str(uuid.uuid4()),
+                 'contest_id': contest.id,
+                 'ballot_id': ballot_ids[random.randint(1, 10000) % 7],
+                 'timestamp': datetime.now(),
+                 'contest': contest,
+                 'authoritative': True,
+                 'voter_id': str(uuid.uuid4()),
+                 'voter_opinions': voter_opinions,
+                 'write_in_names': write_in_names})
+
             decisions.append(decision)
 
         return decisions

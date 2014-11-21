@@ -37,10 +37,6 @@ def log():
     return logging.getLogger("app_log")
 
 
-def remove_if_exists(d, key):
-    if key in d:
-        del d[key]
-
 
 def get_first(l, default=None):
     """gets the first value in a list otherwise returns the default"""

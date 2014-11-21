@@ -131,6 +131,7 @@ footer
     background-color: #34343e;
 }
 
+
 .contests .contest.selected .name
 {
     color: #6DC3FF;
@@ -186,12 +187,12 @@ footer
 }
 
 
-
+/*
 #chart-summary .selected
 {
     background-color: #C3E2FF;
     border-color: #fff;
-}
+}*/
 
 #chart-summary tfoot td
 {

@@ -1,11 +1,12 @@
 import json
-
+from itertools import ifilter
 from ballot_box.modules import helpers
 
 
 class Opinion:
     """This class represents one opinion, the opinion number is usually 1"""
-    def __init__(self, contestant=None, opinion= 0, write_in=None, is_official=False, decision=None):
+
+    def __init__(self, contestant=None, opinion=0, write_in=None, is_official=False, decision=None):
 
         self.contestant = contestant
         self.write_in = write_in
@@ -39,7 +40,8 @@ class Opinion:
         summary = []
         total = float(len(opinions))
         for c in contestants:
-            summary.append([c.name, sum([o.opinion for o in opinions if o.contestant and o.contestant.index == c.index])])
+            summary.append([c.name,
+                            sum([o.opinion for o in opinions if o.contestant and o.contestant.index == c.index])])
 
         summary.append(['Other', sum([o.opinion for o in opinions if not o.contestant])])
 
@@ -66,24 +68,60 @@ class Opinion:
         return summary
 
 
-
 class Decision:
-    """This class represents a decision by the voter for a contest it can contain multiple votes"""
-    def __init__(self, decision_id=None, contest=None, ballot_id=None, write_ins=None, opinions=None,
-                 authoritative=False, timestamp=None):
-        if not opinions:
-            opinions = []
+    """This class represents a decision by the voter for a contest it can contain multiple opinions"""
 
-        if not write_ins:
-            write_ins = []
+    def __init__(self, contest, d=None):
 
-        self.id = decision_id
+        if not contest:
+            raise ValueError('contest must be set')
+
+        if not d:
+            d = {}
+
+        self.id = d.get('decision_id')
+        self.contest_id = d.get('contest_id')
         self.contest = contest
-        self.ballot_id = ballot_id
-        self.write_ins = write_ins
-        self.opinions = opinions
-        self.authoritative = authoritative
-        self.timestamp = timestamp
+        self.ballot_id = d.get('ballot_id')
+        self.write_in_names = d.get('write_in_names')
+        self.authoritative = d.get('authoritative')
+        self.timestamp = d.get('timestamp')
+        self.decision_id = d.get('decision_id')
+        self.voter_id = d.get('voter_id')
+        self.voter_opinions = self.get_opinions(d.get('voter_opinions'))
+
+    def get_opinions(self, opinions):
+        """get a set of opinions given the dictionary of opinions and the contestants, and the write ins """
+        voter_opinions = []
+        if not opinions:
+            return []
+
+        contestants = self.contest.contestants
+        write_in_names = self.write_in_names
+
+        for key in opinions.keys():
+            #the key values indicates the index of the contestant
+            #if the index falls out of the range of the contestants
+            #then it is a write in contestant
+
+            if contestants and key < len(contestants):
+                ##get the contestant with the matching index
+                contestant = next(ifilter(lambda x: x.index == key, contestants), None)
+                voter_opinions.append(Opinion(contestant, opinions[key], is_official=self.authoritative,
+                                              decision=self))
+            elif write_in_names and (key - len(contestants)) < len(write_in_names):
+                #it is a write-in
+                #
+                # from the api documentation:
+                #    The contestant ID is the index of the contestant in the contest structure . Write-in
+                #     contestant IDs are the sum of the size of the list of official contestants and the
+                #    index of the desired write-in contestant in the vector write_in_names, thus if there
+                #    are 4 official contestants, the first contestant in write_in_names would be ID 4;
+                #     the next would be ID 5, etc.
+                write_in = write_in_names[key - len(contestants)]
+                voter_opinions.append(Opinion(opinion=opinions[key], write_in=write_in,
+                                              is_official=self.authoritative, decision=self))
+        return voter_opinions
 
     def __repr__(self):
         return self.to_json()
@@ -91,8 +129,9 @@ class Decision:
     def to_dict(self):
         """convert object to dictionary"""
         d = self.__dict__.copy()
-        d['opinions'] = [o.to_dict() for o in self.opinions]
-        d['contest'] = self.contest.to_dict() if self.contest else None
+        d.pop('contest', None)
+        d['voter_opinions'] = [o.to_dict() for o in self.voter_opinions]
+
         return d
 
     def to_json(self):
@@ -160,6 +199,10 @@ class Contestant:
 class Contest:
     """Defines a contest"""
 
+    DECISION_TYPE_VOTE_ONE = 'vote one'
+    DECISION_TYPE_VOTE_YES_NO = 'vote yes/no'
+    DECISION_TYPE_VOTE_MANY = 'vote many'
+
     def __init__(self, contest_id='', d=None):
         """Initialize contest"""
         if not d:
@@ -171,6 +214,7 @@ class Contest:
         self.name = self.tag('name', '')
         self.decision_type = self.tag('decision type', '')
         self.description = d.get('description', '')
+        self.allow_write_ins = bool(self.tag('write-in slots', False))
         self.decisions = []
         self.contestants = []
 
@@ -184,7 +228,6 @@ class Contest:
         """convert object to dictionary"""
         return {
             'tags': self.tags,
-            'name': self.name,
             'description': self.description,
             'contestants': [c.to_dict() for c in self.contestants]}
 
@@ -210,7 +253,7 @@ class Contest:
 
     def get_all_opinions(self):
         """gets all opinions for the contest"""
-        return [o for d in self.decisions for o in d.opinions]
+        return [o for d in self.decisions for o in d.voter_opinions]
 
     def search(self, search_text):
         """Searches all the test in the contest for a partial match of the search text"""

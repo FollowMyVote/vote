@@ -61,7 +61,8 @@ class BallotBoxForm():
             def get_decisions():
                 return db.get_contest_decisions(self.contest)
 
-            self.contest.decisions =  helpers.get_cache(cache, 'all_decisions_{0}'.format(self.contest.id), get_decisions)
+            self.contest.decisions =  helpers.get_cache(cache, 'all_decisions_{0}'.format(self.contest.id),
+                                                        get_decisions, 3600)
             self.all_opinions = self.contest.get_all_opinions()
             self.official_opinions = self.contest.get_official_opinions()
             self.all_opinion_summary = Opinion.get_opinion_summary(self.all_opinions, self.contest.contestants)
