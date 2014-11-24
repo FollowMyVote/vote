@@ -14,6 +14,9 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))  # refers to application_t
 APP_LOGS = os.path.join(APP_ROOT, 'logs')
 APP_CACHE = os.path.join(APP_ROOT, 'cache')
 APP_STATIC = os.path.join(APP_ROOT, 'static')
+APP_DATA = os.path.join(APP_ROOT, 'data')
+DB_CONNECTION_STRING = 'sqlite:///{0}'.format(os.path.join(APP_DATA, 'voter.db'))
+DB_TEST_CONNECTION_STRING = 'sqlite:///{0}'.format(os.path.join(APP_DATA, 'sample_voter.db'))
 
 WALLET_PASSWORD = 'helloworld'
 WALLET_NAME = 'default'

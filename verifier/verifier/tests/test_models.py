@@ -1,6 +1,6 @@
 import unittest
 
-from verifier.models import Identity, IdentityProperty, VerificationResponse
+from verifier.data.models import Identity, IdentityProperty, VerificationResponse
 
 
 class TestIdentityProperty(unittest.TestCase):

@@ -46,12 +46,6 @@ def get_first(l, default=None):
     return default
 
 
-def iif(expression, true_value, false_value):
-    """inline if function"""
-    if expression:
-        return true_value
-    else:
-        return false_value
 
 
 def alert(message, alert_type="info"):

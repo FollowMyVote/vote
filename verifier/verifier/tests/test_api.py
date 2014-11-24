@@ -1,7 +1,8 @@
 import unittest
-from verifier.modules import api
-from verifier.models import Identity, VerificationResponse
 from datetime import date, datetime
+
+from verifier.modules import api
+from verifier.data.models import Identity, VerificationResponse
 from verifier import settings
 
 

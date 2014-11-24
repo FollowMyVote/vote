@@ -16,11 +16,6 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(helpers.date_str_to_iso('1/28/2014'),
                          '2014-01-28T00:00:00')
 
-    def test_helpers_iif(self):
-        self.assertEqual(helpers.iif(True, 'true', 'false'), 'true')
-        self.assertEqual(helpers.iif(False, 'true', 'false'), 'false')
-        self.assertEqual(helpers.iif(None, 'true', 'false'), 'false')
-
     def test_helpers_get_cache(self):
         cache = SimpleCache()
         key = 'test'

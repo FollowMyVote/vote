@@ -5,10 +5,14 @@ The flask application package.
 from flask import Flask
 from werkzeug.contrib.cache import FileSystemCache
 from verifier import settings
+from verifier.data.demo_repository import DemoRepository
 
 app = Flask(__name__)
 app.config.from_pyfile("settings.py")
 cache = FileSystemCache(settings.APP_CACHE)
+# you should be able to use any repository that derives from  ballot_box.data.base_repository.BaseRepository
+db = DemoRepository(settings.DB_CONNECTION_STRING)
+
 
 from modules.helpers import setup_logging
 setup_logging(settings.APP_LOGS, 
@@ -19,6 +23,12 @@ setup_logging(settings.APP_LOGS,
 import modules.context_processor
 import views
 from modules import helpers
+
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.end_session()
 
 
 
