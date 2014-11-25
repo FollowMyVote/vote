@@ -6,9 +6,14 @@ from werkzeug.contrib.cache import SimpleCache
 
 class TestHelpers(unittest.TestCase):
     def test_get_first(self):
-        self.assertEqual(helpers.get_first([1, 2]), 1)
-        self.assertEqual(helpers.get_first([], 1), 1)
-        self.assertEqual(helpers.get_first(None, 1), 1)
+        self.assertEqual(helpers.get_first([1,2]), 1)
+        self.assertEqual(helpers.get_first([], default=1), 1)
+        self.assertEqual(helpers.get_first(None, default=1), 1)
+        self.assertEqual(helpers.get_first([1, 2, 3, 4, 5, 6], lambda x: x == 4), 4)
+        self.assertEqual(helpers.get_first([1, 2, 3],lambda x: x == 6, 2), 2)
+        self.assertEqual(helpers.get_first([], lambda x: x == 6, 2), 2)
+
+
 
     def test_helpers_date_str_to_iso(self):
         self.assertEqual(helpers.date_str_to_iso('12/1/2014'),

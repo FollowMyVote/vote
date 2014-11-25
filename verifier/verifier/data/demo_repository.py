@@ -1,9 +1,11 @@
 from base_repository import BaseRepository
-from models import Identity, Ballot
-import sqlalchemy
+from models import Identity, Ballot, Voter
+from verifier import log
 from verifier.modules import api
-from sqlalchemy import create_engine, sql
-from sqlalchemy.orm import scoped_session, sessionmaker, query
+from sqlalchemy import create_engine
+from sqlalchemy.sql.expression import and_, or_
+from sqlalchemy.dialects import sqlite
+from sqlalchemy.orm import scoped_session, sessionmaker, Query
 
 
 class DemoRepository(BaseRepository):
@@ -15,15 +17,12 @@ class DemoRepository(BaseRepository):
         self.db_session = scoped_session(sessionmaker(autocommit=False,
                                                      autoflush=False,
                                                       bind=self.engine))
-
-
         self.query = self.db_session.query
-
-
 
     def end_session(self):
         """provide any cleanup that needs to happen at the end of a database session """
         self.db_session.remove()
+
 
     @staticmethod
     def get_next_identity():
@@ -51,8 +50,46 @@ class DemoRepository(BaseRepository):
 
     def get_ballots(self):
         """gets all ballots"""
+        return self.query(Ballot).order_by(Ballot.ballot_name).all()
 
-        return self.db_session.query(Ballot).order_by(Ballot.ballot_name).all()
+
+    def log_query(self, q):
+        """
+        Log Query
+        :param q: Query
+        """
+        query_str =str(q.statement.compile(dialect=sqlite.dialect()))
+
+        log.debug(query_str)
+
+
+    def search_voters(self, search_terms, limit=5):
+        """searches for voters for voters matching the search terms provided """
+        q = self.query(Voter)
+
+        for t in search_terms:
+            term = t + '%'
+            term_full = '%{0}%'.format(t)
+
+            q = q.filter(
+                and_(
+                    or_(Voter.first_name.like(term),
+                    Voter.last_name.like(term),
+                    Voter.middle_name.like(term),
+                    Voter.suffix.like(term),
+                    Voter.address_1.like(term_full),
+                    Voter.birth_date.like(term),
+                    Voter.city.like(term),
+                    Voter.zip.like(term),
+                    Voter.state.like(term))))
+
+
+        q = q.order_by(Voter.last_name, Voter.first_name, Voter.middle_name)
+        if limit:
+            q = q.limit(limit)
+
+        self.log_query(q)
+        return q.all()
 
 
 

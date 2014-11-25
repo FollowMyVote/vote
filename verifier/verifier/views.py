@@ -2,22 +2,19 @@
 Routes and views for the flask application.
 """
 
-from flask import render_template, request, redirect
-
-from verifier import app, cache, db
-from modules.helpers import log, alert, date_str_to_iso, get_cache
-from modules import api
+from flask import render_template, request, redirect, url_for, jsonify
+from verifier import app, cache, db, log
+from modules.helpers import  alert, date_str_to_iso, get_cache
 from forms.verify_form import VerifyForm
 from data.models import Identity, VerificationResponse
 
 
 
 @app.route('/')
-@app.route('/home')
 def home():
     """Get Home Page"""
-    log().debug("Render Page: Home")
-    return redirect('/verify')
+    log.debug("Render Page: Home")
+    return redirect(url_for('verify'))
     return render_template('index.html',
                            title='Home Page', )
 
@@ -25,9 +22,23 @@ def home():
 @app.route('/generate')
 def generate():
     """Generate Some Test Requests"""
-    log().debug("Generate Some Test Requests")
+    log.debug("Generate Some Test Requests")
     db.generate_test_requests()
-    return redirect('/verify')
+    return redirect(url_for('verify'))
+
+
+
+@app.route('/search-voters')
+def search_voters():
+    """search for voters and return the results"""
+
+    query = request.args.get('query')
+    search_terms = query.split()
+    results = db.search_voters(search_terms)
+    if results:
+        return jsonify(results=[r.column_items for r in results])
+    else:
+        return jsonify(results=[])
 
 
 
@@ -40,7 +51,8 @@ def verify():
     save the base 64 images to a temp file
         
     """
-    log().debug("Render Page: Verify")
+    log.debug("Render Page: Verify")
+    log.debug("Render Page: Verify")
 
     form = VerifyForm(request.form)
     message = ""
@@ -51,7 +63,7 @@ def verify():
     elif request.method == 'POST':
         verify_request, message = form.post()
         if not message:
-            return redirect('/verify')
+            return redirect(url_for('verify'))
 
     return render_template('verify.html',
                                itle='Verify Identity',

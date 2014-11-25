@@ -64,7 +64,7 @@ def ballot_get_all_contests():
     all_contests = []
     result = ballot_list_contests(limit=100000000).get('result')
     if result:
-        contests =  batch('ballot_get_contest_by_id', [[r] for r in result]).get('result')
+        contests = batch('ballot_get_contest_by_id', [[r] for r in result]).get('result')
         if contests:
             all_contests = contests
 

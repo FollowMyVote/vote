@@ -3,6 +3,7 @@ import logging.handlers
 import os
 from flask import Markup
 from datetime import datetime
+from itertools import ifilter
 
 
 def setup_logging(log_path='',
@@ -11,7 +12,7 @@ def setup_logging(log_path='',
                   console_log_level=logging.ERROR):
     """sets up logging for the app using config values from settings.py"""
 
-    logger = log()
+    logger = logging.getLogger("app_log")
     logger.setLevel(logging.DEBUG)
 
     fh = logging.handlers.TimedRotatingFileHandler(os.path.join(log_path, log_file_name), "D", 1, 60)
@@ -30,22 +31,24 @@ def setup_logging(log_path='',
     logger.addHandler(ch)
     logger.addHandler(fh)
     logger.debug("setup_logging complete")
+    return logger
 
+def get_first(l, predicate=None, default=None):
+    """
+    gets first item in list optionally matching precdicate
 
-def log():
-    """returns an instance of the logger for this app"""
-    return logging.getLogger("app_log")
-
-
-
-def get_first(l, default=None):
-    """gets the first value in a list otherwise returns the default"""
+    :param l: list
+    :param default: value to return if not found
+    :param predicate: function to match value if you want to fitler
+    :return: first item in the list optionaly matching the predicate
+    """
     if l:
-        for item in l:
-            return item
+        if predicate:
+            return next(ifilter(predicate, l), default)
+        else:
+            return l[0]
+
     return default
-
-
 
 
 def alert(message, alert_type="info"):

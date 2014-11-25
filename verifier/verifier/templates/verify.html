@@ -30,6 +30,20 @@
                     </div>
                 </div>
 
+                <div class="panel panel-default form-group" id="voter-search">
+                    <div class="image-header panel-heading">
+                        <label class="control-label">Search Voters:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                            <input type="text" class="form-control" autocomplete="off" aria-autocomplete="none" id="voter_search"/>
+                        </div>
+                    </div>
+                    <div class="panel-body" id="search-results">                        
+                        <div class="row "><div class="col col-sm-12">&nbsp;</div></div>
+
+                    </div>
+                </div>
+                {# This is commented out because the registration card is not longer needed
                 <div class="image panel panel-default form-group" id="voter-reg">
                     <div class="image-header panel-heading">
                         <label class="control-label">Registration Card</label>
@@ -45,7 +59,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>#}
 
 
             </div>
@@ -104,16 +118,17 @@
                         <div class="panel-body">
 
                             <div class="row">
-                                <div class="col col-md-4">{{ render_field(form.first_name, class="form-control input-sm first-name required", maxlength="50") }}</div>
-                                <div class="col col-md-4">{{ render_field(form.middle_name, class="form-control input-sm middle-name", maxlength="50") }}</div>
-                                <div class="col col-md-4">{{ render_field(form.last_name, class="form-control input-sm last-name required", maxlength="50") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.first_name, class="form-control input-sm first-name required", maxlength="50") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.middle_name, class="form-control input-sm middle-name", maxlength="50") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.last_name, class="form-control input-sm last-name required", maxlength="50") }}</div>
+                                <div class="col col-md-1">{{ render_field(form.suffix, class="form-control input-sm suffix", maxlength="50") }}</div>
 
                             </div>
 
                             <div class="row">
-                                <div class="col col-md-4">{{ render_field(form.id_number, class="form-control input-sm id-number required", maxlength="50") }}</div>
-                                <div class="col col-md-4">{{ render_field(form.id_expiration_date, class="form-control input-sm date id-expiration-date required", maxlength="10") }}</div>
-                                <div class="col col-md-4">{{ render_field(form.date_of_birth, class="form-control input-sm date date-of-birth required", maxlength="10") }}</div>
+                                <div class="col col-md-6">{{ render_field(form.id_number, class="form-control input-sm id-number required", maxlength="50") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.id_expiration_date, class="form-control input-sm date id-expiration-date required", maxlength="10") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.date_of_birth, class="form-control input-sm date date-of-birth required", maxlength="10") }}</div>
                             </div>
 
                             <div class="row">
@@ -123,9 +138,10 @@
 
 
                             <div class="row">
-                                <div class="col col-md-4">{{ render_field(form.city, class="form-control input-sm city required", maxlength="50") }}</div>
-                                <div class="col col-md-4">{{ render_field(form.state, class="form-control input-sm state required") }}</div>
-                                <div class="col col-md-4">{{ render_field(form.zip, class="form-control input-sm zip required", maxlength="10") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.city, class="form-control input-sm city required", maxlength="50") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.state, class="form-control input-sm state required") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.zip, class="form-control input-sm zip required", maxlength="10") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.ballot_id, class="form-control input-sm ballot-id required") }}</div>
                             </div>
 
                             <div class="row">
@@ -174,7 +190,7 @@
 
     {% block scripts %}
 
-<script src="/static/scripts/jquery.zoom.min.js"></script>
-<script src="/static/scripts/verify.js"></script>
+<script src="{{url_for('static', filename='scripts/jquery.zoom.min.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/verify.js')}}"></script>
 
     {% endblock %}

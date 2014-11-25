@@ -104,8 +104,14 @@ class TestIdentity(unittest.TestCase):
                 },
                 {
                     "salt": "5432",
-                    "name": "9-Digit ZIP",
+                    "name": "ZIP",
                     "value": None,
+                    "verifier_signatures": []
+                },
+                {
+                    "salt": "5432",
+                    "name": "Ballot ID",
+                    "value": "123",
                     "verifier_signatures": []
                 }],
             "owner_photo": "owner_photo",
@@ -175,7 +181,7 @@ class TestIdentity(unittest.TestCase):
             },
             {
                 "salt": "5432",
-                "name": "9-Digit ZIP",
+                "name": "ZIP",
                 "value": None,
                 "verifier_signatures": []
             }]
@@ -198,12 +204,14 @@ class TestIdentity(unittest.TestCase):
 
     def test_identity_property(self):
         self.assertEquals(self.identity.id_back_photo, 'id back')
+        self.assertEquals(self.identity.ballot_id.value, '123')
+        self.assertEquals(self.identity.first_name.value, 'FirstName')
 
     def test_identity_to_dict(self):
         d = self.identity.to_dict(True)
         self.assertIsNotNone(d)
         self.assertEquals(d['id_front_photo'], 'id front')
-        self.assertEquals(len(d['properties']), 1)
+        self.assertEquals(len(d['properties']), 2)
 
     def test_identity_to_json(self):
         self.identity.to_json()

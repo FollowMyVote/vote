@@ -116,11 +116,12 @@ class Identity:
     FIELD_FIRST_NAME = 'First Name'
     FIELD_LAST_NAME = 'Last Name'
     FIELD_MIDDLE_NAME = 'Middle Name'
+    FIELD_SUFFIX = 'Name Suffix'
     FIELD_DATE_OF_BIRTH = 'Date of Birth'
     FIELD_ADDRESS_1 = 'Address Line 1'
     FIELD_ADDRESS_2 = 'Address Line 2'
     FIELD_CITY = 'City'
-    FIELD_ZIP = '9-Digit ZIP'
+    FIELD_ZIP = 'ZIP'
     FIELD_STATE = 'State'
     FIELD_ID_NUMBER = 'ID Number'
     FIELD_ID_EXPIRATION_DATE = "ID Expiration Date"
@@ -144,6 +145,7 @@ class Identity:
         self.first_name = self.get_property(Identity.FIELD_FIRST_NAME)
         self.middle_name = self.get_property(Identity.FIELD_MIDDLE_NAME)
         self.last_name = self.get_property(Identity.FIELD_LAST_NAME)
+        self.suffix = self.get_property(Identity.FIELD_SUFFIX)
         self.date_of_birth = self.get_property(Identity.FIELD_DATE_OF_BIRTH)
         self.ballot_id = self.get_property(Identity.FIELD_BALLOT_ID)
 
@@ -172,7 +174,7 @@ class Identity:
         return "verify_request_{0}".format(request_id)
 
     def get_property(self, name):
-        return helpers.get_first([x for x in self.properties if x.name == name])
+        return helpers.get_first(self.properties, lambda x: x.name == name)
 
     def to_dict(self, include_photos=False):
 

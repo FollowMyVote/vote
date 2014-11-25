@@ -9,6 +9,11 @@ class BaseRepository(object):
     """
     __metaclass__ = abc.ABCMeta
 
+    @abc.abstractmethod
+    def end_session(self):
+        """provide any cleanup that needs to happen at the end of a database session """
+        return
+
     @staticmethod
     @abc.abstractmethod
     def get_next_identity():
@@ -36,7 +41,13 @@ class BaseRepository(object):
         """generates a number of test requests"""
         return
 
+
     @abc.abstractmethod
-    def end_session(self):
-        """provide any cleanup that needs to happen at the end of a database session """
+    def get_ballots(self):
+        """gets all ballots"""
+        return
+
+    @abc.abstractmethod
+    def search_voters(self, search_terms):
+        """searches for voters for voters matching the search terms provided """
         return

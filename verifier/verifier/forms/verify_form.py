@@ -19,6 +19,11 @@ class VerifyForm(Form):
         [validators.DataRequired(),
          validators.Length(max=50)])
 
+    suffix = StringField(
+        'Suffix',
+        [validators.Length(max=50)])
+
+
     id_number = StringField(
         Identity.FIELD_ID_NUMBER,
         [validators.DataRequired(),
@@ -60,14 +65,14 @@ class VerifyForm(Form):
     ballot_id = SelectField(
         Identity.FIELD_BALLOT_ID,
         [validators.DataRequired()],
-        choices=settings.STATES)
+        choices=[(b.ballot_id, b.ballot_name) for b in db.get_ballots()])
 
     zip = StringField(
         Identity.FIELD_ZIP,
         [validators.DataRequired(),
-         validators.Regexp(r'\d{5}-\d{4}',
-                           message="This field must be a 9 digit zip code. "
-                                   "Format: 99999-9999")])
+         validators.Regexp(r'^(?:\d{5}-\d{4}|\d{5})',
+                           message="This field must be a 5 or 9 digit zip code. "
+                                   "Format: 99999 or 99999-9999")])
 
     rejection_reason = SelectField(
         Identity.FIELD_REJECTION_REASON,
@@ -83,10 +88,12 @@ class VerifyForm(Form):
 
     def get(self):
         """do get processing"""
-        verify_request = db.get_next_identity()
-
+        #verify_request = db.get_next_identity()
         # this line is for testing over and over with the same record you just have to put in the id you want
-        # verify_request = Identity(api.verifier_peek_request(1415817839523482L)['result'])
+        verify_request = db.get_identity(1416931773282193L)
+
+
+
         cache.set(Identity.get_key(verify_request.id), verify_request, 15 * 60)
         self.id.data = verify_request.id
         return verify_request
@@ -99,6 +106,7 @@ class VerifyForm(Form):
 
         verify_request.first_name.value = self.first_name.data
         verify_request.middle_name.value = self.middle_name.data
+        verify_request.suffix.value = self.suffix.data
         verify_request.last_name.value = self.last_name.data
         verify_request.id_number.value = self.id_number.data
 
@@ -110,6 +118,7 @@ class VerifyForm(Form):
 
         verify_request.city.value = self.city.data
         verify_request.state.value = self.state.data
+        verify_request.ballot_id.value = self.ballot_id.data
         verify_request.zip.value = self.zip.data
         return verify_request
 
