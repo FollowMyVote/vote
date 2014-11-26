@@ -32,14 +32,14 @@ class VerifyForm(Form):
     id_expiration_date = StringField(
         Identity.FIELD_ID_EXPIRATION_DATE,
         [validators.DataRequired(),
-         validators.Regexp(r'\d{1,2}/\d{1,2}/\d{4}',
+         validators.Regexp(r'^(?:[1-9]|1[012])/([1-9]|[12][0-9]|3[01])/(19|20)\d\d$',
                            message="This field is not a valid date. "
                                    "Format: MM/DD/YYYY")])
 
-    date_of_birth = StringField(
+    birth_date = StringField(
         Identity.FIELD_DATE_OF_BIRTH,
         [validators.DataRequired(),
-         validators.Regexp(r'\d{1,2}/\d{1,2}/\d{4}',
+         validators.Regexp(r'^(?:[1-9]|1[012])/([1-9]|[12][0-9]|3[01])/(19|20)\d\d$',
                            message="This field is not a valid date. "
                                    "Format: MM/DD/YYYY")])
 
@@ -57,15 +57,9 @@ class VerifyForm(Form):
         [validators.DataRequired(),
          validators.Length(max=50)])
 
-    state = SelectField(
-        Identity.FIELD_STATE,
-        [validators.DataRequired()],
-        choices=settings.STATES)
+    state = HiddenField()
 
-    ballot_id = SelectField(
-        Identity.FIELD_BALLOT_ID,
-        [validators.DataRequired()],
-        choices=[(b.ballot_id, b.ballot_name) for b in db.get_ballots()])
+    ballot_id = HiddenField()
 
     zip = StringField(
         Identity.FIELD_ZIP,
@@ -83,14 +77,25 @@ class VerifyForm(Form):
     id_front_photo_invalid = BooleanField(Identity.FIELD_LABEL_INVALID_IMAGE)
     id_back_photo_invalid = BooleanField(Identity.FIELD_LABEL_INVALID_IMAGE)
 
-    id = HiddenField('id')
-    result = HiddenField('result')
+    id = HiddenField()
+    result = HiddenField()
+
+
+    state_select = SelectField(Identity.FIELD_STATE,
+                               [validators.optional()],
+                               choices=settings.STATES)
+    _ballots = [('', 'Select Ballot...')] + [(b.ballot_id, b.ballot_name) for b in db.get_ballots()]
+    ballot_id_select = SelectField( 'Ballot',
+                                    [validators.optional()],
+                                    choices=_ballots)
+
+
 
     def get(self):
         """do get processing"""
-        #verify_request = db.get_next_identity()
+        verify_request = db.get_next_identity()
         # this line is for testing over and over with the same record you just have to put in the id you want
-        verify_request = db.get_identity(1416931773282193L)
+        #verify_request = db.get_identity(1417020710343152L)
 
 
 
@@ -127,7 +132,7 @@ class VerifyForm(Form):
         def get_request():
             return db.get_identity(long(self.id.data))
 
-        verify_request = get_cache(cache, Identity.get_key(self.id.data), get_request(), 15 * 60)
+        verify_request = get_cache(cache, Identity.get_key(self.id.data), get_request, 15 * 60)
 
         if not verify_request:
             verify_request = db.get_identity(self.id.data)
@@ -140,6 +145,7 @@ class VerifyForm(Form):
         verify_request =  self.get_request()
         message = ""
         if self.result.data == 'accept':
+
             if self.validate():
                 if (self.id_back_photo_invalid.data or
                         self.id_front_photo_invalid.data or
@@ -148,6 +154,10 @@ class VerifyForm(Form):
                     message = alert("One or more of the photos have been "
                                     "marked invalid. Invalid photos are not "
                                     "allowed when accepting an id.", "danger")
+                elif not self.state.data:
+                    message = alert("State selection is invalid", "danger")
+                elif not self.ballot_id.data:
+                    message = alert("Ballot ID is invalid", "danger")
                 else:
                     response = VerificationResponse(True,
                                                     None,
@@ -156,9 +166,9 @@ class VerifyForm(Form):
                                                     True,
                                                     True,
                                                     True,
-                                                    True).to_dict()
+                                                    True)
 
-                    api.verifier_resolve_request(verify_request.id, response)
+                    db.resolve_request(verify_request.id, response)
 
 
 

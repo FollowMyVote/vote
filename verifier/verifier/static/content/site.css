@@ -70,6 +70,14 @@
 
 
 
+.selectize-control .selectize-input.disabled {
+    background-color: #eee;
+    cursor: not-allowed !important;
+    opacity: 1;
+    color:#555;
+}
+
+
 
 .navbar-inverse
 {
@@ -125,11 +133,6 @@ input[type="checkbox"].input-validation-error
 
 
 
-#verify .row:last-of-type
-{
-    padding-bottom: 0px;
-}
-
 
 #verify-form label
 {
@@ -175,19 +178,23 @@ input[type="checkbox"].input-validation-error
 }
 
 
-.voter
+.voter, .more-results
 {
     padding-top:6px;
     padding-bottom:6px;
     border-bottom:solid 1px #ddd;
+    cursor:pointer;
 
 }
-
-.voter:hover
+.voter.selected
 {
     background-color:#f5f5f5;
 }
-.voter:last-child
+.voter:hover
+{
+    background-color:#eee;
+}
+.voter:last-child, .more-results:last-child
 {
     margin-bottom:0px;
     border-bottom:0;
@@ -205,10 +212,11 @@ input[type="checkbox"].input-validation-error
 #search-results
 {
     padding-top:0;
+    padding-bottom:0;
 }
 
 #search-results .no-results
 {
     padding-top:15px;
-    padding-bottom:6px;
+    padding-bottom:15px;
 }

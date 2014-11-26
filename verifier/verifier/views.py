@@ -66,7 +66,7 @@ def verify():
             return redirect(url_for('verify'))
 
     return render_template('verify.html',
-                               itle='Verify Identity',
+                               title='Verify Identity',
                                verify_request=verify_request,
                                form=form,
                                message=message)
