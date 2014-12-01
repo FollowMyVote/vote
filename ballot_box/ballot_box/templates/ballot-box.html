@@ -158,10 +158,10 @@
     var summaryOfficialOpinions = {{form.official_opinion_summary|tojson}};
 
 </script>
-<script src="/static/scripts/jquery.dataTables.min.js"></script>
-<script src="/static/scripts/dataTables.bootstrap.js"></script>
-<script src="/static/scripts/highcharts/highcharts.js"></script>
-<script src="/static/scripts/highcharts/modules/exporting.js"></script>
-<script src="/static/scripts/ballot-box.js"></script>
+<script src="{{url_for('static', filename='scripts/jquery.dataTables.min.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/dataTables.bootstrap.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/highcharts/highcharts.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/highcharts/modules/exporting.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/ballot-box.js', v=config['VERSION'])}}"></script>
 
 {% endblock %}

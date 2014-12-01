@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | {{config['SITE_NAME']}}</title>
 
-    <link rel="shortcut icon" href="{{url_for('static', filename='content/images/favicon.ico')}}" type="image/x-icon">
-    <link rel="icon" href="/static/content/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{url_for('static', filename='/content/images/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{url_for('static', filename='content/images/favicon.ico')}}" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/bootstrap.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/selectize.bootstrap3.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/site.css', v=config['VERSION'])}}" />

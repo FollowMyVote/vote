@@ -4,10 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | {{config['SITE_NAME']}}</title>
-    <link rel="shortcut icon" href="/static/content/images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/static/content/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/content/dataTables.bootstrap.css" />
+    <link rel="shortcut icon" href="{{url_for('static', filename='/content/images/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{url_for('static', filename='content/images/favicon.ico')}}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/bootstrap.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/dataTables.bootstrap.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/site.css', v=config['VERSION'])}}" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
     
     <!--[if lt IE 9]>
@@ -46,8 +47,8 @@
          </footer>
     </div>
 
-    <script src="/static/scripts/jquery-1.11.1.min.js"></script>
-    <script src="/static/scripts/bootstrap.min.js"></script>
+    <script src="{{url_for('static', filename='scripts/jquery-1.11.1.min.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/bootstrap.min.js')}}"></script>
 
     {% block scripts %}{% endblock %}
 

@@ -33,12 +33,12 @@ class BallotBoxForm():
         if not contests:
             return []
 
-        for f in self.filters:
-            if f.value:
-                contests = [c for c in contests if c.tag(f.name) == f.value]
-
-            if not contests:
-                break
+        # for f in self.filters:
+        #     if f.value:
+        #         contests = [c for c in contests if c.tag(f.name) == f.value]
+        #
+        #     if not contests:
+        #         break
 
         if contests and self.search:
             contests = [c for c in contests if c.search(self.search)]

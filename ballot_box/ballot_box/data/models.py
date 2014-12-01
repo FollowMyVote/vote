@@ -1,7 +1,70 @@
 import json
 from itertools import ifilter
 from ballot_box.modules import helpers
+from sqlalchemy import Column, ForeignKey, Table, Text
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base as real_declarative_base
 
+
+
+declarative_base = lambda cls: real_declarative_base(cls=cls)
+
+@declarative_base
+class Base(object):
+    """
+    Add some default properties and methods to the SQLAlchemy declarative base.
+    """
+
+    @property
+    def columns(self):
+        return [ c.name for c in self.__table__.columns ]
+
+    @property
+    def column_items(self):
+        return dict([ (c, getattr(self, c)) for c in self.columns])
+
+    def __repr__(self):
+        return '{}({})'.format(self.__class__.__name__, self.column_items)
+
+    def to_json(self):
+        return json.dumps(self.column_items)
+
+metadata = Base.metadata
+
+class DataItem(Base):
+    __tablename__ = 'data_item'
+
+    data_item_id = Column(Text, primary_key=True)
+    data_item_data = Column(Text)
+    data_type_id = Column(ForeignKey(u'data_type.data_type_id'), nullable=False)
+    deleted_date = Column(Text)
+
+    data_type = relationship(u'DataType')
+    children = relationship(
+        u'DataItem',
+        secondary='data_item_map',
+        primaryjoin=u'DataItem.data_item_id == data_item_map.c.from_data_item_id'
+    )
+
+    parents = relationship(
+        u'DataItem',
+        secondary='data_item_map',
+        primaryjoin=u'DataItem.data_item_id == data_item_map.c.to_data_item_id'
+
+    )
+
+
+t_data_item_map = Table(
+    'data_item_map', metadata,
+    Column('from_data_item_id', ForeignKey(u'data_item.data_item_id'), primary_key=True, nullable=False),
+    Column('to_data_item_id', ForeignKey(u'data_item.data_item_id'), primary_key=True, nullable=False)
+)
+
+
+class DataType(Base):
+    __tablename__ = 'data_type'
+
+    data_type_id = Column(Text, primary_key=True)
 
 class Opinion:
     """This class represents one opinion, the opinion number is usually 1"""
