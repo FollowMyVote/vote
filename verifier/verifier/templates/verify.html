@@ -120,29 +120,29 @@
                         <div class="panel-body">
 
                             <div class="row">
-                                <div class="col col-md-3">{{ render_field(form.first_name, class="form-control input-sm first-name required", maxlength="50", readonly="readonly", tabindex="-1") }}</div>
-                                <div class="col col-md-3">{{ render_field(form.middle_name, class="form-control input-sm middle-name", maxlength="50", readonly="readonly" , tabindex="-1") }}</div>
-                                <div class="col col-md-3">{{ render_field(form.last_name, class="form-control input-sm last-name required", maxlength="50", readonly="readonly", tabindex="-1") }}</div>
-                                <div class="col col-md-1">{{ render_field(form.suffix, class="form-control input-sm suffix", maxlength="50", readonly="readonly", tabindex="-1") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.first_name, class="form-control input-sm first-name required", maxlength="50", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.middle_name, class="form-control input-sm middle-name", maxlength="50", readonly="readonly" , tabindex="-1", autocomplete="off") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.last_name, class="form-control input-sm last-name required", maxlength="50", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
+                                <div class="col col-md-1">{{ render_field(form.suffix, class="form-control input-sm suffix", maxlength="50", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
 
                             </div>
 
                             <div class="row">
-                                <div class="col col-md-6">{{ render_field(form.id_number, class="form-control input-sm id-number required", maxlength="50", tabindex="2")}}</div>
-                                <div class="col col-md-3">{{ render_field(form.id_expiration_date, class="form-control input-sm dateFormat id-expiration-date required", maxlength="10", tabindex="3") }}</div>
-                                <div class="col col-md-3">{{ render_field(form.birth_date, class="form-control input-sm dateFormat date-of-birth required", maxlength="10", readonly="readonly", tabindex="-1") }}</div>
+                                <div class="col col-md-6">{{ render_field(form.id_number, class="form-control input-sm id-number required", maxlength="50", tabindex="2", autocomplete="off")}}</div>
+                                <div class="col col-md-3">{{ render_field(form.id_expiration_date, class="form-control input-sm dateFormat id-expiration-date required", maxlength="10", tabindex="3", autocomplete="off") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.birth_date, class="form-control input-sm dateFormat date-of-birth required", maxlength="10", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
                             </div>
 
                             <div class="row">
-                                <div class="col col-md-6">{{ render_field(form.address_1, class="form-control input-sm address-1 street required", maxlength="150", readonly="readonly", tabindex="-1") }}</div>
-                                <div class="col col-md-6">{{ render_field(form.address_2, class="form-control input-sm address-2 street",  maxlength="150", readonly="readonly", tabindex="-1") }}</div>
+                                <div class="col col-md-6">{{ render_field(form.address_1, class="form-control input-sm address-1 street required", maxlength="150", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
+                                <div class="col col-md-6">{{ render_field(form.address_2, class="form-control input-sm address-2 street",  maxlength="150", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
                             </div>
 
 
                             <div class="row">
-                                <div class="col col-md-3">{{ render_field(form.city, class="form-control input-sm city required", maxlength="50", readonly="readonly", tabindex="-1") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.city, class="form-control input-sm city required", maxlength="50", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
                                 <div class="col col-md-3">{{ render_field(form.state_select, class="form-control input-sm state required", disabled="disabled", tabindex="-1") }}</div>
-                                <div class="col col-md-3">{{ render_field(form.zip, class="form-control input-sm zip required", maxlength="10", readonly="readonly", tabindex="-1") }}</div>
+                                <div class="col col-md-3">{{ render_field(form.zip, class="form-control input-sm zip required", maxlength="10", readonly="readonly", tabindex="-1", autocomplete="off") }}</div>
                                 <div class="col col-md-3">{{ render_field(form.ballot_id_select, class="form-control input-sm ballot-id required", disabled="disabled", tabindex="-1") }}</div>
                             </div>
 
@@ -193,6 +193,6 @@
     {% block scripts %}
 
 <script src="{{url_for('static', filename='scripts/jquery.zoom.min.js')}}"></script>
-<script src="{{url_for('static', filename='scripts/verify.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/verify.js', v=config['VERSION'])}}"></script>
 
     {% endblock %}

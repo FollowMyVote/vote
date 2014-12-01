@@ -32,7 +32,7 @@ class VerifyForm(Form):
     id_expiration_date = StringField(
         Identity.FIELD_ID_EXPIRATION_DATE,
         [validators.DataRequired(),
-         validators.Regexp(r'^(?:[1-9]|1[012])/([1-9]|[12][0-9]|3[01])/(19|20)\d\d$',
+         validators.Regexp(r'^(?:[0]?[1-9]|1[012])/([0]?[1-9]|[12][0-9]|3[01])/(19|20)\d\d$',
                            message="This field is not a valid date. "
                                    "Format: MM/DD/YYYY")])
 
@@ -116,8 +116,8 @@ class VerifyForm(Form):
         verify_request.id_number.value = self.id_number.data
 
         try:
-            if self.date_of_birth.data:
-                verify_request.date_of_birth.value = date_str_to_iso(self.date_of_birth.data)
+            if self.birth_date.data:
+                verify_request.date_of_birth.value = date_str_to_iso(self.birth_date.data)
         except:
             pass
 

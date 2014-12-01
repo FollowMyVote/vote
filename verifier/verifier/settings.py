@@ -21,6 +21,10 @@ DB_TEST_CONNECTION_STRING = 'sqlite:///{0}'.format(os.path.join(APP_DATA, 'sampl
 WALLET_PASSWORD = 'helloworld'
 WALLET_NAME = 'default'
 
+#Major.Minor.Revision, this number is going to be appended as a query string to css and javascript as well
+#to make it so that we can force users to download changes
+VERSION = '1.0.1'
+
 APP_SAMPLE_IMAGES = os.path.join(APP_STATIC, 'content', 'images', 'sample')
 
 STATES = [

@@ -41,7 +41,7 @@ $(function () {
     , "Photo should not be marked invalid if the id is being accepted.");
 
     $.validator.addMethod("dateFormat", function (value, element) {
-        return value.match(/^(?:[1-9]|1[012])\/([1-9]|[12][0-9]|3[01])\/(19|20)\d\d$/);
+        return value.match(/^(?:[0]?[1-9]|1[012])\/([0]?[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$/);
     }
     , "This field is not a valid date Format: MM/DD/YYYY");
 

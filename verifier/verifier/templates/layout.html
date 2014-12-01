@@ -9,8 +9,8 @@
     <link rel="icon" href="/static/content/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/bootstrap.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/selectize.bootstrap3.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/site.css')}}" />
-    
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='content/site.css', v=config['VERSION'])}}" />
+
     <!--[if lt IE 9]>
       <script src="{{url_for('static', filename='scripts/html5shiv.min.js')}}"></script>
       <script src="{{url_for('static', filename='scripts/respond.min.js')}}"></script>
@@ -53,7 +53,7 @@
     <script src="{{url_for('static', filename='scripts/jquery.validate.min.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/bootstrap.min.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/selectize.min.js')}}"></script>
-    <script src="{{url_for('static', filename='scripts/site.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/site.js', v=config['VERSION'])}}"></script>
     {% block scripts %}{% endblock %}
 
 </body>
