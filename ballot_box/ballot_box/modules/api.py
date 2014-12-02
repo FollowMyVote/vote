@@ -1,18 +1,18 @@
 import json
 
 import requests
-from ballot_box import settings
-from ballot_box.modules.helpers import log
+from ballot_box import settings, log
+
 
 
 def make_request(payload):
     """Makes a request using the configuration specified in settings.py, and 
     the payload that has been passed in"""
 
-    log().info("make_request\n{0}\n{1}".format(settings.API_URL,
+    log.info("make_request\n{0}\n{1}".format(settings.API_URL,
                                                payload['method']))
 
-    log().debug("make_request\n{0}\n{1}".format(settings.API_URL,
+    log.debug("make_request\n{0}\n{1}".format(settings.API_URL,
                                                 json.dumps(payload)))
 
     response = requests.post(settings.API_URL,
@@ -20,7 +20,7 @@ def make_request(payload):
                              headers={"content-type": "application/json"},
                              auth=(settings.API_USER, settings.API_PASS))
 
-    log().debug(response.content)
+    log.debug(response.content)
     return response.json()
 
 

@@ -4,16 +4,6 @@ from ballot_box.data.models import Contest, Contestant, Decision, Opinion
 
 
 
-class TestDecision(unittest.TestCase):
-    def setUp(self):
-        """Call before every test case."""
-        self.object = Decision(1, 2, 3 ,None, None, True)
-        pass
-
-    def test_decision_to_json(self):
-        print(self.object.to_json())
-        self.object.to_json()
-
 class TestOpinion(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
@@ -95,6 +85,42 @@ class TestContest(unittest.TestCase):
         self.assertTrue(self.object.search('vot'))
         self.assertTrue(self.object.search('Governor'))
         self.assertFalse(self.object.search('Governor1'))
+
+
+class TestDecision(unittest.TestCase):
+    def setUp(self):
+        """Call before every test case."""
+        c = {
+            u'contestants':
+                [{u'name': u'NEEL KASHKARI', u'description': u'Party Preference: Republican\nBusinessman'},
+                 {u'name': u'EDMUND G. "JERRY" BROWN',
+                  u'description': u'Party Preference: Democratic\nGovernor of California'}],
+            u'description': u'',
+            u'tags':
+                [[u'contest type', u'VOTER-NOMINATED'],
+                 [u'name', u'Governor'],
+                 [u'opinion type', u'vote one'],
+                 [u'region', u'STATE']]}
+
+        contest = Contest('0433bd4c47055eea322517df70a95e275422ac57b0466538b8944ee23b2ffafd', c)
+
+        d = {
+               "decision_id": "b5f77b0fcd4443bd74be46b79b1f1dc646f7db15a107f1c68a89e3dc68249717",
+               "contest_id": "0433bd4c47055eea322517df70a95e275422ac57b0466538b8944ee23b2ffafd",
+               "ballot_id": "b7cd4d83a3f000cf5187513f9053eadec89f6c5c7ceac1214a24a6e84175f2d6",
+               "write_in_names": [],
+               "voter_opinions": [[0, 1]],
+               "voter_id": "XTSMcFMA3yGyUaQbRmVaY4tdsZvbEaL7jd7",
+               "timestamp": "2015-01-01T08:00:00",
+               "authoritative": True,
+               "latest": True
+            }
+        self.object = Decision(contest, d)
+        pass
+
+    def test_decision_to_json(self):
+        print(self.object.to_json())
+        self.object.to_json()
 
 
 if __name__ == "__main__":

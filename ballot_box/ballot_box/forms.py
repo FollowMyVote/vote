@@ -1,5 +1,5 @@
 from modules import helpers
-from ballot_box import db, cache
+from ballot_box import db, cache, log
 from data.models import Opinion, Contest
 
 class BallotBoxForm():
@@ -53,7 +53,7 @@ class BallotBoxForm():
             try:
                 self.contest = db.get_contest_by_id(self.contest_id)
             except:
-                helpers.log().error("Contest ID: {0} not found".format(self.contest_id))
+                log.error("Contest ID: {0} not found".format(self.contest_id))
                 self.contest_id = ''
         elif self.contests:
             self.contest_id = self.contests[0].id

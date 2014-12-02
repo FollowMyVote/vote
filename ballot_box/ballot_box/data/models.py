@@ -1,7 +1,7 @@
 import json
 from itertools import ifilter
 from ballot_box.modules import helpers
-from sqlalchemy import Column, ForeignKey, Table, Text
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Table, Text, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base as real_declarative_base
 
@@ -34,37 +34,44 @@ metadata = Base.metadata
 class DataItem(Base):
     __tablename__ = 'data_item'
 
-    data_item_id = Column(Text, primary_key=True)
-    data_item_data = Column(Text)
-    data_type_id = Column(ForeignKey(u'data_type.data_type_id'), nullable=False)
-    deleted_date = Column(Text)
-
+    key = Column(Text, primary_key=True)
+    value = Column(Text)
+    data_type_key = Column(ForeignKey(u'data_type.key'), nullable=False, index=True)
+    deleted_date = Column(DateTime)
+    sort = Column(Float, nullable=False, server_default=text("0"))
     data_type = relationship(u'DataType')
+
     children = relationship(
         u'DataItem',
         secondary='data_item_map',
-        primaryjoin=u'DataItem.data_item_id == data_item_map.c.from_data_item_id'
+        primaryjoin=u'DataItem.key == data_item_map.c.parent_data_key',
+        secondaryjoin=u'DataItem.key == data_item_map.c.child_data_key'
     )
 
     parents = relationship(
         u'DataItem',
         secondary='data_item_map',
-        primaryjoin=u'DataItem.data_item_id == data_item_map.c.to_data_item_id'
-
+        primaryjoin=u'DataItem.key == data_item_map.c.child_data_key',
+        secondaryjoin=u'DataItem.key == data_item_map.c.parent_data_key'
     )
 
 
 t_data_item_map = Table(
     'data_item_map', metadata,
-    Column('from_data_item_id', ForeignKey(u'data_item.data_item_id'), primary_key=True, nullable=False),
-    Column('to_data_item_id', ForeignKey(u'data_item.data_item_id'), primary_key=True, nullable=False)
+    Column('parent_data_key', ForeignKey(u'data_item.key'), primary_key=True, nullable=False),
+    Column('child_data_key', ForeignKey(u'data_item.key'), primary_key=True, nullable=False)
 )
 
 
 class DataType(Base):
     __tablename__ = 'data_type'
+    DATA_TYPE_CONTEST = "Contest"
+    DATA_TYPE_CONTEST_GROUPING = "Contest Grouping"
 
-    data_type_id = Column(Text, primary_key=True)
+
+
+    key = Column(Text, primary_key=True)
+    deleted_date = Column(DateTime)
 
 class Opinion:
     """This class represents one opinion, the opinion number is usually 1"""
@@ -190,7 +197,13 @@ class Decision:
         contestants = self.contest.contestants
         write_in_names = self.write_in_names
 
-        for key in opinions.keys():
+        ##not sure if the opinions are a a list of dicts or a list of lists
+        ##once we get real data we will know for sure
+        opinions_local = {}
+        if type(opinions) is list:
+            opinions_local = {x[0]: x[1] for x in opinions}
+
+        for key in opinions_local.keys():
             #the key values indicates the index of the contestant
             #if the index falls out of the range of the contestants
             #then it is a write in contestant

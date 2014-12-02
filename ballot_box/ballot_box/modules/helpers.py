@@ -12,7 +12,7 @@ def setup_logging(log_path='',
                   console_log_level=logging.ERROR):
     """sets up logging for the app using config values from settings.py"""
 
-    logger = log()
+    logger = logging.getLogger("app_log")
     logger.setLevel(logging.DEBUG)
 
     fh = logging.handlers.TimedRotatingFileHandler(os.path.join(log_path, log_file_name), "D", 1, 60)
@@ -31,11 +31,8 @@ def setup_logging(log_path='',
     logger.addHandler(ch)
     logger.addHandler(fh)
     logger.debug("setup_logging complete")
+    return logger
 
-
-def log():
-    """returns an instance of the logger for this app"""
-    return logging.getLogger("app_log")
 
 
 def get_first(l, default=None):
