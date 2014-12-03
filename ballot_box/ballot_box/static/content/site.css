@@ -3,7 +3,8 @@
 
     
     dark primary : #252530
-    dark secondary :#34343e
+    dark seeconday: #2C2C39
+    dark highlight :#34343e
     text-highlight: #6DC3FF
     text-hover: 90ef7f
     border-light:#ddd
@@ -21,7 +22,7 @@ body
 }
 
 
-@media (min-width: 768px)
+@media (min-width: 992px)
 {
 
     .display-table
@@ -31,13 +32,25 @@ body
 
     .row-main > .display-table
     {
-        width:100%;
+        width: 100%;
     }
+
+    #table_main
+    {
+        height: 600px;
+    }
+
     .display-table > .col
     {
         float: none;
         display: table-cell;
         vertical-align: top;
+    }
+
+    #contests_inner
+    {
+        position: relative;
+        top: -89px;
     }
 }
 
@@ -79,19 +92,24 @@ footer
     margin-left: 0px;
 }
 
-
-
-.contests
+#table_contest_filters, .contests
 {
-    background-color: #252530;
+    background-color: #2C2C39;
     color: #fff;
+}
+
+.contests, #contest_filters_padding
+{
+    
     height: 100%;
 }
 
 
+
+
 .filters
 {
-    padding-top:15px;
+    padding-top: 15px;
     border-bottom: solid 1px #ddd;
 }
 
@@ -107,6 +125,11 @@ footer
     margin: 0 -15px;
     cursor: pointer;
 }
+.contests .contest:first-of-type
+{
+    border-top:0;
+}
+
 
 .contests .contest:last-of-type
 {
@@ -174,6 +197,11 @@ footer
     cursor: pointer;
 }
 
+#chart-summary table .data
+{
+    text-align:right
+}
+
 #chart-summary .approval
 {
     border-left: solid 1px #ddd;
@@ -202,18 +230,22 @@ footer
 .contest-heading
 {
     background-color: #ddd;
+    padding:15px 0;
 }
+
 .contest-heading h2
 {
-    margin-top:15px;
-    margin-bottom:15px;
+    margin:0px;
+}
+
+.contest-heading .description{
+    padding-top:15px;
 }
 
 #data-heading
 {
     background-color: #ddd;
     padding: 15px 0px 0px;
-
     margin-bottom: 15px;
 }
 
@@ -224,22 +256,20 @@ footer
 
 table#results td, table#results th
 {
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 table#results .official-vote
 {
-  text-align:center;
+    text-align: center;
 }
 
 table#results td.official-vote
 {
     color: #02ae00;
     font-size: 125%;
-
 }
 
 #results_wrapper
 {
-    
 }

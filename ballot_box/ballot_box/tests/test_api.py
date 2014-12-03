@@ -13,7 +13,10 @@ class TestAPI(unittest.TestCase):
         """call after every test case."""
 
     def get_contest_id(self):
-        return api.ballot_get_contests_by_tag('region', 'State')['result'][0]
+        return api.ballot_list_contests()['result'][0]
+
+    def get_decision_id(self):
+        return api.ballot_list_decisions()['result'][0]
 
 
 
@@ -34,8 +37,21 @@ class TestAPI(unittest.TestCase):
         self.assertFalse("error" in response)
         self.assertIsNotNone(response['result'])
 
+    def test_api_ballot_get_decision_ids_by_contest(self):
+        response = api.ballot_get_decisions_ids_by_contest(self.get_contest_id())
+        print(response)
+        self.assertFalse("error" in response)
+        self.assertIsNotNone(response['result'])
+
     def test_api_ballot_get_decisions_by_contest(self):
+        """test get decisions by contest assumes the contest id returned by get_contest_id has some decisions """
         response = api.ballot_get_decisions_by_contest(self.get_contest_id())
+        print(response)
+        self.assertTrue(len(response) > 0)
+
+
+    def test_api_ballot_get_decision_by_id(self):
+        response = api.ballot_get_decision(self.get_decision_id())
         print(response)
         self.assertFalse("error" in response)
         self.assertIsNotNone(response['result'])

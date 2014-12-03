@@ -42,7 +42,8 @@ class BallotBoxForm():
 
         if contests and self.search:
             contests = [c for c in contests if c.search(self.search)]
-            contests.sort(key=lambda x: x.name)
+
+        contests.sort(key=lambda x: x.name)
 
         return contests
 
@@ -51,7 +52,7 @@ class BallotBoxForm():
         """sets the contest data """
         if self.contest_id:
             try:
-                self.contest = db.get_contest_by_id(self.contest_id)
+                self.contest = db.get_contest(self.contest_id)
             except:
                 log.error("Contest ID: {0} not found".format(self.contest_id))
                 self.contest_id = ''
@@ -67,8 +68,14 @@ class BallotBoxForm():
             #eventually we got to only return only a page of opinions at a time,
             #but we don't have a real database yet so we have to do our summaries manually in code
 
-            self.contest.decisions = helpers.get_cache(cache, 'all_decisions_{0}'.format(self.contest.id),
-                                                        get_decisions, 3600)
+            #we don't want to cache for the demo we want results right away.
+            # self.contest.decisions = helpers.get_cache(cache, 'all_decisions_{0}'.format(self.contest.id),
+            #                                             get_decisions, 300)
+
+            self.contest.decisions = get_decisions()
+
+
+
             self.all_opinions = self.contest.get_all_opinions()
             self.official_opinions = self.contest.get_official_opinions()
             self.all_opinion_summary = Opinion.get_opinion_summary(

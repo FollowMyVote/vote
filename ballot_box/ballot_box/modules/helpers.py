@@ -78,8 +78,19 @@ def get_cache(cache, key, get_default, timeout=300):
 
     return value
 
+def to_html_line_breaks(s):
+    """this converts line feeds into html line breaks"""
+    return s.replace("\n","<br />\n")
+
 
 def to_css_class(s):
     """converts the string to a valid css class"""
     value = re.sub(r"\W|_", "-", s)
     return value.replace("--", "-").replace("--", "-").replace("--", "-").lower()
+
+def safe_division(dividend, divisor):
+    """divide and be safe from divide by 0, returns 0 if divisor is 0"""
+    if divisor:
+        return dividend / divisor
+    else:
+        return 0

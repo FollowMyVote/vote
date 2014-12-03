@@ -118,7 +118,7 @@ class DemoRepository(BaseRepository):
         """returns a single contest by id"""
         item = self.get_item(contest_id)
         if item:
-            return Contest(json.loads(item.value))
+            return Contest(contest_id, json.loads(item.value))
         else:
             return None
 
@@ -130,11 +130,18 @@ class DemoRepository(BaseRepository):
             .order_by(DataItem.sort)
 
         self.log_query(q)
-        return q.all()
+        contest_data = q.all()
+        if contest_data:
+            return [Contest(c.key, json.loads(c.value)) for c in contest_data if c.deleted_date is None]
+        else:
+            return []
 
 
     def get_contest_decisions(self, contest):
-        return self.get_test_contest_decisions(contest)
+        """gets all decisions for a contest """
+        #return self._get_test_contest_decisions(contest)
+        return self._get_real_contest_decisions(contest)
+
 
     @staticmethod
     def _api_get_contest_by_id(contest_id):
@@ -180,8 +187,9 @@ class DemoRepository(BaseRepository):
     def _get_test_contest_decisions(contest):
         random.seed()
         decisions = []
-        ballot_ids = [uuid.uuid4() for x in range(7)]
-        for i in range(100):
+        ballot_ids = [str(uuid.uuid4()) for x in range(7)]
+        num_decisions = random.randint(90, 200)
+        for i in range(num_decisions):
 
             voter_opinions = {}
             write_in_names = []
@@ -211,6 +219,19 @@ class DemoRepository(BaseRepository):
 
             decisions.append(decision)
 
+        return decisions
+
+    @staticmethod
+    def _get_real_contest_decisions(contest):
+        decisions = []
+        results = api.ballot_get_decisions_by_contest(contest.id)
+        if results:
+            #right now none of the decisions are coming back as authoritative so force them to be authoritative
+            #this needs to change later
+            for d in results:
+                d['authoritative'] = True
+
+            decisions = [Decision(contest, d) for d in results]
         return decisions
 
     _counties = {

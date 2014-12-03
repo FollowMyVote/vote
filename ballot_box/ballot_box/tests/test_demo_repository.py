@@ -65,10 +65,18 @@ class TestDemoRepository(unittest.TestCase):
         self.assertTrue(len(result) > 0)
 
 
+    def test_get_contest_decisions(self):
+        contest = self.db._api_get_contest_by_id('7932cbd42a203871830415c855290defda3a7a7ca14726f079eb9918720d743b')
+        results = self.db.get_contest_decisions(contest)
+        self.assertTrue(len(results) > 0 )
+
+
+
     def test_get_items_by_value(self):
         self.test_insert_item()
         result = self.db.get_items_by_value('test', "Test")
         print(result)
         self.assertTrue(len(result) > 0)
+
 
 

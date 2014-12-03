@@ -6,26 +6,13 @@
 <div id="ballot-box" class="page-content">
 
     <div class="row row-main ">
-        <div class="display-table">
-            <div class="col col-md-3 contests display-table-cell">
-                {% for contest in form.contests %}
-                
-                  <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}" >
-                      <div class="name">{{contest.name}}</div>
-                      {%if contest.description %}
-                        <div class="description">{{contest.description}}</div>
-                      {% endif %}
-                  </div>
+        <div id="table_contest_filters" class="display-table">
+            <div id="contest_filters_padding" class="col col-md-3 display-table-cell"></div>
+            <div id="contest_filters" class="col col-md-9 filters display-table-cell">
 
-                {% endfor %}
-               
-
-            </div>
-            <div class="col col-md-9 data display-table-cell">
-                <div class="row filters">
-                    <form role="form" id="contest_form" method="post" action="/ballot-box">
-                        <input type="hidden" id="contest_id" name="contest_id" value="{{form.contest_id}}" />
-                        {% for filter in form.filters %}
+                <form role="form" id="contest_form" method="post" action="/ballot-box">
+                    <input type="hidden" id="contest_id" name="contest_id" value="{{form.contest_id}}" />
+                    {% for filter in form.filters %}
                           {% if filter.type == 'dropdown' %}
                                 {{filter_dropdown(filter, 'col col-md-2')}}
                           {% else %}
@@ -38,17 +25,39 @@
                             <input type="text" class="form-control" id="search" name="search" value="{{form.search}}" placeholder="Zip, Voter ID, Contest ..." />
                         </div>
 
-                        <div class="col col-md-2 filter submit form-group">
+                    <div class="col col-md-2 filter submit form-group">
 
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="table_main" class="display-table">
+            <div class="col col-md-3 contests display-table-cell">
+                <div id="contests_inner">
+                {% for contest in form.contests %}
+                
+                  <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}">
+                      <div class="name">{{contest.name}}</div>
+                      {%if contest.description %}
+                        <div class="description">{{contest.description}}</div>
+                      {% endif %}
+                  </div>
+
+                    {% endfor %}
                 </div>
+
+            </div>
+            <div class="col col-md-9 data display-table-cell">
 
                 <div class="row contest-heading">
                     <div class="col col-md-12">
                         {% if form.contest %}
                         <h2>{{form.contest.name}}</h2>
+                            {%if form.contest.description %}
+                                <div class="description">{{form.contest.description}}</div>
+                            {% endif %}
+
                         {% else %}
                         <h2>No Contest Selected</h2>
                         {% endif %}
@@ -62,35 +71,50 @@
 
                     </div>
                     <div class="col col-sm-6 chart-area" id="chart-summary">
+                    
+                        {% if form.contest.decision_type == form.contest.DECISION_TYPE_VOTE_YES_NO and 
+                              form.contest.contestants and
+                              form.contest.contestants[0].description 
+                        %}
+                            <div class="question">
+                                <h4>Description</h4>
+                                {{form.contest.contestants[0].description}}
+                            </div>
 
+                        {% endif %}
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th class="candidate">&nbsp;</th>
-                                    {#<th class="approval">Approval Vote</th>#}
-                                    <th class="official selected">Official Vote</th>
+                                    {#<th class="approval data">Approval Vote</th>
+                                    #}
+                                    <th class="official percentage data selected">Official Vote</th>
+                                    <th class="official total data selected">Official Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                             {% for o in form.all_opinion_summary %}
+                                {% for o in form.all_opinion_summary %}
                                 <tr>
                                     <td class="candidate">{{o['name']}}</td>
-                                    {#<td class="approval">{{o['y']}}%</td>#}
-                                    <td class="official selected">{{filter_opinion_summary(form.official_opinion_summary, o['name'])['y']}}%</td>
+                                    {#<td class="approval data">{{o['y']}}%</td>
+                                    #}
+                                    <td class="official percentage data selected">{{filter_opinion_summary(form.official_opinion_summary, o['name'])['y']}}%</td>
+                                    <td class="official total data selected">{{filter_opinion_summary(form.official_opinion_summary, o['name'])['total']}}</td>
                                 </tr>
-                             {% endfor %}
+                                {% endfor %}
 
                             </tbody>
                             {#
                             <tfoot>
                                 <tr>
                                     <td class="candidate">&nbsp;</td>
-                                   <td class="approval">
+                                    <td class="approval">
                                         <button id="btn-approval" class="btn btn-default">Select</button></td>
                                     <td class="official selected">
                                         <button id="btn-official" class="btn btn-default">Select</button></td>
                                 </tr>
-                            </tfoot>#}
+                            </tfoot>
+                            #}
 
                         </table>
                     </div>
@@ -130,7 +154,7 @@
                                     <tr>
                                         <td class="candidate">{{o.get_contestant()}}</td>
 
-                                        <td class="voter-id">{{o.decision.ballot_id}}</td>
+                                        <td class="voter-id">{{o.decision.voter_id}}</td>
                                         <td class="decision-id">{{o.decision.decision_id}}</td>
                                         <td class="timestamp">{{o.decision.timestamp}}</td>
 

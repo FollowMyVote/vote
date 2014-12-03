@@ -11,7 +11,9 @@ def processor():
     return dict(datetime=datetime,
                 iif=helpers.iif,
                 Markup=Markup,
-                filter_opinion_summary=Opinion.filter_opinion_summary
+                filter_opinion_summary=Opinion.filter_opinion_summary,
+                to_html_line_breaks = helpers.to_html_line_breaks
+
     )
 
 

@@ -37,6 +37,7 @@ class DataItem(Base):
     key = Column(Text, primary_key=True)
     value = Column(Text)
     data_type_key = Column(ForeignKey(u'data_type.key'), nullable=False, index=True)
+    retired_date = Column(DateTime)
     deleted_date = Column(DateTime)
     sort = Column(Float, nullable=False, server_default=text("0"))
     data_type = relationship(u'DataType')
@@ -71,6 +72,7 @@ class DataType(Base):
 
 
     key = Column(Text, primary_key=True)
+    retired_date = Column(DateTime)
     deleted_date = Column(DateTime)
 
 class Opinion:
@@ -118,11 +120,11 @@ class Opinion:
             no_total = total - yes_total
             summary.append({
                 'name': "YES",
-                'y': round((yes_total / float(total)) * 100, 1),
+                'y': round(helpers.safe_division(yes_total , float(total)) * 100, 1),
                 'total': yes_total})
             summary.append({
                 'name': "NO",
-                'y': round((no_total / float(total)) * 100, 1),
+                'y': round(helpers.safe_division(no_total, float(total)) * 100, 1),
                 'total' :no_total})
         else:
             for c in contestants:
@@ -142,7 +144,7 @@ class Opinion:
                     'total': other_total})
 
         for s in summary:
-            s['y'] = round((s['total'] / float(total)) * 100, 1)
+            s['y'] = round(helpers.safe_division(s['total'], float(total)) * 100, 1)
 
         summary.sort(key=lambda x: x['name'])
         summary.sort(key=lambda x: x['total'], reverse=True)
@@ -186,9 +188,9 @@ class Decision:
         self.timestamp = d.get('timestamp')
         self.decision_id = d.get('decision_id')
         self.voter_id = d.get('voter_id')
-        self.voter_opinions = self.get_opinions(d.get('voter_opinions'))
+        self.voter_opinions = self.get_opinions(d.get('voter_opinions'), self.contest.decision_type)
 
-    def get_opinions(self, opinions):
+    def get_opinions(self, opinions, decision_type):
         """get a set of opinions given the dictionary of opinions and the contestants, and the write ins """
         voter_opinions = []
         if not opinions:
@@ -202,6 +204,8 @@ class Decision:
         opinions_local = {}
         if type(opinions) is list:
             opinions_local = {x[0]: x[1] for x in opinions}
+        else:
+            opinions_local = opinions
 
         for key in opinions_local.keys():
             #the key values indicates the index of the contestant
@@ -210,8 +214,14 @@ class Decision:
 
             if contestants and key < len(contestants):
                 ##get the contestant with the matching index
-                contestant = next(ifilter(lambda x: x.index == key, contestants), None)
-                voter_opinions.append(Opinion(contestant, opinions[key], is_official=self.authoritative,
+                if decision_type == Contest.DECISION_TYPE_VOTE_YES_NO:
+                    if opinions_local[key]:
+                        contestant = Contestant({'name':'YES'})
+                    else:
+                        contestant = Contestant({'name':'YES'})
+                else:
+                    contestant = next(ifilter(lambda x: x.index == key, contestants), None)
+                voter_opinions.append(Opinion(contestant, opinions_local[key], is_official=self.authoritative,
                                               decision=self))
             elif write_in_names and (key - len(contestants)) < len(write_in_names):
                 #it is a write-in
@@ -223,7 +233,7 @@ class Decision:
                 #    are 4 official contestants, the first contestant in write_in_names would be ID 4;
                 #     the next would be ID 5, etc.
                 write_in = write_in_names[key - len(contestants)]
-                voter_opinions.append(Opinion(opinion=opinions[key], write_in=write_in,
+                voter_opinions.append(Opinion(opinion=opinions_local[key], write_in=write_in,
                                               is_official=self.authoritative, decision=self))
         return voter_opinions
 
@@ -235,6 +245,7 @@ class Decision:
         d = self.__dict__.copy()
         d.pop('contest', None)
         d['voter_opinions'] = [o.to_dict() for o in self.voter_opinions]
+        d['timestamp'] = str(d['timestamp'])
 
         return d
 
@@ -321,6 +332,7 @@ class Contest:
         self.allow_write_ins = bool(self.tag('write-in slots', False))
         self.decisions = []
         self.contestants = []
+        self.group = self.tag('region')
 
         if 'contestants' in d:
             self.contestants = [Contestant(c[1], c[0]) for c in enumerate(d['contestants'])]

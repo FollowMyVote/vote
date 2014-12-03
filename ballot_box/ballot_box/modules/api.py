@@ -71,6 +71,13 @@ def ballot_get_all_contests():
     return all_contests
 
 
+def ballot_get_decision(decision_id):
+    """gets decision by id"""
+    return make_request({"method": "ballot_get_decision",
+                         "params": [decision_id],
+                         "jsonrpc": "2.0",
+                         "id": 0, })
+
 
 def ballot_get_contest_by_id(contest_id):
     """gets contest details by contest id"""
@@ -88,12 +95,22 @@ def ballot_get_tag_values_by_key(key):
                          "id": 0, })
 
 
-def ballot_get_decisions_by_contest(contest_id):
+def ballot_get_decisions_ids_by_contest(contest_id):
     """gets decision ids by contest"""
     return make_request({"method": "ballot_get_decisions_by_contest",
                          "params": [contest_id],
                          "jsonrpc": "2.0",
                          "id": 0, })
+
+
+def ballot_get_decisions_by_contest(contest_id):
+    """gets all contests, this is temporary but it should work for now  """
+    decisions = []
+    result = ballot_get_decisions_ids_by_contest(contest_id).get('result')
+    if result:
+        decisions = batch('ballot_get_decision', [[r] for r in result]).get('result')
+
+    return decisions if decisions else []
 
 def ballot_list_contests(skip_until_id=0, limit=10):
     """gets contest ids """
