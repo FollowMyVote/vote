@@ -6,8 +6,9 @@ This is the website interface for the follow my vote ID Verification
 2. Create a new virtual environment: virtualenv env
 3. Activate the virtual enviroment: .\env\scripts\activate or bin/activate depening on your os
 4. Install Dependencies: pip install -r requirements.txt
-5. Start the Development Server: python runserver.py
-6. Connect to Site:  http://localhost:5555
+5. Make sure the voter database pointed to by DB_CONNECTION_STRING in settings.py is valid.  The voter.db file referenced in this setting by default is **NOT** included in this repository because it contains sensitive data.  There is a sample_voter.db file in the data directory which contains a small amount of sample data which can be used, this database does not contain any real voter information.
+6. Start the Development Server: python runserver.py
+7. Connect to Site:  http://localhost:5555
 
 
 ###Installation on apache
