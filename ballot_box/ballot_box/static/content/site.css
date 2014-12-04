@@ -36,7 +36,7 @@ body
         width: 100%;
     }
 
-    #table_main
+    #table-main
     {
         height: 600px;
     }
@@ -48,7 +48,7 @@ body
         vertical-align: top;
     }
 
-    #contests_inner
+    #contests-inner
     {
         position: relative;
         top: -89px;
@@ -70,7 +70,10 @@ footer
     border: 0;
 }
 
-
+table.dataTable.table-condensed  thead > tr > th {
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
 /* Set padding to keep content from hitting the edges */
 .body-content
@@ -93,21 +96,25 @@ footer
     margin-left: 0px;
 }
 
-#table_contest_filters
+#table-contest-filters
 {
     background-color: #2C2C39;
     color: #fff;
 }
 
+#contest-filters
+{
+    border-left: solid 2px #252530;
+}
+
 .contests
 {
     background-color: #2C2C39;
-    color:#fff;
-    
+    color: #fff;
 }
-.contests, #contest_filters_padding
+
+.contests, #contest-filters-padding
 {
-    
     height: 100%;
 }
 
@@ -126,31 +133,40 @@ footer
 }
 
 
-.contests .contest_group_heading, .contests .contest
+.contests .contest-group-heading, .contests .contest
 {
     padding: 15px 15px;
     margin: 0 -15px;
 }
+
 .contests .contest
 {
-    border-top: 1px solid #34343e;
-    background-color:#313140;
+    border-top: 1px solid #252530;
+    background-color: #313140;
     cursor: pointer;
-}
-
-.contests .contest_group_heading
-{
-    background-color:#2C2C39;
-    font-size:125%;
-    font-weight:bold;
-    
-    
 }
 
 .contests .contest:first-of-type
 {
-    border-top:0;
+    border-top: 0;
 }
+
+
+.contests .contest-group-heading
+{
+    background-color: #2c2c39;
+    border-bottom: 1px solid #252530;
+    border-top: 1px solid #252530;
+    font-size: 150%;
+    font-weight: bold;
+    padding: 28px 15px;
+}
+
+.contests .contest-group:first-of-type .contest-group-heading
+{
+    border-top: 0;
+}
+
 
 
 .contests .contest:last-of-type
@@ -221,7 +237,7 @@ footer
 
 #chart-summary table .data
 {
-    text-align:right
+    text-align: right;
 }
 
 #chart-summary .approval
@@ -252,16 +268,17 @@ footer
 .contest-heading
 {
     background-color: #ddd;
-    padding:15px 0;
+    padding: 15px 0;
 }
 
 .contest-heading h2
 {
-    margin:0px;
+    margin: 0px;
 }
 
-.contest-heading .description{
-    padding-top:15px;
+.contest-heading .description
+{
+    padding-top: 15px;
 }
 
 #data-heading
@@ -292,8 +309,11 @@ table#results td.official-vote
     font-size: 125%;
 }
 
-#results_wrapper
+#results-wrapper
 {
 }
 
-
+.candidate .name
+{
+    font-weight: bold;
+}

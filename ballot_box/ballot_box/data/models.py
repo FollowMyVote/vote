@@ -120,10 +120,12 @@ class Opinion:
             no_total = total - yes_total
             summary.append({
                 'name': "YES",
+                'description' : '',
                 'y': round(helpers.safe_division(yes_total , float(total)) * 100, 1),
                 'total': yes_total})
             summary.append({
                 'name': "NO",
+                'description' : '',
                 'y': round(helpers.safe_division(no_total, float(total)) * 100, 1),
                 'total' :no_total})
         else:
@@ -132,6 +134,7 @@ class Opinion:
                 total += contestant_total
                 summary.append({
                     'name': c.name,
+                    'description' : c.description,
                     'y': contestant_total,
                     'total': contestant_total})
 
@@ -140,6 +143,7 @@ class Opinion:
                 total += other_total
                 summary.append({
                     'name': "Other",
+                    'description' : '',
                     'y': other_total,
                     'total': other_total})
 
@@ -441,6 +445,41 @@ class Contest:
                    any(search in contestant.description.lower() for contestant in self.contestants) or \
                    any(search in tag_value.lower() for tag_value in self.tag_values())
 
+    def get_chart_description(self):
+        """gets a description for the chart area """
+        description = ""
+        if self.decision_type == self.DECISION_TYPE_VOTE_YES_NO and self.contestants:
+            if self.contestants[0].description:
+                description += self.contestants[0].description
+
+            if self.contestants[0].name:
+                description += ', ' + self.contestants[0].name
+
+        description = description.lstrip(', ')
+
+        return description
+
+
+    def get_list_description(self):
+        """gets a description for the contest area """
+        description = self.description
+
+
+        if not description:
+            if self.decision_type == self.DECISION_TYPE_VOTE_YES_NO and self.contestants:
+                if self.contestants[0].description:
+                    description += self.contestants[0].description
+
+                if self.contestants[0].name:
+                    description += ', ' + self.contestants[0].name
+            else:
+                description = ", ".join([c.name for  c in self.contestants])
+
+        description = description.lstrip(', ')
+
+
+
+        return description
        
 
 

@@ -6,11 +6,11 @@
 <div id="ballot-box" class="page-content">
 
     <div class="row row-main ">
-        <div id="table_contest_filters" class="display-table">
-            <div id="contest_filters_padding" class="col col-md-3 display-table-cell"></div>
-            <div id="contest_filters" class="col col-md-9 filters display-table-cell">
+        <div id="table-contest-filters" class="display-table">
+            <div id="contest-filters-padding" class="col col-md-3 display-table-cell"></div>
+            <div id="contest-filters" class="col col-md-9 filters display-table-cell">
 
-                <form role="form" id="contest_form" method="post" action="/ballot-box">
+                <form role="form" id="contest-form" method="post" action="/ballot-box">
                     <input type="hidden" id="contest_id" name="contest_id" value="{{form.contest_id}}" />
                     {% for filter in form.filters %}
                           {% if filter.type == 'dropdown' %}
@@ -32,25 +32,30 @@
                 </form>
             </div>
         </div>
-        <div id="table_main" class="display-table">
+        <div id="table-main" class="display-table">
             <div class="col col-md-3 contests display-table-cell">
-                <div id="contests_inner">
+                <div id="contests-inner">
                     {% for group in form.contest_groups%}
-                        <div class="contest_group">
-                            <div class="contest_group_heading">
+                        <div class="contest-group">
+                            <div class="contest-group-heading">
                                 {{group.group}}
                             </div>
-
-                        {% for contest in group.contests %}
+                            <div class="contest-group-inner">
+                                {% if group.contests %}
+                                    {% for contest in group.contests %}
                 
-                          <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}">
-                              <div class="name">{{contest.name}}</div>
-                              {%if contest.description %}
-                                <div class="description">{{contest.description}}</div>
-                              {% endif %}
-                          </div>
+                                      <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}">
+                                          <div class="name">{{contest.name}}</div>
+                                          {%if contest.get_list_description() %}
+                                            <div class="description">{{contest.get_list_description()}}</div>
+                                          {% endif %}
+                                      </div>
 
-                        {% endfor %}
+                                    {% endfor %}
+                                {% else %}
+                                <div class="contest">No Contests Found</div>
+                                {% endif %}
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
@@ -79,13 +84,11 @@
 
                     </div>
                     <div class="col col-sm-6 chart-area" id="chart-summary">
-                        {% if form.contest.decision_type == form.contest.DECISION_TYPE_VOTE_YES_NO and 
-                              form.contest.contestants and
-                              form.contest.contestants[0].description 
-                        %}
+                        {% if form.contest.get_chart_description()%}
                             <div class="question">
                                 <h4>Description</h4>
-                                {{form.contest.contestants[0].description}}
+                                {{form.contest.get_chart_description()|safe}}
+
                             </div>
 
                         {% endif %}
@@ -102,7 +105,14 @@
                             <tbody>
                                 {% for o in form.all_opinion_summary %}
                                 <tr>
-                                    <td class="candidate">{{o['name']}}</td>
+                                    <td class="candidate">
+                                        <div class="name">{{o['name']}}</div>
+                                        {% if o['description'] %}
+                                        <div class="description">{{o['description']}}</div>
+                                        {% endif %}
+
+
+                                    </td>
                                     {#<td class="approval data">{{o['y']}}%</td>
                                     #}
                                     <td class="official percentage data selected">{{filter_opinion_summary(form.official_opinion_summary, o['name'])['y']}}%</td>
@@ -149,7 +159,7 @@
                             <table class="table table-condensed table-hover" id="results">
                                 <thead>
                                     <tr>
-                                        <th class="candidate">Candidate</th>
+                                        <th class="candidate">Vote</th>
                                         <th class="voter-id">Voter ID</th>
                                         <th class="decision-id">Decision ID</th>
                                         <th class="timestamp">Date Submitted</th>

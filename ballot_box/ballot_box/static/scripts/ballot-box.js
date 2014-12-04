@@ -2,9 +2,12 @@
 $(function () {
 
     $('.contest').click(function () {
+        if ($(this).attr('id')) {
         
-        $('#contest_id').val($(this).attr('id'));
-        $('#contest_form').submit();
+            $('#contest_id').val($(this).attr('id'));
+            $('#contest-form').submit();
+        }
+        
         
 
 
