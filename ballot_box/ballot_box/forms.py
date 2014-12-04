@@ -1,6 +1,6 @@
 from modules import helpers
 from ballot_box import db, cache, log
-from data.models import Opinion, Contest
+from data.models import Opinion, Contest, DataType
 
 class BallotBoxForm():
     """form for the ballot box main page"""
@@ -46,6 +46,20 @@ class BallotBoxForm():
         contests.sort(key=lambda x: x.name)
 
         return contests
+
+    def get_contest_groups(self, contests):
+        """gets contests grouped by contest groups"""
+        groups = db.get_items_by_data_type(DataType.DATA_TYPE_CONTEST_GROUPING)
+        return_val = []
+        for g in groups:
+            group_contests = [c for c in contests if
+                              c.parents(DataType.DATA_TYPE_CONTEST_GROUPING, lambda x: x.value == g.value)]
+            return_val.append({'group': g.value, 'contests': group_contests})
+
+        return return_val
+
+
+
 
 
     def set_form_contest(self):

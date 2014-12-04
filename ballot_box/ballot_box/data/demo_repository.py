@@ -86,9 +86,6 @@ class DemoRepository(BaseRepository):
 
         return q.all()
 
-
-
-
     def get_items_by_data_type(self, data_type_key):
         """gets all items of a particular data type """
         q = self.query(DataItem) \
@@ -118,7 +115,7 @@ class DemoRepository(BaseRepository):
         """returns a single contest by id"""
         item = self.get_item(contest_id)
         if item:
-            return Contest(contest_id, json.loads(item.value))
+            return Contest(contest_id, json.loads(item.value), item)
         else:
             return None
 
@@ -132,7 +129,7 @@ class DemoRepository(BaseRepository):
         self.log_query(q)
         contest_data = q.all()
         if contest_data:
-            return [Contest(c.key, json.loads(c.value)) for c in contest_data if c.deleted_date is None]
+            return [Contest(c.key, json.loads(c.value), c) for c in contest_data if c.deleted_date is None]
         else:
             return []
 

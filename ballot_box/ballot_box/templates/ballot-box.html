@@ -35,15 +35,23 @@
         <div id="table_main" class="display-table">
             <div class="col col-md-3 contests display-table-cell">
                 <div id="contests_inner">
-                {% for contest in form.contests %}
-                
-                  <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}">
-                      <div class="name">{{contest.name}}</div>
-                      {%if contest.description %}
-                        <div class="description">{{contest.description}}</div>
-                      {% endif %}
-                  </div>
+                    {% for group in form.contest_groups%}
+                        <div class="contest_group">
+                            <div class="contest_group_heading">
+                                {{group.group}}
+                            </div>
 
+                        {% for contest in group.contests %}
+                
+                          <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}">
+                              <div class="name">{{contest.name}}</div>
+                              {%if contest.description %}
+                                <div class="description">{{contest.description}}</div>
+                              {% endif %}
+                          </div>
+
+                        {% endfor %}
+                        </div>
                     {% endfor %}
                 </div>
 
@@ -54,9 +62,9 @@
                     <div class="col col-md-12">
                         {% if form.contest %}
                         <h2>{{form.contest.name}}</h2>
-                            {%if form.contest.description %}
+                        {%if form.contest.description %}
                                 <div class="description">{{form.contest.description}}</div>
-                            {% endif %}
+                        {% endif %}
 
                         {% else %}
                         <h2>No Contest Selected</h2>
@@ -71,7 +79,6 @@
 
                     </div>
                     <div class="col col-sm-6 chart-area" id="chart-summary">
-                    
                         {% if form.contest.decision_type == form.contest.DECISION_TYPE_VOTE_YES_NO and 
                               form.contest.contestants and
                               form.contest.contestants[0].description 

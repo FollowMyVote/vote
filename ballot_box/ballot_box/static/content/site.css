@@ -3,8 +3,9 @@
 
     
     dark primary : #252530
-    dark seeconday: #2C2C39
-    dark highlight :#34343e
+    dark secondary: #2C2C39
+    dark thrid :#4B4B59
+    dark highlight :#4B4B59
     text-highlight: #6DC3FF
     text-hover: 90ef7f
     border-light:#ddd
@@ -92,12 +93,18 @@ footer
     margin-left: 0px;
 }
 
-#table_contest_filters, .contests
+#table_contest_filters
 {
     background-color: #2C2C39;
     color: #fff;
 }
 
+.contests
+{
+    background-color: #2C2C39;
+    color:#fff;
+    
+}
 .contests, #contest_filters_padding
 {
     
@@ -118,13 +125,28 @@ footer
     padding-top: 24px;
 }
 
+
+.contests .contest_group_heading, .contests .contest
+{
+    padding: 15px 15px;
+    margin: 0 -15px;
+}
 .contests .contest
 {
     border-top: 1px solid #34343e;
-    padding: 15px 15px;
-    margin: 0 -15px;
+    background-color:#313140;
     cursor: pointer;
 }
+
+.contests .contest_group_heading
+{
+    background-color:#2C2C39;
+    font-size:125%;
+    font-weight:bold;
+    
+    
+}
+
 .contests .contest:first-of-type
 {
     border-top:0;
@@ -151,7 +173,7 @@ footer
 
 .contests .contest.selected
 {
-    background-color: #34343e;
+    background-color: #4B4B59;
 }
 
 

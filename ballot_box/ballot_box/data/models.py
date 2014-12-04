@@ -318,8 +318,15 @@ class Contest:
     DECISION_TYPE_VOTE_YES_NO = 'vote yes/no'
     DECISION_TYPE_VOTE_MANY = 'vote many'
 
-    def __init__(self, contest_id='', d=None):
-        """Initialize contest"""
+    def __init__(self, contest_id='', d=None, data_item=None):
+
+        """
+        :param contest_id:
+        :param d: dict
+        :param data_item: DataItem
+
+        """
+
         if not d:
             d = {}
 
@@ -333,6 +340,10 @@ class Contest:
         self.decisions = []
         self.contestants = []
         self.group = self.tag('region')
+
+        self.data_item = data_item if data_item else None
+        """:type : DataItem"""
+
 
         if 'contestants' in d:
             self.contestants = [Contestant(c[1], c[0]) for c in enumerate(d['contestants'])]
@@ -370,6 +381,43 @@ class Contest:
     def get_all_opinions(self):
         """gets all opinions for the contest"""
         return [o for d in self.decisions for o in d.voter_opinions]
+
+    @staticmethod
+    def _get_relations(relations, data_type_key=None, predicate=None):
+        """gets returns sorted non-deleted relations """
+        return_val = []
+        if data_type_key:
+            return_val = [r for r in relations if not r.deleted_date and r.data_type_key == data_type_key]
+        else:
+            return_val = [r for r in relations if not r.deleted_date]
+
+        if return_val and callable(predicate):
+            return_val = [r for r in return_val if predicate(r)]
+
+        if return_val:
+            return_val.sort(key=lambda x: x.value)
+            return_val.sort(key=lambda x: x.sort)
+
+        return return_val
+
+
+    def parents(self, data_type_key=None, predicate=None):
+        """gets parents optionally by data type"""
+        parents = []
+        if self.data_item and self.data_item.parents:
+            parents = self._get_relations(self.data_item.parents, data_type_key, predicate)
+
+        return parents
+
+    def children(self, data_type_key=None, predicate=None):
+        """gets children optionally by data type"""
+        children = []
+        if self.data_item and self.data_item.children:
+            children = self._get_relations(self.data_item.children, data_type_key, predicate)
+
+        return children
+
+
 
     def search(self, search_text):
         """Searches all the test in the contest for a partial match of the search text"""

@@ -23,9 +23,9 @@ DB_TEST_CONNECTION_STRING = 'sqlite:///{0}'.format(os.path.join(APP_DATA, 'ballo
 WALLET_PASSWORD = 'helloworld'
 WALLET_NAME = 'default'
 
-#Major.Minor.Revision, this number is going to be appended as a query string to css and javascript as well
+#Major.Minor.Revision.Build, this number is going to be appended as a query string to css and javascript as well
 #to make it so that we can force users to download changes
-VERSION = '1.0.1'
+VERSION = '1.0.0.2'
 
 # So at some point we probably need a database to get these values from 
 # we can list al tag values, but I don't think that is enough for this demo
