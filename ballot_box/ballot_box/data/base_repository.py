@@ -68,6 +68,11 @@ class BaseRepository(object):
         """gets a list of contest """
         return
 
+    @abc.abstractmethod
+    def get_voter_contest_ids(self, voter_id):
+        """gets contests ids by voter id"""
+        return
+
 
 
 

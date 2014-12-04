@@ -3,11 +3,9 @@ Routes and views for the flask application.
 """
 
 from flask import render_template, request, redirect
-from ballot_box import app, settings, cache, db, log
-from ballot_box.forms import BallotBoxForm
-from ballot_box.modules import api
-from ballot_box.data.models import Contest, Decision, Opinion
-from ballot_box.modules.helpers import get_cache
+from ballot_box import app, settings, db, log
+from ballot_box.forms.ballot_box_form import BallotBoxForm
+
 
 @app.route('/')
 @app.route('/home')
@@ -25,6 +23,13 @@ def ballot_box():
     log.debug("Render Page: ballot-box")
     form = BallotBoxForm(request, settings.BALLOT_BOX_FILTERS)
     contests = db.get_all_contests()
+
+    if request.method == 'GET':
+        voter_id = request.args.get('voter-id')
+        if voter_id:
+            form.search = voter_id
+
+
     form.contests = form.get_filtered_contests(contests)
     form.contest_groups = form.get_contest_groups(form.contests)
     form.set_form_contest()

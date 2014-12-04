@@ -51,3 +51,8 @@ class BaseRepository(object):
     def search_voters(self, search_terms):
         """searches for voters for voters matching the search terms provided """
         return
+
+    @abc.abstractmethod
+    def get_identities(self, status):
+        """gets requests by status"""
+        return

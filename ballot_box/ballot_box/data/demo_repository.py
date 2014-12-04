@@ -140,6 +140,17 @@ class DemoRepository(BaseRepository):
         return self._get_real_contest_decisions(contest)
 
 
+
+    def get_voter_contest_ids(self, voter_id):
+        """gets contest ids by voter id"""
+        decisions =  api.ballot_get_decisions_by_voter(voter_id)
+        if decisions:
+            return [d['contest_id'] for d in decisions]
+        else:
+            return []
+
+
+
     @staticmethod
     def _api_get_contest_by_id(contest_id):
         """returns a single contest by id

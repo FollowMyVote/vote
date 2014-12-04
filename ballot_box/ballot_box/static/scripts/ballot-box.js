@@ -127,6 +127,13 @@ $(function () {
     $('#search_results').on('keyup', function () {
         $('#results').DataTable().search($(this).val()).draw();
     });
+
+
+    if ($('#search_results').val()){
+        console.log($(this));
+        console.log($(this).val());
+       $('#results').DataTable().search($('#search_results').val()).draw();
+    }
     
 
 

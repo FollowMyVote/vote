@@ -1,6 +1,6 @@
-from modules import helpers
+from ballot_box.modules import helpers
 from ballot_box import db, cache, log
-from data.models import Opinion, Contest, DataType
+from ballot_box.data.models import Opinion, Contest, DataType
 
 class BallotBoxForm():
     """form for the ballot box main page"""
@@ -27,6 +27,23 @@ class BallotBoxForm():
         self.all_opinion_summary = []
         self.official_opinion_summary = []
         self.contest = None
+        self.search_results = request.values.get('search_results', '')
+
+    def get_contest_id_filters(self):
+        """this returns a list of contest ids to filter on"""
+
+        contest_ids = []
+        if len(self.search) > 30:
+            #it could be a voter
+            contest_ids = db.get_voter_contest_ids(self.search)
+            if contest_ids:
+                self.search_results = self.search
+
+        return contest_ids
+
+
+
+
 
     def get_filtered_contests(self, contests):
         """ Filters contests by the form filters """
@@ -39,9 +56,9 @@ class BallotBoxForm():
         #
         #     if not contests:
         #         break
-
+        contest_ids = self.get_contest_id_filters()
         if contests and self.search:
-            contests = [c for c in contests if c.search(self.search)]
+            contests = [c for c in contests if c.search(self.search, contest_ids)]
 
         contests.sort(key=lambda x: x.name)
 

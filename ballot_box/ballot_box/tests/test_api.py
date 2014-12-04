@@ -18,6 +18,12 @@ class TestAPI(unittest.TestCase):
     def get_decision_id(self):
         return api.ballot_list_decisions()['result'][0]
 
+    def get_voter_id(self):
+        return api.ballot_get_decision(self.get_decision_id())['result']['voter_id']
+
+
+
+
 
 
     def test_api_ballot_get_contests_by_tag(self):
@@ -51,10 +57,23 @@ class TestAPI(unittest.TestCase):
 
 
     def test_api_ballot_get_decision_by_id(self):
+
         response = api.ballot_get_decision(self.get_decision_id())
         print(response)
         self.assertFalse("error" in response)
         self.assertIsNotNone(response['result'])
+
+    def test_api_ballot_get_decision_ids_by_voter(self):
+        voter_id = self.get_voter_id()
+        response = api.ballot_get_decisions_ids_by_voter(voter_id)
+        print(response)
+        self.assertFalse("error" in response)
+        self.assertIsNotNone(response['result'])
+
+    def test_api_ballot_get_decisions_by_voter(self):
+        voter_id = self.get_voter_id()
+        response = api.ballot_get_decisions_by_voter(voter_id)
+        print(response)
 
 
 if __name__ == "__main__":

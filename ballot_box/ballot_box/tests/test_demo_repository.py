@@ -2,7 +2,7 @@ import unittest
 import uuid
 from ballot_box import settings
 from ballot_box.data.models import DataItem, DataType
-
+from ballot_box.modules import api
 from ballot_box.data.demo_repository import DemoRepository
 
 
@@ -27,6 +27,14 @@ class TestDemoRepository(unittest.TestCase):
         """call after every test case."""
         self.db.end_session()
 
+    def get_contest_id(self):
+        return api.ballot_list_contests()['result'][0]
+
+    def get_decision_id(self):
+        return api.ballot_list_decisions()['result'][0]
+
+    def get_voter_id(self):
+        return api.ballot_get_decision(self.get_decision_id())['result']['voter_id']
 
     def clearData(self):
         self.db.db_session.execute('delete from data_item_map')
@@ -66,7 +74,7 @@ class TestDemoRepository(unittest.TestCase):
 
 
     def test_get_contest_decisions(self):
-        contest = self.db._api_get_contest_by_id('7932cbd42a203871830415c855290defda3a7a7ca14726f079eb9918720d743b')
+        contest = self.db._api_get_contest_by_id(self.get_contest_id())
         results = self.db.get_contest_decisions(contest)
         self.assertTrue(len(results) > 0 )
 
@@ -78,5 +86,13 @@ class TestDemoRepository(unittest.TestCase):
         print(result)
         self.assertTrue(len(result) > 0)
 
+    def test_get_voter_contest_ids(self):
+        result = self.db.get_voter_contest_ids(self.get_voter_id())
+        print(result)
+        self.assertTrue(len(result) > 0)
+        #test a bad voter id
+        result = self.db.get_voter_contest_ids('asdfasdfa')
+        print(result)
+        self.assertFalse(result)
 
 

@@ -419,16 +419,27 @@ class Contest:
 
 
 
-    def search(self, search_text):
-        """Searches all the test in the contest for a partial match of the search text"""
+    def search(self, search_text, contests_ids=[]):
+        """Searches all the test in the contest for a partial match of the search text or list of contest_ids
 
-        search = search_text.lower()
+        right now it cannot search both tesxt and id's it should be possible just time constraints for
+        demo right now
+        """
 
-        return search in self.name or \
-               search in self.description or \
-               any(search in contestant.name.lower() for contestant in self.contestants) or \
-               any(search in contestant.description.lower() for contestant in self.contestants) or \
-               any(search in tag_value.lower() for tag_value in self.tag_values())
+        if contests_ids:
+            if any(x == self.id for x in contests_ids):
+                #not in list of contest ids
+                return True
+            else:
+                return False
+        else:
+            search = search_text.lower()
+
+            return search in self.name or \
+                   search in self.description or \
+                   any(search in contestant.name.lower() for contestant in self.contestants) or \
+                   any(search in contestant.description.lower() for contestant in self.contestants) or \
+                   any(search in tag_value.lower() for tag_value in self.tag_values())
 
        
 
