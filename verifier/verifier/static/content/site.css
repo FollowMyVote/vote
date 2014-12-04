@@ -89,6 +89,7 @@
 {
     background-image: url('../content/images/logo-small.png');
     width: 210px;
+    height:41px;
     background-repeat: no-repeat;
 }
 
@@ -219,4 +220,9 @@ input[type="checkbox"].input-validation-error
 {
     padding-top:15px;
     padding-bottom:15px;
+}
+
+table .action
+{
+    text-align:right;
 }

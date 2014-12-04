@@ -32,11 +32,13 @@
                 </button>
                 <a href="{{url_for('home')}}" class="navbar-brand" title="{{config['SITE_NAME']}}"></a>
             </div>
-            <!--<div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('verify') }}">Verify</a></li>
+                    <li><a href="{{ url_for('pending') }}">Pending Requests</a></li>
+                    <li><a href="{{ url_for('in_process') }}">In Process Requests</a></li>
                 </ul>
-            </div>-->
+            </div>
         </div>
     </div>
 

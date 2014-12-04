@@ -45,6 +45,32 @@ $(function () {
     }
     , "This field is not a valid date Format: MM/DD/YYYY");
 
+
+    $.validator.addMethod("futureDate", function (value, element) {
+
+        if (!isAccepting) {
+            return true;
+        }
+        else {
+            date = parseDate(value)
+            today = new Date()
+            //get date at midnight
+            today = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+            if (!date) {
+                //the date is not valid but let the other validator handle this
+                return true;
+            }
+            else {
+                return date >= today;
+            }
+                
+        }
+        
+    }
+    , "Expired ID's cannot be accepted.");
+
+
+
     var validator = form.validate({
         onsubmit: false,
         ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input'

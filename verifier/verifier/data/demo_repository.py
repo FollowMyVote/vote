@@ -32,7 +32,12 @@ class DemoRepository(BaseRepository):
     @staticmethod
     def get_identity(identity_id):
         """gets the identity by id"""
-        return Identity(api.verifier_peek_request(long(identity_id))['result'])
+        response = api.verifier_peek_request(long(identity_id))
+        if 'result' in response:
+            return Identity(response['result'])
+        else:
+            log.error(response)
+            return None
 
     @staticmethod
     def resolve_request(request_id, response):
@@ -90,6 +95,17 @@ class DemoRepository(BaseRepository):
 
         self.log_query(q)
         return q.all()
+
+
+    def get_identities(self, status=Identity.STATUS_AWAITING_PROCESSING):
+        """gets requests by status"""
+
+        response = api.verifier_list_requests(status)
+        results = []
+        if 'result' in response:
+            results = [Identity(r) for r in response['result']]
+
+        return results
 
 
 

@@ -11,6 +11,21 @@ var delay = (function () {
     };
 })();
 
+//this functions parses a date string like MM/DD/YYYY into a date object
+function parseDate(dateStr) {
+    var parts = dateStr.split('/');
+    var returnVal = false;
+     
+    try{
+        returnVal = new Date(parts[2], parts[0] - 1, parts[1])
+    }
+    catch (ex) {
+        
+    }
+
+    return returnVal
+}
+
 $.validator.setDefaults({
     highlight: function (element) {
         $(element).closest('.form-group').addClass('has-error');

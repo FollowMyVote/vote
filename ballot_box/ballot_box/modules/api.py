@@ -12,16 +12,21 @@ def make_request(payload):
     log.info("make_request\n{0}\n{1}".format(settings.API_URL,
                                                payload['method']))
 
-    log.debug("make_request\n{0}\n{1}".format(settings.API_URL,
-                                                json.dumps(payload)))
+    # log.debug("make_request\n{0}\n{1}".format(settings.API_URL,
+    #                                             json.dumps(payload)))
 
     response = requests.post(settings.API_URL,
                              data=json.dumps(payload),
                              headers={"content-type": "application/json"},
                              auth=(settings.API_USER, settings.API_PASS))
 
-    log.debug(response.content)
-    return response.json()
+    #log.debug(response.content)
+    response_json = response.json()
+
+    if 'error' in response_json:
+        log.error(response_json['error'])
+
+    return response_json
 
 
 def wallet_open(name):

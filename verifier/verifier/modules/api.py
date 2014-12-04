@@ -25,8 +25,13 @@ def make_request(payload):
                              headers={"content-type": "application/json"},
                              auth=(settings.API_USER, settings.API_PASS))
 
-    log.debug(response.content)
-    return response.json()
+    #log.debug(response.content)
+    response_json = response.json()
+
+    if 'error' in response_json:
+        log.error(response_json['error'])
+
+    return response_json
 
 
 def take_next_request():

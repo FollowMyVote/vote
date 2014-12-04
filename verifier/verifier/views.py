@@ -14,7 +14,6 @@ from data.models import Identity, VerificationResponse
 def home():
     """Get Home Page"""
     log.debug("Render Page: Home")
-    return redirect(url_for('verify'))
     return render_template('index.html',
                            title='Home Page', )
 
@@ -42,7 +41,6 @@ def search_voters():
 
 
 
-
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
     """Get Verify Page
@@ -58,7 +56,7 @@ def verify():
     message = ""
 
     if request.method == 'GET':
-        verify_request = form.get()
+        verify_request = form.get(request)
 
     elif request.method == 'POST':
         verify_request, message = form.post()
@@ -71,3 +69,21 @@ def verify():
                                form=form,
                                message=message)
 
+
+@app.route('/pending')
+def pending():
+    """show pending requests"""
+    return render_template('list_requests.html',
+                           title='Pending Requests',
+                           requests=db.get_identities(Identity.STATUS_AWAITING_PROCESSING)
+
+    )
+
+@app.route('/in-process')
+def in_process():
+    """show in process request"""
+    return render_template('list_requests.html',
+                           title='In Process Requests',
+                           requests=db.get_identities(Identity.STATUS_IN_PROCESSING)
+
+    )

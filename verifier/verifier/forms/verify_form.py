@@ -91,9 +91,17 @@ class VerifyForm(Form):
 
 
 
-    def get(self):
-        """do get processing"""
-        verify_request = db.get_next_identity()
+    def get(self, request):
+
+        """
+            do verify form get processing, basically get the request to verify
+        """
+        id = request.args.get('id')
+
+        if id:
+            verify_request = db.get_identity(id)
+        else:
+            verify_request = db.get_next_identity()
         # this line is for testing over and over with the same record you just have to put in the id you want
         #verify_request = db.get_identity(1417020710343152L)
 

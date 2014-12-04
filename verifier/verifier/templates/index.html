@@ -1,6 +1,16 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
+<div class="jumbotron">
+  <div class="container">
+    <h2>Follow My Vote Identification Verification System</h2>
+    <p>Welcome to the Follow My Vote Identity Verification System.</p>
+    <p>
+        <a class="btn btn-primary btn-lg" href="{{url_for('verify')}}" role="button">Verify Identities</a>
+        <a class="btn btn-primary btn-lg" href="{{url_for('pending')}}" role="button">Pending Requests</a>
+        <a class="btn btn-primary btn-lg" href="{{url_for('in_process')}}" role="button">In Process Requests</a>
+    </p>
+  </div>
+</div>
 
 {% endblock %}

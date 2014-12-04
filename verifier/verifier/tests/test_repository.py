@@ -1,6 +1,7 @@
 import unittest
 
 from verifier import settings, log
+from verifier.modules import api
 import logging
 from verifier.data.demo_repository import DemoRepository
 
@@ -31,6 +32,28 @@ class TestRepository(unittest.TestCase):
 
         print(result)
         self.assertTrue(len(result) == 1)
+
+    def test_get_identities(self):
+        api.debug_create_test_request(1)
+        result = self.db.get_identities()
+        print(result)
+        self.assertTrue(len(result) > 0)
+
+
+    def test_get_identity(self):
+        api.debug_create_test_request(1)
+        result = api.verifier_list_requests()
+        id = self.db.get_identity(result['result'][0]['id'])
+        print(id)
+        self.assertIsNotNone(id)
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="list_requests">
+    <h3>{{title}}</h3>
+    <div id="requests_content">
+        <div class="table-responsive">
+            {% if requests %}
+            <table class="table table-condensed table-hover" id="requests">
+
+                <thead>
+                    <tr>
+                        <th class="id_number">ID</th>
+                        <th class="action"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in requests %}
+                 <tr>
+                     <td class="id_number">{{r.id}}</td>
+                     <td class="action"><a class="btn btn-default" href="{{url_for('verify', id=r.id)}}">Verify ID</a></td>
+                 </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            {% else %}
+                <div class="alert alert-info"> There are no requests at this time.</div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+{% endblock %}

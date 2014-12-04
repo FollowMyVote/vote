@@ -79,10 +79,7 @@ class TestAPI(unittest.TestCase):
     def test_api_debug_create_test_request(self):
         api.debug_create_test_request(2)
 
-    def test_test_temp(self):
-        x = api.verifier_peek_request(1415750341804606)
-        verify_request = Identity(api.verifier_peek_request(1415750341804606)['result'])
-        print(x)
+
 
 
 if __name__ == "__main__":

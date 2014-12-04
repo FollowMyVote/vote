@@ -129,6 +129,14 @@ class Identity:
     FIELD_LABEL_INVALID_IMAGE = "Image Invalid"
     FIELD_BALLOT_ID = "Ballot ID"
 
+
+    STATUS_AWAITING_PROCESSING = 'awaiting_processing'
+    STATUS_IN_PROCESSING = 'in_processing'
+    STATUS_ACCEPTED = 'accepted'
+    STATUS_REJECTED = 'rejected'
+    STATUS_REIVEW = 'needs_further_review'
+
+
     def __init__(self, d=None):
         if not d:
             d = {}
