@@ -23,7 +23,7 @@ WALLET_NAME = 'default'
 
 #Major.Minor.Revision.Build, this number is going to be appended as a query string to css and javascript as well
 #to make it so that we can force users to download changes
-VERSION = '1.0.0.1'
+VERSION = '1.0.0.3'
 
 APP_SAMPLE_IMAGES = os.path.join(APP_STATIC, 'content', 'images', 'sample')
 
