@@ -211,7 +211,7 @@ table.dataTable.table-condensed  thead > tr > th {
 
 #ballot-box #charts .chart-area
 {
-    height: 350px;
+    min-height: 350px;
     border-right: solid 1px #ddd;
     border-left: 0;
     position: relative;
