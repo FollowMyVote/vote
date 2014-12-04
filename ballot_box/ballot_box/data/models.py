@@ -121,11 +121,13 @@ class Opinion:
             summary.append({
                 'name': "YES",
                 'description' : '',
+                'sort':0,
                 'y': round(helpers.safe_division(yes_total , float(total)) * 100, 1),
                 'total': yes_total})
             summary.append({
                 'name': "NO",
                 'description' : '',
+                'sort':1,
                 'y': round(helpers.safe_division(no_total, float(total)) * 100, 1),
                 'total' :no_total})
         else:
@@ -135,6 +137,7 @@ class Opinion:
                 summary.append({
                     'name': c.name,
                     'description' : c.description,
+                    'sort':0,
                     'y': contestant_total,
                     'total': contestant_total})
 
@@ -144,6 +147,7 @@ class Opinion:
                 summary.append({
                     'name': "Other",
                     'description' : '',
+                    'sort':0,
                     'y': other_total,
                     'total': other_total})
 
@@ -151,6 +155,7 @@ class Opinion:
             s['y'] = round(helpers.safe_division(s['total'], float(total)) * 100, 1)
 
         summary.sort(key=lambda x: x['name'])
+        summary.sort(key=lambda x: x['sort'])
         summary.sort(key=lambda x: x['total'], reverse=True)
 
         return summary
@@ -222,7 +227,7 @@ class Decision:
                     if opinions_local[key]:
                         contestant = Contestant({'name':'YES'})
                     else:
-                        contestant = Contestant({'name':'YES'})
+                        contestant = Contestant({'name':'NO'})
                 else:
                     contestant = next(ifilter(lambda x: x.index == key, contestants), None)
                 voter_opinions.append(Opinion(contestant, opinions_local[key], is_official=self.authoritative,
