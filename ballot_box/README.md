@@ -2,12 +2,13 @@
 This is the website interface for the follow my vote ballot box
 
 ##How to run this site:
-1. Change to the root directory which is vote\ballot_box ..
-2. Create a new virtual environment: virtualenv env
-3. Activate the virtual enviroment: .\env\scripts\activate or bin/activate depening on your os
-4. Install Dependencies: pip install -r requirements.txt
-5. Start the Development Server: python runserver.py
-6. Connect to Site:  http://localhost:5555
+1. Install Python 2.7 (https://www.python.org/download/releases/2.7/) and pip (https://pip.pypa.io/en/latest/installing.html) if not already installed
+2. Change to the root directory which is vote\ballot_box ..
+3. Create a new virtual environment: virtualenv env
+4. Activate the virtual enviroment: .\env\scripts\activate or bin/activate depening on your os
+5. Install Dependencies: pip install -r requirements.txt
+6. Start the Development Server: python runserver.py
+7. Connect to Site:  http://localhost:5555
 
 
 ###Installation on apache
