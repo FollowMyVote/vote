@@ -27,6 +27,8 @@ class BallotBoxForm():
         self.all_opinion_summary = []
         self.official_opinion_summary = []
         self.contest = None
+        self.contest_groups = []
+
         self.search_results = request.values.get('search_results', '')
 
     def get_contest_id_filters(self):
@@ -64,16 +66,33 @@ class BallotBoxForm():
 
         return contests
 
-    def get_contest_groups(self, contests):
+    def get_contest_groups(self):
         """gets contests grouped by contest groups"""
         groups = db.get_items_by_data_type(DataType.DATA_TYPE_CONTEST_GROUPING)
         return_val = []
         for g in groups:
-            group_contests = [c for c in contests if
+
+            group_contests = [c for c in self.contests if
                               c.parents(DataType.DATA_TYPE_CONTEST_GROUPING, lambda x: x.value == g.value)]
-            return_val.append({'group': g.value, 'contests': group_contests})
+
+            return_val.append({'group': g.value,
+                               'expanded': False,
+                               'contests': group_contests})
 
         return return_val
+
+    def set_contest_groups_expanded(self, request):
+        """sets the expanded state for contest groups"""
+        for g in self.contest_groups :
+            if request.method == 'GET':
+                expanded = any(x.id == self.contest_id for x in g['contests'])
+            else:
+                group_field = 'group_{0}_expanded'.format(g['group'].replace(' ', '-'))
+                expanded = request.values.get(group_field, 'false').lower() == 'true'
+
+            g['expanded'] = expanded
+
+
 
 
 
@@ -88,8 +107,14 @@ class BallotBoxForm():
                 log.error("Contest ID: {0} not found".format(self.contest_id))
                 self.contest_id = ''
         elif self.contests:
-            self.contest_id = self.contests[0].id
-            self.contest = self.contests[0]
+            ##get first contest from first group
+            if self.contest_groups and self.contest_groups[0]['contests']:
+                self.contest = self.contest_groups[0]['contests'][0]
+            else:
+                self.contest = self.contests[0]
+
+            if self.contest:
+                self.contest_id = self.contest.id
 
         if self.contest:
             def get_decisions():

@@ -107,13 +107,13 @@ table.dataTable.table-condensed  thead > tr > th {
     border-left: solid 2px #252530;
 }
 
-.contests
+#contests
 {
     background-color: #2C2C39;
     color: #fff;
 }
 
-.contests, #contest-filters-padding
+#contests, #contest-filters-padding
 {
     height: 100%;
 }
@@ -132,73 +132,108 @@ table.dataTable.table-condensed  thead > tr > th {
     padding-top: 24px;
 }
 
-
-.contests .contest-group-heading, .contests .contest
+#contests .contest-group
 {
-    padding: 15px 15px;
     margin: 0 -15px;
 }
 
-.contests .contest
+#contests .contest-group .contest-group-inner{
+    display:none;
+}
+#contests .contest-group.expanded .contest-group-inner{
+    display:block;
+}
+#contests .contest-group-heading .glyphicon {
+    float:right
+
+}
+
+#contests .contest-group .glyphicon-plus-sign{
+    display:block;
+}
+#contests .contest-group .glyphicon-minus-sign{
+    display:none;
+}
+
+#contests .contest-group.expanded .glyphicon-plus-sign{
+    display:none;
+}
+#contests .contest-group.expanded .glyphicon-minus-sign{
+    display:block;
+}
+
+
+#contests .contest-group-heading, #contests .contest
+{
+    padding: 15px 15px;
+
+    cursor:pointer;
+}
+
+#contests .contest
 {
     border-top: 1px solid #252530;
     background-color: #313140;
     cursor: pointer;
 }
 
-.contests .contest:first-of-type
+#contests .contest:first-of-type
 {
-    border-top: 0;
+    border-top: 1px solid #252530;
 }
 
 
-.contests .contest-group-heading
+#contests .contest-group-heading
 {
     background-color: #2c2c39;
-    border-bottom: 1px solid #252530;
+
     border-top: 1px solid #252530;
     font-size: 150%;
     font-weight: bold;
     padding: 28px 15px;
 }
 
-.contests .contest-group:first-of-type .contest-group-heading
+#contests .contest-group-heading:last-of-type{
+    border-bottom: 1px solid #252530;
+}
+
+#contests .contest-group:first-of-type .contest-group-heading
 {
     border-top: 0;
 }
 
 
 
-.contests .contest:last-of-type
+#contests .contest:last-of-type
 {
     border-bottom: 1px solid #34343e;
 }
 
-.contests .contest .name
+#contests .contest .name
 {
     font-size: 125%;
 }
 
 
 
-.contests .contest .description
+#contests .contest .description
 {
     font-size: 85%;
 }
 
 
-.contests .contest.selected
+#contests .contest.selected
 {
     background-color: #4B4B59;
 }
 
 
-.contests .contest.selected .name
+#contests .contest.selected .name
 {
     color: #6DC3FF;
 }
 
-.contests .contest:hover .name
+#contests .contest:hover .name
 {
     color: #90ef7f;
 }

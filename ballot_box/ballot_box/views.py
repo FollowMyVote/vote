@@ -31,8 +31,10 @@ def ballot_box():
 
 
     form.contests = form.get_filtered_contests(contests)
-    form.contest_groups = form.get_contest_groups(form.contests)
+    form.contest_groups = form.get_contest_groups()
     form.set_form_contest()
+    form.set_contest_groups_expanded(request)
+
 
     return render_template('ballot-box.html',
                            title='Ballot Box',

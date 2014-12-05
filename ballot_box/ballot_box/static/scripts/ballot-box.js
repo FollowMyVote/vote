@@ -137,8 +137,22 @@ $(function () {
         console.log($(this).val());
        $('#results').DataTable().search($('#search_results').val()).draw();
     }
-    
 
+    $('.contest-group-heading').click(function(){
+        $(this).parent().children('.contest-group-inner').slideToggle( function(){
 
+            $group = $(this).parent()
+
+            if ($(this).is(":visible")){
+                $group.addClass('expanded');
+                $group.children('input.group_expanded').val('True');
+            }
+            else{
+                $group.removeClass('expanded');
+                $group.children('input.group_expanded').val('False');
+            }
+
+        });
+    });
 
 });

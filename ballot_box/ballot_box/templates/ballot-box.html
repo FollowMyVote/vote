@@ -4,13 +4,13 @@
 {% block content %}
 
 <div id="ballot-box" class="page-content">
-
+ <form role="form" id="contest-form" method="post" action="/ballot-box">
     <div class="row row-main ">
         <div id="table-contest-filters" class="display-table">
             <div id="contest-filters-padding" class="col col-md-3 display-table-cell"></div>
             <div id="contest-filters" class="col col-md-9 filters display-table-cell">
 
-                <form role="form" id="contest-form" method="post" action="/ballot-box">
+
                     <input type="hidden" id="contest_id" name="contest_id" value="{{form.contest_id}}" />
                     {% for filter in form.filters %}
                           {% if filter.type == 'dropdown' %}
@@ -29,20 +29,24 @@
 
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
+
             </div>
         </div>
         <div id="table-main" class="display-table">
-            <div class="col col-md-3 contests display-table-cell">
+            <div id="contests" class="col col-md-3 display-table-cell">
                 <div id="contests-inner">
                     {% for group in form.contest_groups%}
-                        <div class="contest-group">
+                        <div class="contest-group {{'expanded' if group.expanded else ''}}">
+                            <input type="hidden" class="group_expanded" value="{{group.expanded}}" name="{{'group_{0}_expanded'.format(group.group.replace(' ', '-'))}}">
                             <div class="contest-group-heading">
                                 {{group.group}}
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                <span class="glyphicon glyphicon-minus-sign"></span>
                             </div>
                             <div class="contest-group-inner">
                                 {% if group.contests %}
                                     {% for contest in group.contests %}
+
                 
                                       <div class="contest {{'selected' if contest.id == form.contest.id else ''}}" id="{{contest.id}}">
                                           <div class="name">{{contest.name}}</div>
@@ -61,7 +65,7 @@
                 </div>
 
             </div>
-            <div class="col col-md-9 data display-table-cell">
+            <div id="contest-data" class="col col-md-9 display-table-cell">
 
                 <div class="row contest-heading">
                     <div class="col col-md-12">
@@ -181,15 +185,19 @@
                                 </tbody>
                             </table>
                         </div>
+                        <p>
                         <em>* indicates a vote which was later changed.  Only the latest vote counts toward the official result.</em>
+                        </p>
+
                     </div>
                 </div>
+
                 {% endif %}
 
             </div>
         </div>
     </div>
-
+</form>
 </div>
 {% endblock %}
 
