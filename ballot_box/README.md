@@ -10,6 +10,7 @@ This is the website interface for the follow my vote ballot box
 6. Start the Development Server: python runserver.py
 7. Connect to Site:  http://localhost:5555
 
+Settings can be found in settings.py. You may also need to change the api host address.
 
 ###Installation on apache
 1.  If modwsgi is not installed on apache follow the directions on this page: https://code.google.com/p/modwsgi/wiki/QuickInstallationGuide
