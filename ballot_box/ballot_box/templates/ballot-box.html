@@ -168,8 +168,8 @@
                                 </thead>
                                 <tbody>
                                     {% for o in form.all_opinions %}
-                                    <tr>
-                                        <td class="candidate">{{o.get_contestant()}}</td>
+                                    <tr class="{{'latest' if o.latest else 'old'}}">
+                                        <td class="candidate">{{'' if o.latest else '*'}}{{o.get_contestant()}}</td>
 
                                         <td class="voter-id">{{o.decision.voter_id}}</td>
                                         <td class="decision-id">{{o.decision.decision_id}}</td>
@@ -181,6 +181,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <em>* indicates a vote which was later changed.  Only the latest vote counts toward the official result.</em>
                     </div>
                 </div>
                 {% endif %}

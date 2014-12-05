@@ -234,11 +234,6 @@ class DemoRepository(BaseRepository):
         decisions = []
         results = api.ballot_get_decisions_by_contest(contest.id)
         if results:
-            #right now none of the decisions are coming back as authoritative so force them to be authoritative
-            #this needs to change later
-            for d in results:
-                d['authoritative'] = True
-
             decisions = [Decision(contest, d) for d in results]
         return decisions
 

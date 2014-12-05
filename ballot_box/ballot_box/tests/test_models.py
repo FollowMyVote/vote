@@ -10,7 +10,7 @@ class TestOpinion(unittest.TestCase):
         d = {u'name': u'NEEL KASHKARI',
                 u'description': u'Party Preference: Republican\nBusinessman'}
         c = Contestant(d)
-        self.object = Opinion(c, 1, is_official=True)
+        self.object = Opinion(c, 1, authoritative=True)
 
     def test_opinion_to_json(self):
         print(self.object.to_json())

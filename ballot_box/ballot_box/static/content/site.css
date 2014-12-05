@@ -309,6 +309,11 @@ table#results td.official-vote
     font-size: 125%;
 }
 
+table#results .old{
+    color:#999;
+
+}
+
 #results-wrapper
 {
 }

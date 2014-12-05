@@ -78,12 +78,13 @@ class DataType(Base):
 class Opinion:
     """This class represents one opinion, the opinion number is usually 1"""
 
-    def __init__(self, contestant=None, opinion=0, write_in=None, is_official=False, decision=None):
+    def __init__(self, contestant=None, opinion=0, write_in=None, authoritative=False, decision=None, latest=False):
 
         self.contestant = contestant
         self.write_in = write_in
         self.opinion = opinion
-        self.is_official = is_official
+        self.authoritative = authoritative
+        self.latest = latest
         self.decision = decision
 
     def __repr__(self):
@@ -111,12 +112,13 @@ class Opinion:
         """summarizes the opinions from the array of opinions"""
         summary = []
         total = 0
+        latest_opinions = [o for o in opinions if o.latest]
 
         if decision_type == Contest.DECISION_TYPE_VOTE_YES_NO:
             # we need to make sure that all opinions count so if there is a decision wihtout an opinion
             # we need to create a dummy no opinion since no opinion counts as a no
-            total = len(opinions)
-            yes_total = sum([o.opinion for o in opinions if o.opinion])
+            total = len(latest_opinions)
+            yes_total = sum([o.opinion for o in latest_opinions if o.opinion])
             no_total = total - yes_total
             summary.append({
                 'name': "YES",
@@ -132,7 +134,7 @@ class Opinion:
                 'total' :no_total})
         else:
             for c in contestants:
-                contestant_total = sum([o.opinion for o in opinions if o.contestant and o.contestant.index == c.index])
+                contestant_total = sum([o.opinion for o in latest_opinions if o.contestant and o.contestant.index == c.index])
                 total += contestant_total
                 summary.append({
                     'name': c.name,
@@ -142,7 +144,7 @@ class Opinion:
                     'total': contestant_total})
 
             if allow_write_in:
-                other_total = sum([o.opinion for o in opinions if not o.contestant])
+                other_total = sum([o.opinion for o in latest_opinions if not o.contestant])
                 total += other_total
                 summary.append({
                     'name': "Other",
@@ -195,6 +197,8 @@ class Decision:
         self.write_in_names = d.get('write_in_names')
         self.authoritative = d.get('authoritative')
         self.timestamp = d.get('timestamp')
+
+        self.latest = d.get('latest', False)
         self.decision_id = d.get('decision_id')
         self.voter_id = d.get('voter_id')
         self.voter_opinions = self.get_opinions(d.get('voter_opinions'), self.contest.decision_type)
@@ -230,8 +234,8 @@ class Decision:
                         contestant = Contestant({'name':'NO'})
                 else:
                     contestant = next(ifilter(lambda x: x.index == key, contestants), None)
-                voter_opinions.append(Opinion(contestant, opinions_local[key], is_official=self.authoritative,
-                                              decision=self))
+                voter_opinions.append(Opinion(contestant, opinions_local[key], authoritative=self.authoritative,
+                                              decision=self, latest=self.latest))
             elif write_in_names and (key - len(contestants)) < len(write_in_names):
                 #it is a write-in
                 #
@@ -243,7 +247,7 @@ class Decision:
                 #     the next would be ID 5, etc.
                 write_in = write_in_names[key - len(contestants)]
                 voter_opinions.append(Opinion(opinion=opinions_local[key], write_in=write_in,
-                                              is_official=self.authoritative, decision=self))
+                                              authoritative=self.authoritative, decision=self, latest=self.latest))
         return voter_opinions
 
     def __repr__(self):
@@ -385,7 +389,7 @@ class Contest:
 
     def get_official_opinions(self):
         """gets all the official opinions for the contest"""
-        return [o for o in self.get_all_opinions() if o.is_official]
+        return [o for o in self.get_all_opinions() if o.authoritative]
 
     def get_all_opinions(self):
         """gets all opinions for the contest"""
