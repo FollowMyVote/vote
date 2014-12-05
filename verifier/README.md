@@ -2,13 +2,16 @@
 This is the website interface for the follow my vote ID Verification
 
 ###How to run this site:
-1. Change to the root directory which is vote\verifier ..
-2. Create a new virtual environment: virtualenv env
-3. Activate the virtual enviroment: .\env\scripts\activate or bin/activate depening on your os
-4. Install Dependencies: pip install -r requirements.txt
-5. Make sure the voter database pointed to by DB_CONNECTION_STRING in settings.py is valid.  The voter.db file referenced in this setting by default is **NOT** included in this repository because it contains sensitive data.  There is a sample_voter.db file in the data directory which contains a small amount of sample data which can be used, this database does not contain any real voter information.
-6. Start the Development Server: python runserver.py
-7. Connect to Site:  http://localhost:5555
+1. Install Python 2.7 (https://www.python.org/download/releases/2.7/) and pip (https://pip.pypa.io/en/latest/installing.html) if not already installed
+2. Change to the root directory which is vote\verifier ..
+3. Create a new virtual environment: virtualenv env
+4. Activate the virtual enviroment: .\env\scripts\activate or bin/activate depening on your os
+5. Install Dependencies: pip install -r requirements.txt
+6. Make sure the voter database pointed to by DB_CONNECTION_STRING in settings.py is valid.  The voter.db file referenced in this setting by default is **NOT** included in this repository because it contains sensitive data.  There is a sample_voter.db file in the data directory which contains a small amount of sample data which can be used, this database does not contain any real voter information.
+7. Start the Development Server: python runserver.py
+8. Connect to Site:  http://localhost:5555
+
+Settings can be found in settings.py. You may also need to change the api host address.
 
 
 ###Installation on apache
