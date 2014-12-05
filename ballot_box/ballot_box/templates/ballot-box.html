@@ -166,7 +166,7 @@
                                         <th class="candidate">Vote</th>
                                         <th class="voter-id">Voter ID</th>
                                         <th class="decision-id">Decision ID</th>
-                                        <th class="timestamp">Date Submitted</th>
+                                        <th class="timestamp">Date Submitted (UTC)</th>
 
                                     </tr>
                                 </thead>
@@ -177,7 +177,7 @@
 
                                         <td class="voter-id">{{o.decision.voter_id}}</td>
                                         <td class="decision-id">{{o.decision.decision_id}}</td>
-                                        <td class="timestamp">{{o.decision.timestamp}}</td>
+                                        <td class="timestamp">{{o.decision.formatted_time}}</td>
 
                                     </tr>
                                     {% endfor %}

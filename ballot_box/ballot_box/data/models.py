@@ -4,7 +4,7 @@ from ballot_box.modules import helpers
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Table, Text, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base as real_declarative_base
-
+from datetime import datetime
 
 
 declarative_base = lambda cls: real_declarative_base(cls=cls)
@@ -197,6 +197,16 @@ class Decision:
         self.write_in_names = d.get('write_in_names')
         self.authoritative = d.get('authoritative')
         self.timestamp = d.get('timestamp')
+        self.formatted_time = self.timestamp
+        self.timestamp_date = None
+
+        try:
+            self.timestamp_date = datetime.strptime(self.timestamp, "%Y-%m-%dT%H:%M:%S" )
+            self.formatted_time = self.timestamp_date.strftime("%m/%d/%Y %I:%M:%S %p")
+        except:
+            pass
+
+
 
         self.latest = d.get('latest', False)
         self.decision_id = d.get('decision_id')
