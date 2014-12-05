@@ -221,6 +221,7 @@ class DemoRepository(BaseRepository):
                  'timestamp': datetime.now(),
                  'contest': contest,
                  'authoritative': True,
+                 'latest': True,
                  'voter_id': str(uuid.uuid4()),
                  'voter_opinions': voter_opinions,
                  'write_in_names': write_in_names})

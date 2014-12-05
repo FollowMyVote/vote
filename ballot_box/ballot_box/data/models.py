@@ -87,6 +87,7 @@ class Opinion:
         self.latest = latest
         self.decision = decision
 
+
     def __repr__(self):
         return self.to_json()
 
@@ -106,6 +107,7 @@ class Opinion:
             return self.contestant.name
         else:
             return self.write_in
+
 
     @staticmethod
     def get_opinion_summary(opinions, contestants, decision_type, allow_write_in):

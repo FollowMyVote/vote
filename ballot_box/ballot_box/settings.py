@@ -25,7 +25,7 @@ WALLET_NAME = 'default'
 
 #Major.Minor.Revision.Build, this number is going to be appended as a query string to css and javascript as well
 #to make it so that we can force users to download changes
-VERSION = '1.0.0.5'
+VERSION = '1.0.0.6'
 
 # So at some point we probably need a database to get these values from 
 # we can list al tag values, but I don't think that is enough for this demo

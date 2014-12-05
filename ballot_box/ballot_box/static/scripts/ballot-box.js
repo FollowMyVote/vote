@@ -7,12 +7,74 @@ $(function () {
             $('#contest_id').val($(this).attr('id'));
             $('#contest-form').submit();
         }
-        
-        
-
 
     });
 
+
+    function resultSearch(){
+
+        $('#results').DataTable().search($('#search_results').val()).draw();
+    }
+
+
+    function getElementsByDataValue($elements, dataKey, value){
+        results = [];
+        if ($elements){
+            for(i = 0; i< $elements.length; i++){
+
+                if ( $($elements[i]).data(dataKey) == value){
+                    results.push($elements[i]);
+                }
+            }
+        }
+        return $(results);
+    }
+
+
+    function searchCandidate(candidate){
+
+
+
+        $candidateRows = $('#candidate-table tbody tr');
+
+        $candidateRow = getElementsByDataValue($('#candidate-table tbody tr'), 'candidate-name', candidate)
+
+        if ($candidateRow.length){
+
+            if ($candidateRow.hasClass('selected')){
+                $candidateRow.removeClass('selected');
+                candidate = "";
+            }
+            else{
+                $candidateRows.removeClass('selected');
+                $candidateRow.addClass('selected');
+            }
+
+        }
+
+
+
+
+
+        chart =  $('#chart').highcharts();
+        points = chart.series[0].points;
+        for (i = 0 ; i < points.length; i++){
+            points[i].slice(points[i].name == candidate, false);
+        }
+        chart.redraw();
+
+
+        $('#search_results').val(candidate);
+        resultSearch();
+
+
+
+
+    }
+
+    function getChart(){
+
+    }
 
     function plotApprovalChart() {
 
@@ -35,6 +97,19 @@ $(function () {
             },
             plotOptions: {
                 pie: {
+                    events: {
+                        click: function(e){
+                                searchCandidate(e.point.name);
+                                }
+
+                    },
+                    point: {
+                        events: {
+                          legendItemClick: function () {
+                                   return false; // <== returning false will cancel the default action
+                                }
+                        }
+                    },
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
@@ -76,6 +151,20 @@ $(function () {
             },
             plotOptions: {
                 pie: {
+                    events: {
+                        click: function(e){
+                                searchCandidate(e.point.name);
+                                }
+
+                    },
+                    point: {
+                        events: {
+                          legendItemClick: function () {
+                                   return false; // <== returning false will cancel the default action
+                                }
+                        }
+                    },
+
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
@@ -128,15 +217,21 @@ $(function () {
     });
 
     $('#search_results').on('keyup', function () {
-        $('#results').DataTable().search($(this).val()).draw();
+        resultSearch();
     });
 
 
     if ($('#search_results').val()){
-        console.log($(this));
-        console.log($(this).val());
-       $('#results').DataTable().search($('#search_results').val()).draw();
+
+        resultSearch();
     }
+
+    $('#candidate-table tbody tr').click(function(){
+
+
+        searchCandidate($(this).data('candidate-name'));
+
+    });
 
     $('.contest-group-heading').click(function(){
         $(this).parent().children('.contest-group-inner').slideToggle( function(){

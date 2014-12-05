@@ -82,12 +82,13 @@
                 </div>
                 {% if form.contest %}
                 <div class="row" id="charts">
-                    <div class="col col-sm-6 chart-area" id="chart-plot-area">
+                    <div class="display-table">
+                        <div class="col col-sm-6 chart-area" id="chart-plot-area">
 
-                        <div id="chart"></div>
+                            <div id="chart"></div>
 
-                    </div>
-                    <div class="col col-sm-6 chart-area" id="chart-summary">
+                        </div>
+                        <div class="col  col-sm-6 chart-area" id="chart-summary">
                         {% if form.contest.get_chart_description()%}
                             <div class="question">
                                 <h4>Description</h4>
@@ -96,7 +97,7 @@
                             </div>
 
                         {% endif %}
-                        <table class="table">
+                        <table class="table" id="candidate-table">
                             <thead>
                                 <tr>
                                     <th class="candidate">&nbsp;</th>
@@ -108,7 +109,7 @@
                             </thead>
                             <tbody>
                                 {% for o in form.all_opinion_summary %}
-                                <tr>
+                                <tr data-candidate-name="{{o['name']}}">
                                     <td class="candidate">
                                         <div class="name">{{o['name']}}</div>
                                         {% if o['description'] %}
@@ -138,6 +139,7 @@
                             #}
 
                         </table>
+                    </div>
                     </div>
                 </div>
 
@@ -173,7 +175,11 @@
                                 <tbody>
                                     {% for o in form.all_opinions %}
                                     <tr class="{{'latest' if o.latest else 'old'}}">
-                                        <td class="candidate">{{'' if o.latest else '*'}}{{o.get_contestant()}}</td>
+                                        <td class="candidate">{{'' if o.latest else '*'}}{{o.get_contestant()}}
+                                        {% if o.write_in %}
+                                            <span class="hidden">Other</span>
+                                        {% endif %}
+                                        </td>
 
                                         <td class="voter-id">{{o.decision.voter_id}}</td>
                                         <td class="decision-id">{{o.decision.decision_id}}</td>

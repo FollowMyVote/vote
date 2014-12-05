@@ -29,6 +29,7 @@ body
     .display-table
     {
         display: table;
+        width:100%;
     }
 
     .row-main > .display-table
@@ -356,4 +357,9 @@ table#results .old{
 .candidate .name
 {
     font-weight: bold;
+}
+
+#candidate-table tr.selected
+{
+    background-color:#E1F2FF;
 }
