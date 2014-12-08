@@ -31,8 +31,18 @@ class DemoRepository(BaseRepository):
 
     @staticmethod
     def get_identity(identity_id):
-        """gets the identity by id"""
+        """gets the identity by id does not change status"""
         response = api.verifier_peek_request(long(identity_id))
+        if 'result' in response:
+            return Identity(response['result'])
+        else:
+            log.error(response)
+            return None
+
+    @staticmethod
+    def get_identity_for_processing(identity_id):
+        """gets the identity for processing sets status to in processing"""
+        response = api.verifier_take_pending_request(long(identity_id))
         if 'result' in response:
             return Identity(response['result'])
         else:

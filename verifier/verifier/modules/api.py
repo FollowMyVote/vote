@@ -57,6 +57,12 @@ def verifier_peek_request(request_id):
                          "jsonrpc": "2.0",
                          "id": 0, })
 
+def verifier_take_pending_request(request_id):
+    """gets the specified request does not sets it to in processing"""
+    return make_request({"method": "verifier_take_pending_request",
+                         "params": [request_id],
+                         "jsonrpc": "2.0",
+                         "id": 0, })
 
 def wallet_open(name):
     """opens the specified wallet"""

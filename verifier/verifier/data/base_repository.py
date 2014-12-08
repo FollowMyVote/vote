@@ -23,8 +23,14 @@ class BaseRepository(object):
     @staticmethod
     @abc.abstractmethod
     def get_identity(identity_id):
-        """gets the identity by id"""
+        """gets the identity by id does not change status"""
         return
+
+    @staticmethod
+    def get_identity_for_processing(identity_id):
+        """gets the identity for processing sets status to in processing"""
+
+
     @staticmethod
     @abc.abstractmethod
     def resolve_request(request_id, response):

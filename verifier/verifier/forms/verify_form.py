@@ -99,6 +99,7 @@ class VerifyForm(Form):
         id = request.args.get('id')
 
         if id:
+            #verify_request = db.get_identity_for_processing(id)
             verify_request = db.get_identity(id)
         else:
             verify_request = db.get_next_identity()
