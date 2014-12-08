@@ -149,7 +149,7 @@ class Opinion:
                 other_total = sum([o.opinion for o in latest_opinions if not o.contestant])
                 total += other_total
                 summary.append({
-                    'name': "Other",
+                    'name': "OTHER",
                     'description' : '',
                     'sort':0,
                     'y': other_total,
