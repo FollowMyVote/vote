@@ -460,8 +460,8 @@ class Contest:
         else:
             search = search_text.lower()
 
-            return search in self.name or \
-                   search in self.description or \
+            return search in self.name.lower() or \
+                   search in self.description.lower() or \
                    any(search in contestant.name.lower() for contestant in self.contestants) or \
                    any(search in contestant.description.lower() for contestant in self.contestants) or \
                    any(search in tag_value.lower() for tag_value in self.tag_values())

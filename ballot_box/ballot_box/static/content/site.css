@@ -371,3 +371,7 @@ table#results .old{
     color:#ccc;
     cursor:pointer;
 }
+
+#search::-ms-clear, #search_results::-ms-clear {
+    display: none;
+}

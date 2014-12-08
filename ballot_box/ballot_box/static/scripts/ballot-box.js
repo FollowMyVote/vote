@@ -250,15 +250,15 @@ $(function () {
         });
     });
 
-    /*function updateClearText(el){
+    function updateClearText($el){
 
 
 
-        if ( $('#' + $(el).data('id-input')).val()){
-            $(el).show();
+        if ( $('#' + $el.data('id-input')).val()){
+            $el.show();
         }
         else{
-            $(el).hide();
+            $el.hide();
         }
 
     }
@@ -269,19 +269,21 @@ $(function () {
 
         _this = this;
 
-        console.log(_this);
 
+        $('#' + $(_this).data('id-input')).data('id-clear-text', $(_this).attr('id'))
 
         $('#' + $(_this).data('id-input')).on('keyup', function () {
-               updateClearText(_this);
+              // console.log($(this).data('id-clear-text'));
+               updateClearText($('#'+ $(this).data('id-clear-text')));
 
         });
 
          $(_this).click(function(){
-                    $('#' + $(_this).data('id-input')).val('');
+                    $('#' + $(this).data('id-input')).val('');
+                    updateClearText($(this));
                })
-        updateClearText(_this);
+        updateClearText($(_this));
 
-    });*/
+    });
 
 });
