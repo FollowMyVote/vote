@@ -250,4 +250,38 @@ $(function () {
         });
     });
 
+    /*function updateClearText(el){
+
+
+
+        if ( $('#' + $(el).data('id-input')).val()){
+            $(el).show();
+        }
+        else{
+            $(el).hide();
+        }
+
+    }
+
+
+
+    $('.clear-text').each(function(){
+
+        _this = this;
+
+        console.log(_this);
+
+
+        $('#' + $(_this).data('id-input')).on('keyup', function () {
+               updateClearText(_this);
+
+        });
+
+         $(_this).click(function(){
+                    $('#' + $(_this).data('id-input')).val('');
+               })
+        updateClearText(_this);
+
+    });*/
+
 });

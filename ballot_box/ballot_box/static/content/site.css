@@ -363,3 +363,11 @@ table#results .old{
 {
     background-color:#E1F2FF;
 }
+
+.clear-text{
+    position:absolute;
+    right:10%;
+    top:61%;
+    color:#ccc;
+    cursor:pointer;
+}
